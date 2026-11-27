@@ -7,7 +7,7 @@ BEGIN;
 
 SET LOCAL search_path = public, extensions;
 
-SELECT plan(30);
+SELECT plan(32);
 
 -- 1. All 19 Phase 2 public tables have ENABLE and FORCE ROW LEVEL SECURITY
 SELECT is(
@@ -197,11 +197,23 @@ SELECT is(
   1,
   'Monitor XI-A sees standard custom fields only (0 confidential)'
 );
+WITH updated AS (
+  UPDATE public.student_session_enrolments
+  SET roll_number = '99'
+  WHERE id = '99999999-9999-4999-8999-999999998101'
+  RETURNING id
+)
+SELECT is(
+  (SELECT count(*)::int FROM updated),
+  0,
+  'Monitor XI-A updates 0 rows on student_session_enrolments'
+);
 SELECT throws_ok(
-  $$UPDATE public.student_session_enrolments SET roll_number = '99' WHERE id = '99999999-9999-4999-8999-999999998101'$$,
+  $$INSERT INTO public.student_profiles (institution_id, person_id, admission_number)
+    VALUES ('11111111-1111-4111-8111-111111111101', '33333333-3333-4333-8333-333333333301', 'ADM-HACK-001')$$,
   '42501',
   NULL,
-  'Monitor XI-A is denied modifying student_session_enrolments'
+  'Monitor XI-A is denied inserting student_profiles'
 );
 SELECT throws_ok(
   $$INSERT INTO public.custom_field_values (institution_id, definition_id, entity_type, entity_id, value_text)

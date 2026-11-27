@@ -9,6 +9,8 @@ SET LOCAL search_path = public, extensions;
 -- sunrise-cbse: 11111111-1111-4111-8111-111111111101
 -- valley-cbse:  11111111-1111-4111-8111-111111111102
 
+-- Synthetic GoTrue fixture password for local/CI Playwright E2E only (NEVER production):
+--   DdOodleTest#2026!
 INSERT INTO auth.users (
   id,
   instance_id,
@@ -33,7 +35,7 @@ VALUES
     'authenticated',
     'authenticated',
     'principal.sunrise@example.test',
-    crypt('SyntheticDevOnly!1', gen_salt('bf')),
+    extensions.crypt('DdOodleTest#2026!', extensions.gen_salt('bf')),
     now(),
     '',
     '',
@@ -50,7 +52,7 @@ VALUES
     'authenticated',
     'authenticated',
     'dual.member@example.test',
-    crypt('SyntheticDevOnly!2', gen_salt('bf')),
+    extensions.crypt('DdOodleTest#2026!', extensions.gen_salt('bf')),
     now(),
     '',
     '',
@@ -67,7 +69,7 @@ VALUES
     'authenticated',
     'authenticated',
     'principal.valley@example.test',
-    crypt('SyntheticDevOnly!3', gen_salt('bf')),
+    extensions.crypt('DdOodleTest#2026!', extensions.gen_salt('bf')),
     now(),
     '',
     '',
@@ -84,7 +86,7 @@ VALUES
     'authenticated',
     'authenticated',
     'platform.ops@example.test',
-    crypt('SyntheticDevOnly!4', gen_salt('bf')),
+    extensions.crypt('DdOodleTest#2026!', extensions.gen_salt('bf')),
     now(),
     '',
     '',
@@ -96,6 +98,59 @@ VALUES
     now()
   )
 ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO auth.identities (
+  id,
+  provider_id,
+  user_id,
+  identity_data,
+  provider,
+  last_sign_in_at,
+  created_at,
+  updated_at
+)
+VALUES
+  (
+    '22222222-2222-4222-9222-222222222201',
+    '22222222-2222-4222-8222-222222222201',
+    '22222222-2222-4222-8222-222222222201',
+    '{"sub":"22222222-2222-4222-8222-222222222201","email":"principal.sunrise@example.test","email_verified":true,"phone_verified":false}'::jsonb,
+    'email',
+    now(),
+    now(),
+    now()
+  ),
+  (
+    '22222222-2222-4222-9222-222222222202',
+    '22222222-2222-4222-8222-222222222202',
+    '22222222-2222-4222-8222-222222222202',
+    '{"sub":"22222222-2222-4222-8222-222222222202","email":"dual.member@example.test","email_verified":true,"phone_verified":false}'::jsonb,
+    'email',
+    now(),
+    now(),
+    now()
+  ),
+  (
+    '22222222-2222-4222-9222-222222222203',
+    '22222222-2222-4222-8222-222222222203',
+    '22222222-2222-4222-8222-222222222203',
+    '{"sub":"22222222-2222-4222-8222-222222222203","email":"principal.valley@example.test","email_verified":true,"phone_verified":false}'::jsonb,
+    'email',
+    now(),
+    now(),
+    now()
+  ),
+  (
+    '22222222-2222-4222-9222-222222222204',
+    '22222222-2222-4222-8222-222222222204',
+    '22222222-2222-4222-8222-222222222204',
+    '{"sub":"22222222-2222-4222-8222-222222222204","email":"platform.ops@example.test","email_verified":true,"phone_verified":false}'::jsonb,
+    'email',
+    now(),
+    now(),
+    now()
+  )
+ON CONFLICT DO NOTHING;
 
 INSERT INTO public.persons (id, auth_user_id, full_name, display_name, primary_email, status)
 VALUES

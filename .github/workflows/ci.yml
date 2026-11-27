@@ -112,3 +112,91 @@ jobs:
       - name: Stop local Supabase stack
         if: always()
         run: supabase stop --no-backup
+
+  e2e-live-auth:
+    name: Live Multi-Tenant Auth & A11y E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Set up Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright Chromium browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Start local Supabase stack
+        run: supabase start
+
+      - name: Reset database and apply migrations + synthetic seed
+        run: supabase db reset
+
+      - name: Export live local Supabase env without logging secrets
+        run: |
+          supabase status -o env | node -e "
+            const fs = require('node:fs');
+            const raw = fs.readFileSync(0, 'utf8');
+            const map = {};
+            for (const line of raw.split(/\r?\n/)) {
+              const idx = line.indexOf('=');
+              if (idx <= 0) continue;
+              const key = line.slice(0, idx).trim();
+              let val = line.slice(idx + 1).trim();
+              if ((val.startsWith('\"') && val.endsWith('\"')) || (val.startsWith(\"'\") && val.endsWith(\"'\"))) {
+                val = val.slice(1, -1);
+              }
+              map[key] = val;
+            }
+            const url = map.API_URL;
+            const pubKey = map.PUBLISHABLE_KEY || map.ANON_KEY;
+            const secretKey = map.SECRET_KEY || map.SERVICE_ROLE_KEY;
+            if (!url || !pubKey || !secretKey) {
+              console.error('Missing expected Supabase status env keys.');
+              process.exit(1);
+            }
+            const lines = [
+              'NEXT_PUBLIC_SUPABASE_URL=' + url,
+              'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=' + pubKey,
+              'SUPABASE_SECRET_KEY=' + secretKey,
+              'NEXT_PUBLIC_APP_DOMAIN=dd-oodle.com',
+              'E2E_REQUIRE_SUPABASE=true',
+            ];
+            fs.appendFileSync(process.env.GITHUB_ENV, lines.join('\n') + '\n');
+            console.log('Exported local Supabase runtime env for E2E build & tests (URL:', url + ')');
+          "
+
+      - name: Build Next.js production bundle with live local Supabase env
+        run: pnpm build
+
+      - name: Run Playwright E2E, responsive, accessibility & live auth suite
+        run: pnpm test:e2e
+
+      - name: Upload Playwright report and failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-e2e-artifacts
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
+      - name: Stop local Supabase stack
+        if: always()
+        run: supabase stop --no-backup

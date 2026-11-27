@@ -2,7 +2,7 @@
 
 > **Canonical References:** [`../../DD-oodle_MASTER_PROJECT_BLUEPRINT.md`](../../DD-oodle_MASTER_PROJECT_BLUEPRINT.md) (Part A §2.2–§2.4, §3.4, §4, §7.1, §11.3–§11.5, §12.5), [`../decisions/ADR-0001-multi-tenant-database-strategy.md`](../decisions/ADR-0001-multi-tenant-database-strategy.md), [`../decisions/ADR-0002-person-identity-and-session-enrolment.md`](../decisions/ADR-0002-person-identity-and-session-enrolment.md), [`../decisions/ADR-0003-academic-structure-and-typed-assignments.md`](../decisions/ADR-0003-academic-structure-and-typed-assignments.md), [`../decisions/ADR-0004-normalized-custom-field-engine.md`](../decisions/ADR-0004-normalized-custom-field-engine.md)
 
-> **Milestones:** `P1-M03`, `P1-M04`, `P2-M01`
+> **Milestones:** `P1-M03`, `P1-M04`, `P2-M01`, `P2-M04`
 
 ---
 
@@ -69,3 +69,11 @@
   - `app_auth.can_access_student_profile(p_institution_id, p_student_profile_id)` derives access strictly from active institution membership plus `people.read`, student self, active `student_guardians`, or active time-valid `academic_assignments` (`hod` by grade department, `class_teacher`/`monitor`/`monitress` by active section, or `subject_teacher` by active teaching group membership including cross-section groups).
   - `app_auth.can_read_custom_field(...)` + `app_auth.custom_field_sensitivity(...)` isolate `confidential` fields to `people.sensitive.read` (and writes to `people.manage` + `people.sensitive.write`), `restricted` fields to `people.restricted.read`/`people.sensitive.read`, and `standard` fields to authorized readers/scoped student/staff self.
 - **Monitor/Monitress Read-Only Boundary & Platform Separation:** `monitor`/`monitress` assignments receive scoped read-only access inside `XI-A`, zero access to `confidential` custom fields, and zero write permissions; `platform_operators` retain zero automatic read/write access across all 19 Phase 2 tables.
+
+---
+
+## 8. Staged Bulk Import Security & Formula Neutralization (`P2-M04`)
+
+- **28 Forced-RLS Tables (`202611270007_bulk_import_staging.sql`):** `public.import_batches` (unique `(institution_id, idempotency_key)`) and `public.import_rows` (composite FK `(institution_id, batch_id) ON DELETE CASCADE`) enforce `ENABLE` + `FORCE ROW LEVEL SECURITY` with policies restricted to `imports.manage` or `people.manage` (`0` access for `anon`, Subject Teachers, Guardians, Monitors, and `platform_operators`).
+- **Parser Caps, Privacy & Formula Neutralization (`lib/imports/`):** Spreadsheets enforce 5 MB byte limit, 5,000 data row limit, 60-column limit, Aadhaar column/header rejection (`/aadha?r/i`), and `CWE-1236` formula neutralization (`neutralizeCsvFormula`) on all downloadable CSV reports.
+- **Idempotent Non-Overwriting Commit (`server/imports/service.ts`):** Requires `validated` batches with `valid_rows > 0`, skips errors and duplicates without overwriting existing DB records, guards `resolveOrCreateGlobalPerson()` strictly post-authorization, and records append-only audit events.

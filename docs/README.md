@@ -37,6 +37,7 @@ This directory contains the living operational, architectural, governance, compl
 - [`phase-plans/PHASE-02-MILESTONE-01-registry-academics-schema.md`](phase-plans/PHASE-02-MILESTONE-01-registry-academics-schema.md) — Part E milestone plan for `P2-M01` (Phase 2 ADRs, 19-table registry & CBSE XI–XII schema, relationship/sensitivity RLS & pgTAP suite).
 - [`phase-plans/PHASE-02-MILESTONE-02-people-registry-and-custom-fields.md`](phase-plans/PHASE-02-MILESTONE-02-people-registry-and-custom-fields.md) — Part E milestone plan for `P2-M02` (People Registry, Guardian Links, Admissions Basics & Custom Fields DAL + UI).
 - [`phase-plans/PHASE-02-MILESTONE-03-academic-structure-and-allocations.md`](phase-plans/PHASE-02-MILESTONE-03-academic-structure-and-allocations.md) — Part E milestone plan for `P2-M03` (Academic Structure, CBSE Electives, Cross-Section Teaching Groups & Time-Bound Allocations).
+- [`phase-plans/PHASE-02-MILESTONE-04-bulk-import-staging.md`](phase-plans/PHASE-02-MILESTONE-04-bulk-import-staging.md) — Part E milestone plan for `P2-M04` (Bulk Import Staging, CSV/XLSX Validation, Dry-Run Preview & Idempotent Commit Engine).
 - [`progress/MILESTONE-REPORT-P0-M01.md`](progress/MILESTONE-REPORT-P0-M01.md) — Audited completion report for Milestone `P0-M01`.
 - [`progress/MILESTONE-REPORT-P1-M01.md`](progress/MILESTONE-REPORT-P1-M01.md) — Audited completion report for Milestone `P1-M01`.
 - [`progress/MILESTONE-REPORT-P1-M02.md`](progress/MILESTONE-REPORT-P1-M02.md) — Audited completion report for Milestone `P1-M02`.
@@ -47,6 +48,7 @@ This directory contains the living operational, architectural, governance, compl
 - [`progress/MILESTONE-REPORT-P2-M01.md`](progress/MILESTONE-REPORT-P2-M01.md) — Completion report & CI verification evidence for Milestone `P2-M01`.
 - [`progress/MILESTONE-REPORT-P2-M02.md`](progress/MILESTONE-REPORT-P2-M02.md) — Completion report & CI verification evidence for Milestone `P2-M02`.
 - [`progress/MILESTONE-REPORT-P2-M03.md`](progress/MILESTONE-REPORT-P2-M03.md) — Completion report & verification record for Milestone `P2-M03`.
+- [`progress/MILESTONE-REPORT-P2-M04.md`](progress/MILESTONE-REPORT-P2-M04.md) — Completion report & verification record for Milestone `P2-M04`.
 
 ## Deferred `docs/` Folders (Per Blueprint Part D1)
 

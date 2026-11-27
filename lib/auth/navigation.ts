@@ -70,6 +70,19 @@ export function buildInstitutionNav(
     );
   }
 
+  const canManageImports =
+    evaluatePermission(context, { permission: "imports.manage" }, now).allowed ||
+    evaluatePermission(context, { permission: "people.manage" }, now).allowed;
+
+  if (canManageImports) {
+    items.push({
+      id: "imports",
+      label: "Bulk Imports",
+      href: `${basePath}/imports`,
+      icon: "imports",
+    });
+  }
+
   const canViewGovernance =
     evaluatePermission(context, { permission: "roles.read" }, now).allowed ||
     evaluatePermission(context, { permission: "memberships.read" }, now)

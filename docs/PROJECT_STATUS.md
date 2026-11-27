@@ -2,8 +2,8 @@
 
 - **Last Updated:** 2026-11-27
 - **Current Phase:** Phase 2 — Institutional Registry and Academic Structure (**In Progress**; Phase 1 **Complete**)
-- **Current Milestone:** `P2-M03` — Academic Structure, CBSE Electives, Cross-Section Teaching Groups & Time-Bound Allocations (**Complete**)
-- **Overall Repository State:** Phase 1 complete (`45951599452`); `P2-M01` schema & pgTAP verified green (`45989069548`); `P2-M02` people registry verified green (`45991352879`); `P2-M03` verified green in CI Run `45993903529` (`61e36d5`), adding `lib/academics/{schemas,conflicts}.ts`, caller-RLS `server/academics/service.ts`, and `/t/[slug]/academics/*` UI/Server Actions supporting CBSE XI–XII sessions, departments, sections, individual electives, cross-section teaching groups, and time-bound allocations with 59/59 Vitest unit checks.
+- **Current Milestone:** `P2-M04` — Bulk Import Staging, CSV/XLSX Validation, Dry-Run Preview & Idempotent Commit Engine (**Pending CI Verification**)
+- **Overall Repository State:** Phase 1 complete (`45951599452`); `P2-M01`–`P2-M03` verified green (`61e36d5`, Run `45993903529`); `P2-M04` adds Migration 7 (`import_batches`, `import_rows` with forced RLS + 22-assertion pgTAP suite), `read-excel-file@9.3.20` + RFC-4180 CSV parser & formula neutralization (`lib/imports/*`), caller-RLS staged commit DAL (`server/imports/service.ts`), and `/t/[slug]/imports*` UI & CSV report download.
 
 ---
 

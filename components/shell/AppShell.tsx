@@ -120,6 +120,23 @@ function NavIconSvg({ icon }: { icon: ShellNavIcon }) {
           />
         </svg>
       );
+    case "imports":
+      return (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          className="h-4 w-4 shrink-0"
+        >
+          <path
+            d="M10 3.5v8.5m0 0-3-3m3 3 3-3M4 13.5v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
     case "governance":
       return (
         <svg

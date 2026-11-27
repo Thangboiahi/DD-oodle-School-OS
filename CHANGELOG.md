@@ -6,6 +6,21 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.2.0-alpha.4] - 2026-11-27
+
+### Added
+- Added Migration 7 (`supabase/migrations/202611270007_bulk_import_staging.sql`) creating `public.import_batches` and `public.import_rows` with composite `(institution_id, batch_id)` FK, per-institution `idempotency_key` uniqueness, and forced RLS restricted to `imports.manage` or `people.manage`, verified by 22-assertion pgTAP suite `supabase/tests/03_import_staging_rls.test.sql` and updated `tests/unit/sql-migration-invariants.test.ts` (28 forced-RLS public tables).
+- Installed `read-excel-file@9.3.20` (avoiding legacy `xlsx` CVEs), configured `6mb` Server Action body limit in `next.config.ts`, and implemented `lib/imports/{csv,spreadsheet,validators}.ts` with RFC-4180 CSV & XLSX parsing, 5 MB / 5,000-row / 60-column limits, `neutralizeCsvFormula()` export protection, Aadhaar header/mapping rejection, and in-file/DB duplicate detection across `students`, `staff`, and `subject_enrolments`.
+- Added `server/imports/service.ts` (`import "server-only"`) implementing staged dry-run validation, non-overwriting idempotent batch commits (`resolveOrCreateGlobalPerson()` exported from `server/registry/service.ts` solely for new post-authorization person inserts), batch cancellation, audit logging, and formula-safe CSV reporting.
+- Added `/t/[slug]/imports`, `/t/[slug]/imports/[batchId]`, authenticated CSV download route `/t/[slug]/imports/[batchId]/report`, and `app/t/[slug]/imports/actions.ts`.
+- Added `tests/unit/imports-csv-and-validation.test.ts` and updated `tests/unit/safe-redirect-and-nav.test.ts`.
+
+### Changed
+- Updated `components/shell/nav-config.ts`, `components/shell/AppShell.tsx`, and `lib/auth/navigation.ts` to show `"Bulk Imports"` strictly for `imports.manage` / `people.manage` operators.
+
+### Documentation
+- Created `docs/phase-plans/PHASE-02-MILESTONE-04-bulk-import-staging.md` and `docs/progress/MILESTONE-REPORT-P2-M04.md`; updated `docs/compliance/COMPLIANCE_AND_RESEARCH_REGISTER.md` (`REF-06F`), `docs/PROJECT_STATUS.md`, `docs/README.md`, `docs/security/MULTI_TENANT_RLS_BASELINE.md`, and `docs/architecture/ARCHITECTURE_OVERVIEW.md`.
+
 ## [0.2.0-alpha.3] - 2026-11-27
 
 ### Added

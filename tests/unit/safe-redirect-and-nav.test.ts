@@ -83,6 +83,7 @@ describe("buildInstitutionNav", () => {
       "overview",
       "people",
       "academics",
+      "imports",
       "governance",
       "audit",
       "files",
@@ -92,6 +93,9 @@ describe("buildInstitutionNav", () => {
     );
     expect(nav.find((item) => item.id === "academics")?.href).toBe(
       "/t/sunrise-cbse/academics",
+    );
+    expect(nav.find((item) => item.id === "imports")?.href).toBe(
+      "/t/sunrise-cbse/imports",
     );
     expect(nav.find((item) => item.id === "people")?.badge).toBeUndefined();
   });

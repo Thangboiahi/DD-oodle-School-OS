@@ -205,7 +205,7 @@ function canViewFullExternalIds(context: VerifiedTenantContext): boolean {
  * has verified caller authorization, because `public.persons` has no direct
  * authenticated INSERT policy under RLS. Never called directly for tenant reads.
  */
-async function resolveOrCreateGlobalPerson(input: {
+export async function resolveOrCreateGlobalPerson(input: {
   fullName: string;
   email?: string;
 }): Promise<{ ok: true; personId: string } | { ok: false; error: string }> {

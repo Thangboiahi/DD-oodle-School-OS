@@ -5,6 +5,7 @@ export type ShellNavIcon =
   | "public"
   | "people"
   | "academics"
+  | "imports"
   | "governance"
   | "audit"
   | "files"

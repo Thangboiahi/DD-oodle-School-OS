@@ -116,9 +116,8 @@ test.describe("Phase 2 Exit Gate: CBSE XI-XII Academics, Relationship RLS, Stage
     await expect(peopleBody).not.toContainText("ADM-VL-2026-001");
 
     await page.goto(`/t/sunrise-cbse/people/students/${AARAV_STUDENT_PROFILE_ID}`);
-    const studentDetail = page.locator("main");
-    await expect(studentDetail).toContainText("Tagore House");
-    await expect(studentDetail).toContainText(
+    await expect(page.getByLabel("House Name")).toHaveValue("Tagore House");
+    await expect(page.getByLabel("Pastoral Counseling Note")).toHaveValue(
       "Synthetic confidential counseling observation for RLS testing",
     );
   });
@@ -165,10 +164,8 @@ test.describe("Phase 2 Exit Gate: CBSE XI-XII Academics, Relationship RLS, Stage
       .getByRole("button", { name: "Authorize & Commit 1 Valid Row(s)" })
       .click();
 
-    await expect(page.locator("main")).toContainText(
-      "Committed 1 valid rows cleanly",
-    );
     await expect(page.locator("main")).toContainText("Batch Committed");
+    await expect(page.locator("main")).toContainText("1 valid rows committed");
 
     const reportRes = await page.request.get(`${batchUrl}/report`);
     expect(reportRes.status()).toBe(200);

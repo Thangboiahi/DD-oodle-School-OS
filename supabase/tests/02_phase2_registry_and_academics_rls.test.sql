@@ -7,7 +7,7 @@ BEGIN;
 
 SET LOCAL search_path = public, extensions;
 
-SELECT plan(32);
+SELECT plan(40);
 
 -- 1. All 19 Phase 2 public tables have ENABLE and FORCE ROW LEVEL SECURITY
 SELECT is(
@@ -65,12 +65,27 @@ SELECT set_config(
 SELECT is((SELECT count(*)::int FROM public.student_profiles), 0, 'Platform operator sees 0 student_profiles');
 SELECT is((SELECT count(*)::int FROM public.academic_sessions), 0, 'Platform operator sees 0 academic_sessions');
 SELECT is((SELECT count(*)::int FROM public.custom_field_values), 0, 'Platform operator sees 0 custom_field_values');
+SELECT is((SELECT count(*)::int FROM public.persons), 1, 'Platform operator sees ONLY own persons row (count = 1)');
 
 -- 4. Cross-tenant isolation & sensitivity RLS for Sunrise Principal (2222...2201)
 SELECT set_config(
   'request.jwt.claims',
   '{"sub":"22222222-2222-4222-8222-222222222201","role":"authenticated","aud":"authenticated"}',
   true
+);
+SELECT is(
+  (
+    SELECT string_agg(full_name, ',' ORDER BY full_name)
+    FROM public.persons
+    WHERE id IN ('33333333-3333-4333-8333-333333333309', '33333333-3333-4333-8333-333333333310')
+  ),
+  'Aarav Verma,Meera Das',
+  'Sunrise Principal reads full_name on public.persons for students without membership_id'
+);
+SELECT is(
+  (SELECT count(*)::int FROM public.persons WHERE id = '33333333-3333-4333-8333-333333333311'),
+  0,
+  'Sunrise Principal sees 0 Valley persons (Kabir Rao)'
 );
 SELECT is(
   (SELECT count(*)::int FROM public.student_profiles WHERE institution_id = '11111111-1111-4111-8111-111111111101'),
@@ -142,6 +157,25 @@ SELECT is(
   1,
   'Subject teacher sees only standard custom field for TG student'
 );
+SELECT is(
+  (
+    SELECT string_agg(full_name, ',' ORDER BY full_name)
+    FROM public.persons
+    WHERE id IN (
+      '33333333-3333-4333-8333-333333333307',
+      '33333333-3333-4333-8333-333333333308',
+      '33333333-3333-4333-8333-333333333309',
+      '33333333-3333-4333-8333-333333333310'
+    )
+  ),
+  'Aarav Verma,Rohan Sen',
+  'Dual member reads persons.full_name ONLY for TG-XI-APPMATH-1 Sunrise students'
+);
+SELECT is(
+  (SELECT full_name FROM public.persons WHERE id = '33333333-3333-4333-8333-333333333311'),
+  'Kabir Rao',
+  'Dual member reads persons.full_name for Valley ward Kabir Rao'
+);
 
 -- 6. Class Teacher XI-A (2222...2206): sees XI-A only, not XI-B, and standard fields only
 SELECT set_config(
@@ -196,6 +230,25 @@ SELECT is(
   (SELECT count(*)::int FROM public.custom_field_values WHERE entity_id = '88888888-8888-4888-8888-888888880101'),
   1,
   'Monitor XI-A sees standard custom fields only (0 confidential)'
+);
+SELECT is(
+  (SELECT full_name FROM public.persons WHERE id = '33333333-3333-4333-8333-333333333309'),
+  'Aarav Verma',
+  'Monitor XI-A reads XI-A classmate Aarav Verma full_name'
+);
+SELECT is(
+  (SELECT full_name FROM public.persons WHERE id = '33333333-3333-4333-8333-333333333306'),
+  'Synthetic Class Teacher 11A',
+  'Monitor XI-A reads assigned Class Teacher full_name via active academic_assignments'
+);
+SELECT is(
+  (
+    SELECT count(*)::int
+    FROM public.persons
+    WHERE id IN ('33333333-3333-4333-8333-333333333310', '33333333-3333-4333-8333-333333333311')
+  ),
+  0,
+  'Monitor XI-A sees 0 persons for XI-B student Meera Das or Valley student Kabir Rao'
 );
 WITH updated AS (
   UPDATE public.student_session_enrolments

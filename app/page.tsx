@@ -2,6 +2,9 @@ import Link from "next/link";
 import { ThemeControls } from "@/components/theme/ThemeControls";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import { getVerifiedAuthIdentity } from "@/server/auth/session";
+
+export const dynamic = "force-dynamic";
 
 const ARCHITECTURE_PILLARS = [
   {
@@ -31,7 +34,10 @@ const ARCHITECTURE_PILLARS = [
   },
 ] as const;
 
-export default function HomePage() {
+export default async function HomePage() {
+  const auth = await getVerifiedAuthIdentity();
+  const isSignedIn = Boolean(auth.configured && auth.identity);
+
   return (
     <div className="min-h-screen bg-canvas text-fg">
       <a
@@ -70,10 +76,10 @@ export default function HomePage() {
               Shell Preview
             </Link>
             <Link
-              href="/sign-in"
+              href={isSignedIn ? "/workspace" : "/sign-in"}
               className="inline-flex min-h-9 items-center rounded-md bg-accent px-3 text-xs font-medium text-accent-fg hover:bg-accent-hover"
             >
-              Sign In
+              {isSignedIn ? "Open Workspace" : "Sign In"}
             </Link>
 
             <details className="relative">
@@ -115,10 +121,10 @@ export default function HomePage() {
               Explore UI Shell Preview
             </Link>
             <Link
-              href="/sign-in"
+              href={isSignedIn ? "/workspace" : "/sign-in"}
               className="inline-flex min-h-11 items-center rounded-md border border-border-strong bg-surface px-4 text-sm font-medium text-fg hover:bg-elevated"
             >
-              Account Sign-In Status
+              {isSignedIn ? "Go to Personal Workspace" : "Identity Sign-In"}
             </Link>
           </div>
         </section>

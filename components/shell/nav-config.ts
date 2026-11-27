@@ -1,10 +1,21 @@
-export type ShellNavIcon = "overview" | "tokens" | "states" | "public";
+export type ShellNavIcon =
+  | "overview"
+  | "tokens"
+  | "states"
+  | "public"
+  | "people"
+  | "governance"
+  | "audit"
+  | "files"
+  | "platform"
+  | "workspace";
 
 export interface ShellNavItem {
   id: string;
   label: string;
   href: string;
   icon: ShellNavIcon;
+  badge?: string;
 }
 
 export const SHELL_PRIMARY_NAV: readonly ShellNavItem[] = [

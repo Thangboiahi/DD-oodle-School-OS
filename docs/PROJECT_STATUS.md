@@ -2,8 +2,8 @@
 
 **Last Updated:** 2026-11-27  
 **Current Phase:** Phase 1 — Foundation and Multi-Tenant Platform (Phase 0 Complete)  
-**Current Milestone:** `P1-M03b` — GitHub Actions CI Pipeline & Live Supabase pgTAP Verification Gate (**Complete**)  
-**Overall Repository State:** Next.js 16 App Router foundation with 3-theme Light/Dark design system, 4-mode shell, native PWA skeleton, Supabase multi-tenant SQL migrations (`app_auth` + 7 forced-RLS tables + `institution-private` storage), synthetic two-institution seed, 26-assertion pgTAP suite, `@supabase/ssr` + `proxy.ts` plumbing, and verified GitHub Actions CI (`app-quality` + live `supabase-rls-pgtap`).
+**Current Milestone:** `P1-M04` — Global Sign-In, Verified Workspace Selector, Server-Side Tenant Context Resolver, Permission Engine & Platform Boundary (**Complete**)  
+**Overall Repository State:** Next.js 16 App Router foundation with 3-theme Light/Dark design system, 4-mode shell, native PWA skeleton, Supabase multi-tenant SQL migrations (`app_auth` + 7 forced-RLS tables + `institution-private` storage), synthetic two-institution seed, 26-assertion pgTAP suite, GitHub Actions CI (`app-quality` + live `supabase-rls-pgtap`), `import "server-only"` auth/tenancy DAL, permission engine, global sign-in/sign-out, persistent `WorkspaceSwitcher`, `/workspace`, `/t/[slug]`, and isolated `/platform` shell.
 
 ---
 
@@ -29,19 +29,18 @@
 | `P1-M02` — Design System, Responsive Shell & PWA Skeleton | **Complete** (`5e699cf`) | 3 theme families (Light/Dark) + density, 4-mode `AppShell`, `/shell-preview`, landing & `/sign-in` placeholder, native PWA + headers |
 | `P1-M03` — Supabase Core Schema, RLS, Storage & SSR Proxy | **Complete** (`88afd32`, restored `ef53895`, CI-verified via `P1-M03b`) | 7 forced-RLS tables, `app_auth` helpers, `institution-private` bucket, synthetic seed, 26-assertion pgTAP suite, `@supabase/ssr` + `proxy.ts` |
 | `P1-M03b` — GitHub Actions CI & Live pgTAP Verification Gate | **Complete** (`c599486`) | Live GitHub Actions Run `45946043527` passed (`App Quality & Hygiene` + `Supabase RLS & pgTAP Verification`: 26/26 pgTAP assertions PASS, `No schema errors found`) |
-| `P1-M04` — Global Sign-In, Workspace Switcher & Verified Tenant Context | **Not Started** | Next bounded milestone |
+| `P1-M04` — Global Sign-In, Workspace Switcher, Tenant Resolver & Platform Boundary | **Complete** | Server-only `getClaims()` DAL, `evaluatePermission()`, `sanitizeNextPath()`, `/sign-in`, `/auth/sign-out`, `/workspace`, `/t/[slug]`, `/platform`, `WorkspaceSwitcher` (`clearPwaCaches`), and 40/40 Vitest unit checks |
+| `P1-M05` — Phase 1 Exit Gate & Live Auth/Tenancy E2E Verification | **Not Started** | Next bounded milestone |
 
-## 3. Latest Verification & CI Results (`P1-M03` & `P1-M03b`)
+## 3. Latest Verification (`P1-M04` & `P1-M03b` CI Baseline)
 
-- **Local Verification on `c599486`:** `pnpm typecheck` (0 errors), `pnpm lint` (0 errors), `pnpm test` (7 files, 24/24 tests), `pnpm build` (clean production bundle + `ƒ Proxy (Middleware)`).
-- **Live GitHub Actions CI Run:** [`45946043527`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/45946043527) on `c599486`:
-  - `App Quality & Hygiene` (Job `140330867396`): **PASS** (32s) — `pnpm install --frozen-lockfile`, `typecheck`, `lint`, `test`, `build`, 0 empty `docs/` dirs, 39/39 valid relative links.
-  - `Supabase RLS & pgTAP Verification` (Job `140330867821`): **PASS** (1m54s) — `supabase start`, `supabase db reset`, `supabase test db` (`Files=1, Tests=26, Result: PASS`), `supabase db lint --schema public,app_auth --level error` (`No schema errors found`), `supabase stop --no-backup`.
+- **Local Verification (`P1-M04`):** `pnpm typecheck` (0 errors), `pnpm lint` (0 errors), `pnpm test` (10 files, 40/40 tests passed), `pnpm build` (clean production bundle + `ƒ Proxy (Middleware)`).
+- **Previous Live GitHub Actions CI Run (`P1-M03b`):** [`45946043527`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/45946043527) on `c599486` (`App Quality & Hygiene` PASS + `Supabase RLS & pgTAP Verification` PASS: 26/26 pgTAP assertions, `No schema errors found`).
 
 ## 4. Open Blockers / Dependencies
 
-- **None for Phase 1 Foundation (`P1-M01`–`P1-M03b`).**
+- **None for Phase 1 Foundation (`P1-M01`–`P1-M04`).**
 
 ## 5. Next Bounded Milestone
 
-**`P1-M04`** — Global Sign-In Flow, Verified Workspace & Institution Selector, and Server-Side Tenant Context Resolver.
+**`P1-M05`** — Phase 1 Exit Gate & Live Multi-Tenant Auth/Tenancy E2E Verification against local/CI Supabase stack before opening Phase 2 registry and academic modules.

@@ -2,7 +2,7 @@
 
 **DD-oodle** is a configurable, multi-institution School Operations and Learning Ecosystem designed initially for Indian schools (validated against a CBSE Senior Secondary reference school).
 
-> **Current Repository State:** Phase 1 — Milestone `P1-M03` (Next.js 16 App Router, 3-family Light/Dark Design System, 4-mode Responsive Shell, Native PWA Skeleton, Supabase Multi-Tenant SQL Schema, Forced RLS & Private Storage Baseline, Synthetic Seed, pgTAP Suite & SSR `proxy.ts`). Live `supabase test db` verification requires local Docker + Supabase CLI.
+> **Current Repository State:** Phase 1 — Milestone `P1-M04` (Next.js 16 App Router, 3-family Light/Dark Design System, 4-mode Responsive Shell, Native PWA Skeleton, Supabase Multi-Tenant SQL Schema, Forced RLS & Private Storage Baseline, GitHub Actions CI + Live pgTAP Gate, Global Sign-In, Verified Workspace Switcher & Server-Only Tenant Context Resolver).
 
 ## Prerequisites
 
@@ -17,7 +17,7 @@
 pnpm install --frozen-lockfile
 ```
 
-Copy `.env.example` to `.env.local` to connect a local or cloud Supabase project (sign-in flows activate in `P1-M04`).
+Copy `.env.example` to `.env.local` to connect a local or cloud Supabase project for `/sign-in`, `/workspace`, `/t/[slug]`, and `/platform`.
 
 For local Supabase database reset & cross-tenant pgTAP RLS tests (requires Docker + Supabase CLI):
 

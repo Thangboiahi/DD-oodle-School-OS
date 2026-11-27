@@ -6,6 +6,26 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.1.0-alpha.5] - 2026-11-27
+
+### Added
+- Implemented pure security, permission, and navigation helpers: `lib/auth/safe-redirect.ts` (`sanitizeNextPath`), `lib/auth/permissions.ts` (`evaluatePermission` across active membership, time-bound role assignments, wildcard/exact grants, scope hierarchy, and strict exclusion of platform operator privileges), and `lib/auth/navigation.ts` (`buildInstitutionNav`).
+- Implemented server-only authentication and multi-tenant data access layer under `server/` (every module guarded by `import "server-only"`): `server/auth/types.ts`, `server/auth/session.ts` (`getVerifiedAuthIdentity` via `getClaims()` and RLS-enforced `getCurrentPersonWorkspace`), `server/tenancy/resolve-context.ts` (`resolveTenantContextFromWorkspace`, `resolveVerifiedTenantContext`), and `server/auth/guards.ts` (`requireInstitutionPermission`, `requirePlatformOperator`).
+- Added global authentication and isolated workspace shells: Zod-validated Server Action sign-in (`app/sign-in/actions.ts`, `SignInForm.tsx`, `page.tsx`), `POST /auth/sign-out`, `components/auth/SignOutButton.tsx` and `components/shell/WorkspaceSwitcher.tsx` (clearing PWA caches via `clearPwaCaches()`), `/workspace`, `/t/[slug]` layout & overview page, and strictly isolated `/platform` console shell.
+- Added unit tests covering permissions, safe-redirect/navigation, and tenant context resolution + `server-only` enforcement (`tests/unit/permissions.test.ts`, `tests/unit/safe-redirect-and-nav.test.ts`, `tests/unit/tenant-context-resolution.test.ts`).
+
+### Changed
+- Extended `components/shell/AppShell.tsx` and `components/shell/nav-config.ts` with optional `badgeText`, `navItems`, `secondaryNavItems`, `headerSlot`, and domain icons while keeping full compatibility with `/shell-preview`.
+- Updated `lib/supabase/proxy.ts` to strip spoofed `x-dd-oodle-tenant-hint` headers and forward parsed subdomain hints strictly as untrusted routing hints alongside `getClaims()` session refresh.
+- Updated `app/page.tsx` to check `getVerifiedAuthIdentity()` and surface an `Open Workspace` or `Sign In` CTA without leaking private tenant data.
+
+### Documentation
+- Created `docs/phase-plans/PHASE-01-MILESTONE-04-auth-workspace-tenancy.md` and `docs/progress/MILESTONE-REPORT-P1-M04.md`.
+- Updated `docs/security/MULTI_TENANT_RLS_BASELINE.md`, `docs/compliance/COMPLIANCE_AND_RESEARCH_REGISTER.md` (`REF-05C`, `REF-05D`), `docs/architecture/ARCHITECTURE_OVERVIEW.md`, `docs/README.md`, `docs/PROJECT_STATUS.md`, `docs/ROADMAP.md`, and `README.md`.
+
+### Security
+- Verified strict server-only tenant verification using `supabase.auth.getClaims()`, non-enumerating denial on nonexistent vs unauthorized institution slugs, complete separation of `platform_operators` from institutional leadership, open-redirect filtering, and PWA cache purging on workspace switch and logout.
+
 ## [0.1.0-alpha.4] - 2026-11-27
 
 ### Added

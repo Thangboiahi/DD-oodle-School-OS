@@ -1,7 +1,7 @@
 # DD-oodle Multi-Tenant RLS, Schema & Storage Baseline
 
-> **Canonical References:** [`../../DD-oodle_MASTER_PROJECT_BLUEPRINT.md`](../../DD-oodle_MASTER_PROJECT_BLUEPRINT.md) (Part A §3.4, §4, §7.1, §11.3–§11.4), [`../decisions/ADR-0001-multi-tenant-database-strategy.md`](../decisions/ADR-0001-multi-tenant-database-strategy.md), [`../decisions/ADR-0002-person-identity-and-session-enrolment.md`](../decisions/ADR-0002-person-identity-and-session-enrolment.md)  
-> **Milestone:** `P1-M03`
+> **Canonical References:** [`../../DD-oodle_MASTER_PROJECT_BLUEPRINT.md`](../../DD-oodle_MASTER_PROJECT_BLUEPRINT.md) (Part A §2.2–§2.4, §3.4, §4, §7.1, §11.3–§11.5, §12.5), [`../decisions/ADR-0001-multi-tenant-database-strategy.md`](../decisions/ADR-0001-multi-tenant-database-strategy.md), [`../decisions/ADR-0002-person-identity-and-session-enrolment.md`](../decisions/ADR-0002-person-identity-and-session-enrolment.md)  
+> **Milestones:** `P1-M03`, `P1-M04`
 
 ---
 
@@ -47,4 +47,14 @@
 
 - Client and SSR cookie clients (`lib/supabase/browser.ts`, `lib/supabase/server.ts`, `lib/supabase/proxy.ts`) use `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` only.
 - Privileged server operations (`lib/supabase/admin.ts`) require `server-only`, enforce a `typeof window !== "undefined"` runtime block inside `getServerSupabaseSecretEnv()`, and use `SUPABASE_SECRET_KEY`.
-- Root `proxy.ts` calls `updateSession()` (`supabase.auth.getClaims()`) when public env vars are configured and passes through gracefully when unconfigured so public/build routes run cleanly without secrets.
+- Root `proxy.ts` calls `updateSession()` (`supabase.auth.getClaims()`) when public env vars are configured and passes through gracefully when unconfigured so public/build routes run cleanly without secrets. It also strips client-supplied `x-dd-oodle-tenant-hint` headers and forwards parsed subdomain hints strictly as untrusted routing hints (`OD-03`).
+
+---
+
+## 6. Server-Only Auth DAL, Tenant Resolver, Permission Engine & Platform Boundary (`P1-M04`)
+
+- **Server-Only Data Access (`server/`):** Every module under `server/` (`auth/types.ts`, `auth/session.ts`, `auth/guards.ts`, `tenancy/resolve-context.ts`) starts with `import "server-only";`, authenticates solely via `supabase.auth.getClaims()` (never trusting `getSession()` on the server), and queries PostgreSQL exclusively via the RLS-enforced user client (`createSupabaseServerClient()`).
+- **Non-Enumerating Tenant Context Resolution (`resolveVerifiedTenantContext`):** Slug routing hints are verified against PostgreSQL `institution_memberships` for the authenticated person. Nonexistent slugs and unauthorized institutions return an identical `{ status: "denied" }` state to avoid tenant enumeration.
+- **Scoped, Time-Bound Permission Engine (`evaluatePermission`):** Evaluates `membershipStatus === "active"`, `roleIsActive === true`, `assignment.status === "active"`, `startsAt <= now && (endsAt === null || endsAt > now)`, `"institution.*"` vs exact permission strings, and scope hierarchy (`institution` satisfies narrower scopes; otherwise matches `scopeType` and `scopeRefId`). Platform operator status is ignored and grants zero institutional authority.
+- **Strict Platform Separation (`requirePlatformOperator`):** `/platform` verifies `platform_operators.status === "active"` independently from institutional Principal/admin roles, reinforcing PostgreSQL RLS isolation.
+- **Open-Redirect Protection & PWA Cache Isolation:** `sanitizeNextPath()` permits internal single-slash paths only (excluding `//`, external origins, scripts, control chars, and `/auth/sign-out`). Both `WorkspaceSwitcher` and `SignOutButton` invoke `clearPwaCaches()` before context transitions or `POST /auth/sign-out` so cached tenant responses cannot persist across institution switches or sign-out.

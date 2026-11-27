@@ -13,6 +13,10 @@ import { Badge } from "@/components/ui/Badge";
 interface AppShellProps {
   title: string;
   subtitle?: string;
+  badgeText?: string;
+  navItems?: readonly ShellNavItem[];
+  secondaryNavItems?: readonly ShellNavItem[];
+  headerSlot?: ReactNode;
   headerAction?: ReactNode;
   children: ReactNode;
 }
@@ -79,6 +83,100 @@ function NavIconSvg({ icon }: { icon: ShellNavIcon }) {
           />
         </svg>
       );
+    case "people":
+      return (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          className="h-4 w-4 shrink-0"
+        >
+          <circle cx="8" cy="7" r="3" />
+          <path
+            d="M3 16c0-2.5 2.2-4 5-4s5 1.5 5 4M14 9.5a2.2 2.2 0 1 0 0-4.4M17 16c0-1.9-1.2-3.2-3-3.7"
+            strokeLinecap="round"
+          />
+        </svg>
+      );
+    case "governance":
+      return (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          className="h-4 w-4 shrink-0"
+        >
+          <path
+            d="M10 3 4.5 5.5v4.8c0 3.2 2.3 5.7 5.5 6.7 3.2-1 5.5-3.5 5.5-6.7V5.5L10 3Z"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "audit":
+      return (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          className="h-4 w-4 shrink-0"
+        >
+          <rect x="4" y="3.5" width="12" height="13" rx="1.5" />
+          <path d="M7 7.5h6M7 10.5h6M7 13.5h4" strokeLinecap="round" />
+        </svg>
+      );
+    case "files":
+      return (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          className="h-4 w-4 shrink-0"
+        >
+          <path
+            d="M3.5 5.5h5l1.5 1.5h6.5v8.5h-13v-10Z"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "platform":
+      return (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          className="h-4 w-4 shrink-0"
+        >
+          <rect x="3" y="4" width="14" height="5" rx="1" />
+          <rect x="3" y="11" width="14" height="5" rx="1" />
+        </svg>
+      );
+    case "workspace":
+      return (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          className="h-4 w-4 shrink-0"
+        >
+          <circle cx="10" cy="6.5" r="3" />
+          <path
+            d="M4.5 16c0-2.7 2.5-4.5 5.5-4.5s5.5 1.8 5.5 4.5"
+            strokeLinecap="round"
+          />
+        </svg>
+      );
   }
 }
 
@@ -108,7 +206,14 @@ function SidebarNavList({
             {collapsed ? (
               <span className="sr-only">{item.label}</span>
             ) : (
-              <span className="truncate">{item.label}</span>
+              <span className="flex min-w-0 flex-1 items-center justify-between gap-1.5">
+                <span className="truncate">{item.label}</span>
+                {item.badge ? (
+                  <span className="shrink-0 rounded border border-border-subtle bg-elevated px-1 py-0.5 text-[10px] font-medium text-fg-muted">
+                    {item.badge}
+                  </span>
+                ) : null}
+              </span>
             )}
           </Link>
         </li>
@@ -120,6 +225,10 @@ function SidebarNavList({
 export function AppShell({
   title,
   subtitle,
+  badgeText = "Shell Preview",
+  navItems = SHELL_PRIMARY_NAV,
+  secondaryNavItems = SHELL_SECONDARY_NAV,
+  headerSlot,
   headerAction,
   children,
 }: AppShellProps) {
@@ -141,6 +250,8 @@ export function AppShell({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [tabletDrawerOpen]);
 
+  const compactSecondaryItem = secondaryNavItems[0];
+
   return (
     <div className="min-h-screen bg-canvas text-fg">
       <a
@@ -156,7 +267,7 @@ export function AppShell({
           aria-label="Workspace navigation"
           className={[
             "hidden shrink-0 flex-col border-r border-border-subtle bg-surface transition-[width] duration-150 lg:flex",
-            desktopCollapsed ? "w-16" : "w-56",
+            desktopCollapsed ? "w-16" : "w-60",
           ].join(" ")}
         >
           <div className="flex h-12 items-center justify-between border-b border-border-subtle px-3">
@@ -185,16 +296,15 @@ export function AppShell({
           </div>
 
           <nav className="flex flex-1 flex-col justify-between p-2">
-            <SidebarNavList
-              items={SHELL_PRIMARY_NAV}
-              collapsed={desktopCollapsed}
-            />
-            <div className="border-t border-border-subtle pt-2">
-              <SidebarNavList
-                items={SHELL_SECONDARY_NAV}
-                collapsed={desktopCollapsed}
-              />
-            </div>
+            <SidebarNavList items={navItems} collapsed={desktopCollapsed} />
+            {secondaryNavItems.length > 0 ? (
+              <div className="border-t border-border-subtle pt-2">
+                <SidebarNavList
+                  items={secondaryNavItems}
+                  collapsed={desktopCollapsed}
+                />
+              </div>
+            ) : null}
           </nav>
         </aside>
 
@@ -204,7 +314,7 @@ export function AppShell({
           className="shell-landscape-rail w-14 shrink-0 flex-col items-center justify-between border-r border-border-subtle bg-surface py-2"
         >
           <div className="flex flex-col items-center gap-1">
-            {SHELL_PRIMARY_NAV.map((item) => (
+            {navItems.map((item) => (
               <Link
                 key={item.id}
                 href={item.href}
@@ -216,19 +326,21 @@ export function AppShell({
               </Link>
             ))}
           </div>
-          <Link
-            href="/sign-in"
-            title="Sign In"
-            aria-label="Sign In"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-fg-muted hover:bg-elevated hover:text-fg"
-          >
-            <NavIconSvg icon="public" />
-          </Link>
+          {compactSecondaryItem ? (
+            <Link
+              href={compactSecondaryItem.href}
+              title={compactSecondaryItem.label}
+              aria-label={compactSecondaryItem.label}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-md text-fg-muted hover:bg-elevated hover:text-fg"
+            >
+              <NavIconSvg icon={compactSecondaryItem.icon} />
+            </Link>
+          ) : null}
         </nav>
 
         {/* Main column */}
         <div className="flex min-w-0 flex-1 flex-col overflow-x-clip">
-          <header className="sticky top-0 z-30 flex h-12 items-center justify-between gap-3 border-b border-border-subtle bg-surface px-3 sm:px-4">
+          <header className="sticky top-0 z-30 flex min-h-12 flex-wrap items-center justify-between gap-2 border-b border-border-subtle bg-surface px-3 py-1.5 sm:flex-nowrap sm:gap-3 sm:px-4">
             <div className="flex min-w-0 items-center gap-2.5">
               {/* Tablet drawer trigger (768px - 1023px) */}
               <button
@@ -255,9 +367,11 @@ export function AppShell({
                   <h1 className="truncate text-sm font-semibold tracking-tight text-fg">
                     {title}
                   </h1>
-                  <Badge tone="neutral" className="hidden sm:inline-flex">
-                    Shell Preview
-                  </Badge>
+                  {badgeText ? (
+                    <Badge tone="neutral" className="hidden sm:inline-flex">
+                      {badgeText}
+                    </Badge>
+                  ) : null}
                 </div>
                 {subtitle ? (
                   <p className="hidden truncate text-[11px] text-fg-muted sm:block">
@@ -267,8 +381,9 @@ export function AppShell({
               </div>
             </div>
 
-            {headerAction ? (
+            {headerSlot || headerAction ? (
               <div className="flex shrink-0 items-center gap-2">
+                {headerSlot}
                 {headerAction}
               </div>
             ) : null}
@@ -301,9 +416,7 @@ export function AppShell({
           />
           <aside className="relative z-50 flex h-full w-64 flex-col border-r border-border-subtle bg-surface p-3">
             <div className="mb-3 flex items-center justify-between border-b border-border-subtle pb-2">
-              <span className="text-sm font-semibold text-fg">
-                DD-oodle Shell
-              </span>
+              <span className="text-sm font-semibold text-fg">DD-oodle</span>
               <button
                 type="button"
                 onClick={() => setTabletDrawerOpen(false)}
@@ -314,41 +427,45 @@ export function AppShell({
             </div>
             <nav className="flex flex-1 flex-col justify-between">
               <SidebarNavList
-                items={SHELL_PRIMARY_NAV}
+                items={navItems}
                 collapsed={false}
                 onNavigate={() => setTabletDrawerOpen(false)}
               />
-              <div className="border-t border-border-subtle pt-2">
-                <SidebarNavList
-                  items={SHELL_SECONDARY_NAV}
-                  collapsed={false}
-                  onNavigate={() => setTabletDrawerOpen(false)}
-                />
-              </div>
+              {secondaryNavItems.length > 0 ? (
+                <div className="border-t border-border-subtle pt-2">
+                  <SidebarNavList
+                    items={secondaryNavItems}
+                    collapsed={false}
+                    onNavigate={() => setTabletDrawerOpen(false)}
+                  />
+                </div>
+              ) : null}
             </nav>
           </aside>
         </div>
       ) : null}
 
       {/* Mobile Portrait bottom navigation bar (< 768px portrait) */}
-      <nav
-        aria-label="Primary mobile navigation"
-        className="shell-portrait-bottom-nav fixed inset-x-0 bottom-0 z-30 border-t border-border-subtle bg-surface pb-[env(safe-area-inset-bottom)] md:hidden"
-      >
-        <ul className="grid grid-cols-4">
-          {SHELL_PRIMARY_NAV.map((item) => (
-            <li key={item.id}>
-              <Link
-                href={item.href}
-                className="flex min-h-12 flex-col items-center justify-center gap-0.5 px-1 py-1.5 text-[11px] font-medium text-fg hover:bg-elevated"
-              >
-                <NavIconSvg icon={item.icon} />
-                <span className="truncate">{item.label}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      {navItems.length > 0 ? (
+        <nav
+          aria-label="Primary mobile navigation"
+          className="shell-portrait-bottom-nav fixed inset-x-0 bottom-0 z-30 border-t border-border-subtle bg-surface pb-[env(safe-area-inset-bottom)] md:hidden"
+        >
+          <ul className="flex items-stretch justify-around">
+            {navItems.slice(0, 5).map((item) => (
+              <li key={item.id} className="min-w-0 flex-1">
+                <Link
+                  href={item.href}
+                  className="flex min-h-12 flex-col items-center justify-center gap-0.5 px-1 py-1.5 text-[11px] font-medium text-fg hover:bg-elevated"
+                >
+                  <NavIconSvg icon={item.icon} />
+                  <span className="max-w-full truncate">{item.label}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : null}
     </div>
   );
 }

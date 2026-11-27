@@ -10,7 +10,7 @@ The roadmap is a sequence of validated capabilities rather than calendar commitm
 | Phase | Title | Status | Exit Gate Summary |
 |---|---|---|---|
 | **Phase 0** | Product Discovery & Repository Governance | **Complete** | Governance structure, canonical instructions, requirements/risk/compliance registers, domain glossary and approved `OD-01`–`OD-05` established (`P0-M01` + Phase 0 closure in `P1-M01`). |
-| **Phase 1** | Foundation & Multi-Tenant Platform | **In Progress** | Two test institutions with distinct users/data exercised; cross-tenant reads/writes denied by automated tests (`P1-M01`–`P1-M04` complete; `P1-M05` Phase 1 exit gate E2E next). |
+| **Phase 1** | Foundation & Multi-Tenant Platform | **Complete** | Verified in CI Run `45951599452` (`eb6ed69`): 40/40 Vitest unit/SQL invariant checks, 26/26 live pgTAP RLS/Storage/audit assertions, and 10/10 live Playwright multi-tenant auth, responsive & WCAG AA E2E checks across two synthetic institutions (`P1-M01`–`P1-M05` complete). |
 | **Phase 2** | Institutional Registry & Academic Structure | **Not Started** | Reference Senior Secondary XI/XII structure modelled (mixed subject combinations, multiple sections, cross-section teaching) without schema exceptions. |
 | **Phase 3** | Attendance, Leave & Digital Handbook | **Not Started** | A normal school day can be completed and reconstructed from the audit history. |
 | **Phase 4** | Structured Communication & Academic Planning | **Not Started** | Subject teachers issue work/academic updates independently while class teachers and HODs receive correct oversight (no general chat clone). |

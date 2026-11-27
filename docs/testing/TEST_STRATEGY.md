@@ -13,16 +13,17 @@
 | **Unit Tests** | Vitest (`pnpm test`) | Pure domain logic, Zod schemas, tenant-hint parsing, permission evaluators, API route handlers | Every milestone |
 | **Production Build** | Next.js (`pnpm build`) | Route compilation, App Router server/client boundary verification and bundle build | Every milestone |
 | **Database & RLS Tests** | Supabase local CLI + SQL/pgTAP tests *(starting `P1-M03` / CI in `P1-M03b`)* | Positive access + **explicit cross-tenant & privilege-escalation denial tests** on all tables and Storage buckets (`supabase start`, `supabase db reset`, `supabase test db`, `supabase db lint`) | Every schema/auth/module milestone & automated CI |
-| **E2E, Responsive & Accessibility** | Browser / Playwright + Lighthouse / axe checks *(starting `P1-M02`+)* | Critical user flows, phone/tablet/desktop portrait & landscape viewports, keyboard navigation, contrast and theme modes | UI-facing milestones |
+| **E2E, Responsive & Accessibility** | Playwright (`@playwright/test`) + `@axe-core/playwright` (`pnpm test:e2e`, `pnpm test:e2e:public`) | Public zero-leakage landing, PWA/SW headers, theme persistence, 4-viewport overflow & navigation checks, WCAG 2.0/2.1 AA `axe-core` scans, and live multi-tenant GoTrue/PostgREST auth & cross-tenant/platform denial E2E *(live CI starting `P1-M05`)* | Every UI & auth milestone & automated CI |
 
 ---
 
 ## 2. Automated CI Quality Gates (`.github/workflows/ci.yml`)
 
-Every push and pull request targeting `main` runs two parallel GitHub Actions jobs:
+Every push and pull request targeting `main` runs three parallel GitHub Actions jobs:
 
 1. **`app-quality`:** Node.js 22 (`pnpm --frozen-lockfile`), `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and documentation link/empty-directory hygiene verification.
 2. **`supabase-rls-pgtap`:** Official Supabase CLI (`supabase/setup-cli@v1`), local Docker stack (`supabase start`), clean idempotent schema + synthetic seed replay (`supabase db reset`), live pgTAP cross-tenant RLS/Storage/audit verification (`supabase test db`), schema lint (`supabase db lint`), and teardown (`supabase stop --no-backup`).
+3. **`e2e-live-auth`:** Starts live local Supabase stack + synthetic seed (`supabase start`, `supabase db reset`), exports local runtime environment variables from `supabase status -o env` (with `E2E_REQUIRE_SUPABASE=true` so missing Supabase env fails loudly rather than silently skipping), runs production `pnpm build`, executes all 10 Playwright checks across `tests/e2e/public-and-responsive.spec.ts` and `tests/e2e/multi-tenant-auth.spec.ts` (including WCAG AA `axe-core` and 4-viewport audits), uploads artifacts on failure, and stops Supabase (`supabase stop --no-backup`).
 
 ---
 

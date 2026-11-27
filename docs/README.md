@@ -30,13 +30,15 @@ This directory contains the living operational, architectural, governance, compl
 - [`phase-plans/PHASE-01-MILESTONE-02-design-system-shell-pwa.md`](phase-plans/PHASE-01-MILESTONE-02-design-system-shell-pwa.md) — Part E milestone plan for `P1-M02`.
 - [`phase-plans/PHASE-01-MILESTONE-03-supabase-schema-rls-storage.md`](phase-plans/PHASE-01-MILESTONE-03-supabase-schema-rls-storage.md) — Part E milestone plan for `P1-M03`.
 - [`phase-plans/PHASE-01-MILESTONE-03B-ci-and-live-pgtap-gate.md`](phase-plans/PHASE-01-MILESTONE-03B-ci-and-live-pgtap-gate.md) — Part E milestone plan for `P1-M03b` (GitHub Actions CI & live pgTAP gate).
-- [`phase-plans/PHASE-01-MILESTONE-04-auth-workspace-tenancy.md`](phase-plans/PHASE-01-MILESTONE-04-auth-workspace-tenancy.md) — Part E milestone plan for `P1-M04` and candidate `P1-M05` Phase 1 exit gate.
+- [`phase-plans/PHASE-01-MILESTONE-04-auth-workspace-tenancy.md`](phase-plans/PHASE-01-MILESTONE-04-auth-workspace-tenancy.md) — Part E milestone plan for `P1-M04`.
+- [`phase-plans/PHASE-01-MILESTONE-05-exit-gate-e2e-verification.md`](phase-plans/PHASE-01-MILESTONE-05-exit-gate-e2e-verification.md) — Part E milestone plan for `P1-M05` (Phase 1 exit gate E2E & Phase 1 closure) and candidate `P2-M01` overview.
 - [`progress/MILESTONE-REPORT-P0-M01.md`](progress/MILESTONE-REPORT-P0-M01.md) — Audited completion report for Milestone `P0-M01`.
 - [`progress/MILESTONE-REPORT-P1-M01.md`](progress/MILESTONE-REPORT-P1-M01.md) — Audited completion report for Milestone `P1-M01`.
 - [`progress/MILESTONE-REPORT-P1-M02.md`](progress/MILESTONE-REPORT-P1-M02.md) — Audited completion report for Milestone `P1-M02`.
 - [`progress/MILESTONE-REPORT-P1-M03.md`](progress/MILESTONE-REPORT-P1-M03.md) — Audited completion report for Milestone `P1-M03`.
 - [`progress/MILESTONE-REPORT-P1-M03B.md`](progress/MILESTONE-REPORT-P1-M03B.md) — Audited completion report for Milestone `P1-M03b`.
 - [`progress/MILESTONE-REPORT-P1-M04.md`](progress/MILESTONE-REPORT-P1-M04.md) — Audited completion report for Milestone `P1-M04`.
+- [`progress/MILESTONE-REPORT-P1-M05.md`](progress/MILESTONE-REPORT-P1-M05.md) — Audited completion report & CI evidence for Milestone `P1-M05` (Phase 1 Complete).
 
 ## Deferred `docs/` Folders (Per Blueprint Part D1)
 

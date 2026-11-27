@@ -2,7 +2,7 @@
 
 **DD-oodle** is a configurable, multi-institution School Operations and Learning Ecosystem designed initially for Indian schools (validated against a CBSE Senior Secondary reference school).
 
-> **Current Repository State:** Phase 1 — Milestone `P1-M04` (Next.js 16 App Router, 3-family Light/Dark Design System, 4-mode Responsive Shell, Native PWA Skeleton, Supabase Multi-Tenant SQL Schema, Forced RLS & Private Storage Baseline, GitHub Actions CI + Live pgTAP Gate, Global Sign-In, Verified Workspace Switcher & Server-Only Tenant Context Resolver).
+> **Current Repository State:** **Phase 1 Complete** (`P1-M05`, CI Run `45951599452` green: Next.js 16 App Router, 3-family Light/Dark Design System, 4-mode Responsive Shell, Native PWA Skeleton, Supabase Multi-Tenant SQL Schema, Forced RLS & Private Storage Baseline, Global Sign-In, Workspace Switcher, Server-Only Tenant Resolver & Live Playwright Multi-Tenant Auth + WCAG AA E2E Gate).
 
 ## Prerequisites
 
@@ -33,6 +33,7 @@ Workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs automatical
 
 - **`app-quality`:** `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and documentation link/directory checks.
 - **`supabase-rls-pgtap`:** Starts a real Supabase Docker stack (`supabase start`), replays migrations + synthetic seed (`supabase db reset`), runs all pgTAP cross-tenant RLS/Storage/audit tests (`supabase test db`), and lints PostgreSQL schemas (`supabase db lint`).
+- **`e2e-live-auth`:** Starts local Supabase + seed, exports runtime env via `supabase status -o env`, builds Next.js, and runs Playwright E2E checks across public/PWA/4-viewport responsive/WCAG AA `axe-core` and live multi-tenant auth, workspace switching, cross-tenant denial, and platform separation (`pnpm test:e2e`).
 
 ## Environment Variables (Names Only)
 
@@ -57,6 +58,8 @@ Defined as placeholders in [`.env.example`](.env.example). **Never commit real v
 | `pnpm lint` | Run ESLint across the repository |
 | `pnpm typecheck` | Run strict TypeScript check (`tsc --noEmit`) |
 | `pnpm test` | Run Vitest unit & SQL static invariant tests |
+| `pnpm test:e2e` | Run all Playwright E2E suites (live Supabase auth skips locally unless `NEXT_PUBLIC_SUPABASE_*` or `E2E_REQUIRE_SUPABASE=true` is set) |
+| `pnpm test:e2e:public` | Run public surface, PWA, themes, 4-viewport responsive & WCAG AA axe-core E2E suite |
 
 ## Canonical Documentation
 

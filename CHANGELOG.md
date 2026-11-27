@@ -6,6 +6,22 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.1.0-alpha.6] - 2026-11-27
+
+### Added
+- Added synthetic local/CI GoTrue password (`DdOodleTest#2026!` via `extensions.crypt(..., extensions.gen_salt('bf'))`) and idempotent `auth.identities` email rows for the 4 synthetic `@example.test` users in `supabase/seed.sql`.
+- Installed `@playwright/test@1.65.1` and `@axe-core/playwright@4.14.1`, created `playwright.config.ts`, and added `pnpm test:e2e` and `pnpm test:e2e:public` scripts.
+- Added `tests/e2e/public-and-responsive.spec.ts` covering `/` public zero-leakage assertions, `/api/health`, `/manifest.webmanifest`, `/sw.js` headers, `/offline.html`, theme/density reload persistence, 4-viewport (`390x844`, `844x390`, `820x1180`, `1280x800`) horizontal-overflow & navigation audits, and WCAG 2.0/2.1 AA `axe-core` scans across Light/Dark modes.
+- Added `tests/e2e/multi-tenant-auth.spec.ts` exercising live browser sign-in/sign-out, unauthenticated redirects, invalid-credential handling, Sunrise Principal isolation + non-enumerating denial on `/t/valley-cbse` and unknown slugs, Dual-Member single-identity switching across `sunrise-cbse` (`Subject Teacher`) and `valley-cbse` (`Parent / Guardian`) via `WorkspaceSwitcher`, and strict Platform Operator isolation on `/platform` vs `/t/[slug]`.
+- Added parallel Job 3 (`e2e-live-auth`) to `.github/workflows/ci.yml` exporting live `supabase status -o env` values without logging keys before `pnpm build` and `pnpm test:e2e` with `E2E_REQUIRE_SUPABASE=true`.
+
+### Documentation
+- Closed **Phase 1 — Foundation and Multi-Tenant Platform** as **Complete** in `docs/ROADMAP.md` and `docs/PROJECT_STATUS.md` following green GitHub Actions CI Run `45951599452` (`eb6ed69`).
+- Created `docs/phase-plans/PHASE-01-MILESTONE-05-exit-gate-e2e-verification.md` and `docs/progress/MILESTONE-REPORT-P1-M05.md`; updated `docs/testing/TEST_STRATEGY.md`, `docs/compliance/COMPLIANCE_AND_RESEARCH_REGISTER.md` (`REF-06D`, `REF-06E`), `docs/README.md`, and `README.md`.
+
+### Security
+- Verified live end-to-end enforcement across GoTrue, PostgREST RLS (`26/26` pgTAP), and Next.js 16 SSR routes (`10/10` Playwright E2E) including cross-tenant denial, non-enumerating slug responses, platform separation, and fail-fast CI guard (`E2E_REQUIRE_SUPABASE=true`).
+
 ## [0.1.0-alpha.5] - 2026-11-27
 
 ### Added

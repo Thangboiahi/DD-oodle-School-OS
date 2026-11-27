@@ -1,1 +1,174 @@
 @import "tailwindcss";
+
+@theme inline {
+  --color-canvas: var(--bg-canvas);
+  --color-surface: var(--bg-surface);
+  --color-elevated: var(--bg-elevated);
+  --color-fg: var(--fg-primary);
+  --color-fg-muted: var(--fg-muted);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-status-success: var(--status-success);
+  --color-status-warning: var(--status-warning);
+  --color-status-danger: var(--status-danger);
+  --color-focus-ring: var(--focus-ring);
+}
+
+:root,
+[data-theme="clarity"][data-mode="light"] {
+  --bg-canvas: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #F1F5F9;
+  --fg-primary: #0F172A;
+  --fg-muted: #475569;
+  --border-subtle: #E2E8F0;
+  --border-strong: #64748B;
+  --accent: #1D4ED8;
+  --accent-hover: #1E40AF;
+  --accent-fg: #FFFFFF;
+  --status-success: #15803D;
+  --status-warning: #B45309;
+  --status-danger: #B91C1C;
+  --focus-ring: #1D4ED8;
+}
+
+[data-theme="clarity"][data-mode="dark"] {
+  --bg-canvas: #0B1120;
+  --bg-surface: #111827;
+  --bg-elevated: #1E293B;
+  --fg-primary: #F8FAFC;
+  --fg-muted: #94A3B8;
+  --border-subtle: #1F2937;
+  --border-strong: #64748B;
+  --accent: #60A5FA;
+  --accent-hover: #93C5FD;
+  --accent-fg: #0F172A;
+  --status-success: #4ADE80;
+  --status-warning: #FBBF24;
+  --status-danger: #F87171;
+  --focus-ring: #60A5FA;
+}
+
+[data-theme="calm"][data-mode="light"] {
+  --bg-canvas: #F6F8F6;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #EDF2EE;
+  --fg-primary: #14221B;
+  --fg-muted: #44574D;
+  --border-subtle: #DCE5DF;
+  --border-strong: #5E7367;
+  --accent: #15803D;
+  --accent-hover: #166534;
+  --accent-fg: #FFFFFF;
+  --status-success: #15803D;
+  --status-warning: #B45309;
+  --status-danger: #B91C1C;
+  --focus-ring: #15803D;
+}
+
+[data-theme="calm"][data-mode="dark"] {
+  --bg-canvas: #0B130F;
+  --bg-surface: #121D17;
+  --bg-elevated: #1B2A22;
+  --fg-primary: #F3F7F4;
+  --fg-muted: #98ADA1;
+  --border-subtle: #22342B;
+  --border-strong: #647D70;
+  --accent: #4ADE80;
+  --accent-hover: #86EFAC;
+  --accent-fg: #071A0E;
+  --status-success: #4ADE80;
+  --status-warning: #FBBF24;
+  --status-danger: #F87171;
+  --focus-ring: #4ADE80;
+}
+
+[data-theme="focus"][data-mode="light"] {
+  --bg-canvas: #F8F7FC;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #F1EEF9;
+  --fg-primary: #181529;
+  --fg-muted: #4E4A66;
+  --border-subtle: #E4DFF2;
+  --border-strong: #6C6687;
+  --accent: #6D28D9;
+  --accent-hover: #5B21B6;
+  --accent-fg: #FFFFFF;
+  --status-success: #15803D;
+  --status-warning: #B45309;
+  --status-danger: #B91C1C;
+  --focus-ring: #6D28D9;
+}
+
+[data-theme="focus"][data-mode="dark"] {
+  --bg-canvas: #0E0C1A;
+  --bg-surface: #161326;
+  --bg-elevated: #221E38;
+  --fg-primary: #F5F3FF;
+  --fg-muted: #A39DC0;
+  --border-subtle: #2A2545;
+  --border-strong: #736C96;
+  --accent: #A78BFA;
+  --accent-hover: #C4B5FD;
+  --accent-fg: #140B29;
+  --status-success: #4ADE80;
+  --status-warning: #FBBF24;
+  --status-danger: #F87171;
+  --focus-ring: #A78BFA;
+}
+
+:root,
+[data-density="comfortable"] {
+  --density-pad: 1rem;
+  --density-gap: 1rem;
+}
+
+[data-density="compact"] {
+  --density-pad: 0.625rem;
+  --density-gap: 0.625rem;
+}
+
+html,
+body {
+  background-color: var(--bg-canvas);
+  color: var(--fg-primary);
+  overflow-x: clip;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Responsive mode 4: Mobile Landscape (< 1024px wide and <= 500px tall) */
+.shell-landscape-rail {
+  display: none;
+}
+
+@media (max-width: 1023px) and (max-height: 500px) {
+  .shell-portrait-bottom-nav {
+    display: none !important;
+  }
+
+  .shell-landscape-rail {
+    display: flex !important;
+  }
+
+  .shell-main-region {
+    padding-bottom: 1.5rem !important;
+  }
+}

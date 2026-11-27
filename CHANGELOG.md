@@ -6,6 +6,30 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.1.0-alpha.2] - 2026-11-27
+
+### Added
+- Implemented theme and density configuration (`lib/ui/theme.ts`), semantic Tailwind CSS v4 tokens in `app/globals.css` across **Clarity**, **Calm**, and **Focus** (Light & Dark + `compact`/`comfortable` density), `ThemeProvider` (`useSyncExternalStore`), and accessible `ThemeControls`.
+- Added core accessible UI primitives (`components/ui/Button.tsx`, `Badge.tsx`, `Card.tsx`, `StateNotice.tsx`, `Skeleton.tsx`).
+- Added 4-mode responsive `AppShell` (`components/shell/AppShell.tsx`, `nav-config.ts`) supporting desktop collapsible sidebar, tablet Escape/backdrop drawer, mobile portrait bottom nav with safe-area padding, and mobile landscape compact rail, showcased on `/shell-preview`.
+- Added `/sign-in` placeholder route (scheduled for `P1-M03`).
+- Added Next.js 16 native PWA skeleton (`app/manifest.ts`, verified binary PNG icons in `public/icons/`, self-contained `public/offline.html`, auditable network-first `public/sw.js` with `DD_OODLE_CLEAR_CACHES`, and `components/pwa/ServiceWorkerRegistrar.tsx`).
+- Added unit tests covering theme guards/script (`tests/unit/theme.test.ts`), PWA manifest/PNG icons/SW (`tests/unit/manifest-and-pwa.test.ts`), and security headers (`tests/unit/security-headers.test.ts`).
+
+### Changed
+- Replaced starter `app/page.tsx` with minimalistic public landing shell highlighting Indian CBSE & multi-board architecture pillars without exposing tenant data.
+- Wired pre-hydration theme script, PWA metadata/viewport, `ThemeProvider`, and `ServiceWorkerRegistrar` into `app/layout.tsx`.
+- Configured global security headers and strict `/sw.js` headers in `lib/security/headers.ts` and `next.config.ts`.
+- Updated `README.md` with `P1-M02` repository state and UI/UX & PWA documentation link.
+
+### Documentation
+- Created `docs/ui-ux/DESIGN_SYSTEM_AND_PWA.md`, `docs/phase-plans/PHASE-01-MILESTONE-02-design-system-shell-pwa.md`, and `docs/progress/MILESTONE-REPORT-P1-M02.md`.
+- Verified `REF-03` (Next.js PWA Guide, updated 2026-07-30) in `docs/compliance/COMPLIANCE_AND_RESEARCH_REGISTER.md`.
+- Updated `docs/README.md` (moved `docs/ui-ux/` from deferred to active), `docs/PROJECT_STATUS.md`, and `docs/architecture/ARCHITECTURE_OVERVIEW.md`.
+
+### Security
+- Enforced allowlist-only pre-hydration theme script (zero string interpolation), network-first navigation SW excluding `/api/*` and HTML caching, explicit cache-purge message hook for sign-out/tenant switching, `no-store` SW HTTP headers, and global `X-Content-Type-Options`, `X-Frame-Options`, and `Referrer-Policy` headers.
+
 ## [0.1.0-alpha.1] - 2026-11-27
 
 ### Added

@@ -8,7 +8,7 @@
 |---|---|---|---|---|---|---|
 | **REF-01** | AI Model Routing & Orchestrator | https://antigravity.google/docs/models | Google Antigravity Models & Thinking Controls | 2026-11-27 | Re-verify before phase implementation | Tech Lead — review on model selector updates |
 | **REF-02** | Antigravity Environment | https://antigravity.google/docs/home | Google Antigravity Documentation Home | 2026-11-27 | Re-verify before phase implementation | Tech Lead — Phase 1 setup |
-| **REF-03** | PWA & Service Worker | https://nextjs.org/docs/app/guides/progressive-web-apps | Next.js Progressive Web App Guide | 2026-11-27 | Re-verify before phase implementation | Tech Lead — Phase 1 (`P1` PWA milestone) |
+| **REF-03** | PWA & Service Worker | https://nextjs.org/docs/app/guides/progressive-web-apps | Next.js Progressive Web App Guide (doc updated 2026-07-30) | 2026-11-27 | Verified for `P1-M02` (native `app/manifest.ts`, auditable `public/sw.js`, global & `/sw.js` security headers) | Tech Lead — re-verify before push notifications / Phase 3 offline queue |
 | **REF-04** | Database & App Security | https://supabase.com/docs/guides/security | Supabase Security Guidance | 2026-11-27 | Re-verify before phase implementation | Tech Lead — Phase 1 (`P1` Supabase baseline) |
 | **REF-05** | Multi-Tenant Isolation | https://supabase.com/docs/guides/database/postgres/row-level-security | Supabase Row Level Security (RLS) | 2026-11-27 | Re-verify before phase implementation | Tech Lead — Phase 1 (before first migration) |
 | **REF-06** | Private File Storage | https://supabase.com/docs/guides/storage/security/access-control | Supabase Storage Access Control | 2026-11-27 | Re-verify before phase implementation | Tech Lead — Phase 1 (storage foundation) |

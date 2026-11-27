@@ -8,9 +8,9 @@ This document strictly separates **Confirmed Facts** (verified in the current re
 
 ## 1. Confirmed Facts (Current Repository State)
 
-Audited on `2026-11-27` (`P1-M01`):
+Audited on `2026-11-27` (`P1-M02`):
 
-- **Codebase state:** Next.js App Router application foundation initialized alongside governance, architecture (`ADR-0001`, `ADR-0002`), glossary, testing and compliance records.
+- **Codebase state:** Next.js 16 App Router application with governance, architecture (`ADR-0001`, `ADR-0002`), UI/UX & PWA spec, glossary, testing and compliance records.
 - **Installed Runtime & Toolchain (`package.json` + `pnpm-lock.yaml`):**
   - Package manager: `pnpm` (`12.23.0`); Node.js `>=22.0.0` (verified locally on `v26.13.0`)
   - Framework & UI: `next` (`16.4.6`), `react` (`19.3.1`), `react-dom` (`19.3.1`)
@@ -18,12 +18,14 @@ Audited on `2026-11-27` (`P1-M01`):
   - Styling: `tailwindcss` (`4.3.5`), `@tailwindcss/postcss` (`4.3.5`), `postcss` (`8.5.33`)
   - Lint & tests: `eslint` (`9.39.5`), `eslint-config-next` (`16.4.6`), `vitest` (`5.1.2`)
 - **Verified Directory Layout:**
-  - `app/` (`layout.tsx`, `globals.css`, `page.tsx`, `api/health/route.ts`)
-  - `lib/tenancy/` (`resolve-tenant-hint.ts` — pure untrusted routing hint parser per `OD-03`)
-  - `tests/unit/` (`resolve-tenant-hint.test.ts`, `health-route.test.ts`)
-  - `docs/` (`architecture/`, `compliance/`, `decisions/`, `phase-plans/`, `progress/`, `requirements/`, `testing/`)
+  - `app/` (`layout.tsx`, `globals.css`, `page.tsx`, `manifest.ts`, `shell-preview/page.tsx`, `sign-in/page.tsx`, `api/health/route.ts`)
+  - `components/` (`theme/`, `ui/`, `shell/`, `pwa/`)
+  - `lib/` (`tenancy/resolve-tenant-hint.ts`, `ui/theme.ts`, `security/headers.ts`)
+  - `public/` (`offline.html`, `sw.js`, `icons/icon-192x192.png`, `icons/icon-512x512.png`, `icons/maskable-512x512.png`)
+  - `tests/unit/` (`resolve-tenant-hint.test.ts`, `health-route.test.ts`, `theme.test.ts`, `manifest-and-pwa.test.ts`, `security-headers.test.ts`)
+  - `docs/` (`architecture/`, `compliance/`, `decisions/`, `phase-plans/`, `progress/`, `requirements/`, `testing/`, `ui-ux/`)
+- **Design System & PWA Baseline (`P1-M02`):** Active (`Clarity`, `Calm`, `Focus` Light/Dark + density, 4-mode `AppShell`, native `app/manifest.ts`, auditable `public/sw.js` precaching only `/offline.html`, global & `/sw.js` security headers).
 - **Database / migrations / auth:** Not yet implemented (`supabase/`, PostgreSQL schemas, RLS policies and Supabase Auth flows are deferred to `P1-M03`).
-- **UI Theme System & PWA:** Not yet implemented (deferred to `P1-M02`).
 
 ---
 

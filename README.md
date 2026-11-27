@@ -2,7 +2,7 @@
 
 **DD-oodle** is a configurable, multi-institution School Operations and Learning Ecosystem designed initially for Indian schools (validated against a CBSE Senior Secondary reference school).
 
-> **Current Repository State:** Phase 1 — Milestone `P1-M01` (Next.js App Router, strict TypeScript, Tailwind CSS, ESLint, Vitest foundation & Core ADRs). Supabase schema, RLS and UI design system are scheduled in upcoming Phase 1 milestones.
+> **Current Repository State:** Phase 1 — Milestone `P1-M02` (Next.js 16 App Router, strict TypeScript, 3-family Light/Dark Design System, 4-mode Responsive Shell, Public Landing Shell & Native PWA Skeleton). Supabase Auth, schema and RLS are scheduled next in `P1-M03`.
 
 ## Prerequisites
 
@@ -52,4 +52,5 @@ Defined as placeholders in [`.env.example`](.env.example). **Never commit real v
 - [docs/ROADMAP.md](docs/ROADMAP.md) — Phases 0–10 and future roadmap status
 - [docs/decisions/ADR-0001-multi-tenant-database-strategy.md](docs/decisions/ADR-0001-multi-tenant-database-strategy.md) — Multi-tenant database, storage & routing isolation strategy
 - [docs/decisions/ADR-0002-person-identity-and-session-enrolment.md](docs/decisions/ADR-0002-person-identity-and-session-enrolment.md) — Global person identity & three-layer session enrolment model
+- [docs/ui-ux/DESIGN_SYSTEM_AND_PWA.md](docs/ui-ux/DESIGN_SYSTEM_AND_PWA.md) — Design system tokens, 3 theme families, 4 responsive shell modes & PWA boundaries
 - [docs/testing/TEST_STRATEGY.md](docs/testing/TEST_STRATEGY.md) — Testing pyramid & quality gates

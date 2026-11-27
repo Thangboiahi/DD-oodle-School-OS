@@ -86,7 +86,10 @@ describe("buildInstitutionNav", () => {
       "audit",
       "files",
     ]);
-    expect(nav.find((item) => item.id === "people")?.badge).toBe("Phase 2");
+    expect(nav.find((item) => item.id === "people")?.href).toBe(
+      "/t/sunrise-cbse/people",
+    );
+    expect(nav.find((item) => item.id === "people")?.badge).toBeUndefined();
   });
 
   it("renders scoped teaching nav without governance/audit/files for Subject Teacher", () => {
@@ -99,7 +102,7 @@ describe("buildInstitutionNav", () => {
     expect(nav.map((item) => item.id)).toEqual(["overview", "people"]);
   });
 
-  it("renders overview only for Parent/Guardian and Monitor", () => {
+  it("renders overview and scoped people link for Parent/Guardian and Monitor", () => {
     const parentNav = buildInstitutionNav(
       buildContextWithRole("parent_guardian", "Parent / Guardian", [
         "ward.read",
@@ -113,7 +116,7 @@ describe("buildInstitutionNav", () => {
       now,
     );
 
-    expect(parentNav.map((item) => item.id)).toEqual(["overview"]);
-    expect(monitorNav.map((item) => item.id)).toEqual(["overview"]);
+    expect(parentNav.map((item) => item.id)).toEqual(["overview", "people"]);
+    expect(monitorNav.map((item) => item.id)).toEqual(["overview", "people"]);
   });
 });

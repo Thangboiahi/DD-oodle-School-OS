@@ -37,15 +37,28 @@ export function buildInstitutionNav(
 
   const canAccessPeopleOrTeaching =
     evaluatePermission(context, { permission: "people.read" }, now).allowed ||
-    evaluatePermission(context, { permission: "academics.teach" }, now).allowed;
+    evaluatePermission(context, { permission: "people.manage" }, now).allowed ||
+    evaluatePermission(context, { permission: "admissions.read" }, now)
+      .allowed ||
+    evaluatePermission(context, { permission: "admissions.manage" }, now)
+      .allowed ||
+    evaluatePermission(context, { permission: "academics.manage" }, now)
+      .allowed ||
+    evaluatePermission(context, { permission: "academics.teach" }, now)
+      .allowed ||
+    evaluatePermission(context, { permission: "section.coordinate" }, now)
+      .allowed ||
+    evaluatePermission(context, { permission: "ward.read" }, now).allowed ||
+    evaluatePermission(context, { permission: "classroom.summary.read" }, now)
+      .allowed ||
+    evaluatePermission(context, { permission: "self.read" }, now).allowed;
 
   if (canAccessPeopleOrTeaching) {
     items.push({
       id: "people",
       label: "People & Registry",
-      href: `${basePath}#people`,
+      href: `${basePath}/people`,
       icon: "people",
-      badge: "Phase 2",
     });
   }
 

@@ -35,6 +35,7 @@ This directory contains the living operational, architectural, governance, compl
 - [`phase-plans/PHASE-01-MILESTONE-04-auth-workspace-tenancy.md`](phase-plans/PHASE-01-MILESTONE-04-auth-workspace-tenancy.md) — Part E milestone plan for `P1-M04`.
 - [`phase-plans/PHASE-01-MILESTONE-05-exit-gate-e2e-verification.md`](phase-plans/PHASE-01-MILESTONE-05-exit-gate-e2e-verification.md) — Part E milestone plan for `P1-M05` (Phase 1 exit gate E2E & Phase 1 closure) and candidate `P2-M01` overview.
 - [`phase-plans/PHASE-02-MILESTONE-01-registry-academics-schema.md`](phase-plans/PHASE-02-MILESTONE-01-registry-academics-schema.md) — Part E milestone plan for `P2-M01` (Phase 2 ADRs, 19-table registry & CBSE XI–XII schema, relationship/sensitivity RLS & pgTAP suite).
+- [`phase-plans/PHASE-02-MILESTONE-02-people-registry-and-custom-fields.md`](phase-plans/PHASE-02-MILESTONE-02-people-registry-and-custom-fields.md) — Part E milestone plan for `P2-M02` (People Registry, Guardian Links, Admissions Basics & Custom Fields DAL + UI).
 - [`progress/MILESTONE-REPORT-P0-M01.md`](progress/MILESTONE-REPORT-P0-M01.md) — Audited completion report for Milestone `P0-M01`.
 - [`progress/MILESTONE-REPORT-P1-M01.md`](progress/MILESTONE-REPORT-P1-M01.md) — Audited completion report for Milestone `P1-M01`.
 - [`progress/MILESTONE-REPORT-P1-M02.md`](progress/MILESTONE-REPORT-P1-M02.md) — Audited completion report for Milestone `P1-M02`.
@@ -43,6 +44,7 @@ This directory contains the living operational, architectural, governance, compl
 - [`progress/MILESTONE-REPORT-P1-M04.md`](progress/MILESTONE-REPORT-P1-M04.md) — Audited completion report for Milestone `P1-M04`.
 - [`progress/MILESTONE-REPORT-P1-M05.md`](progress/MILESTONE-REPORT-P1-M05.md) — Audited completion report & CI evidence for Milestone `P1-M05` (Phase 1 Complete).
 - [`progress/MILESTONE-REPORT-P2-M01.md`](progress/MILESTONE-REPORT-P2-M01.md) — Completion report & CI verification evidence for Milestone `P2-M01`.
+- [`progress/MILESTONE-REPORT-P2-M02.md`](progress/MILESTONE-REPORT-P2-M02.md) — Completion report & CI verification evidence for Milestone `P2-M02`.
 
 ## Deferred `docs/` Folders (Per Blueprint Part D1)
 

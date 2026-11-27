@@ -6,6 +6,20 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.2.0-alpha.2] - 2026-11-27
+
+### Added
+- Added shared registry validation & sensitivity helpers: `lib/registry/schemas.ts` (strict student/staff/guardian/admission/custom-field Zod schemas rejecting unexpected Aadhaar fields and validating `ALLOWED_ADMISSION_TRANSITIONS` + custom field `data_type`/`options_json`) and `lib/registry/masking.ts` (`filterAndMaskCustomFields`, `maskExternalIdentifier` last-4 PEN/APAAR masking).
+- Added server-only audit helper (`server/audit/log.ts`) and registry DAL (`server/registry/service.ts` with `import "server-only"`) providing paginated RLS-enforced reads (`listStudents`, `getStudentDetail`, `listStaff`, `listAdmissions`, `listCustomFieldDefinitions`) and audited server-authorized mutations (`createStudentRecord`, `updateStudentLifecycle`, `linkStudentGuardian`, `createStaffRecord`, `createAdmissionApplication`, `transitionAdmissionStatus` with admission-to-student conversion, `upsertCustomFieldDefinition`, `upsertCustomFieldValue`).
+- Added responsive accessible People Registry UI under `/t/[slug]/people`: Student Roster + Student Detail (guardians, enrolment badge, lifecycle updates, grouped sensitivity-filtered custom fields), Staff Directory, Admissions Pipeline, Custom Field Definitions manager, `components/registry/{PeopleSubNav,RegistryActionForm}.tsx`, and route-slug-verified `app/t/[slug]/people/actions.ts`.
+- Added unit tests `tests/unit/registry-schemas.test.ts` and `tests/unit/registry-masking.test.ts`, and updated `tests/unit/safe-redirect-and-nav.test.ts`.
+
+### Changed
+- Updated `lib/auth/navigation.ts` to route `"People & Registry"` to `/t/[slug]/people` across authorized institutional roles without exposing Principal-only Governance or Audit items to Subject Teachers.
+
+### Documentation
+- Created `docs/phase-plans/PHASE-02-MILESTONE-02-people-registry-and-custom-fields.md` and `docs/progress/MILESTONE-REPORT-P2-M02.md`; updated `docs/PROJECT_STATUS.md`, `docs/README.md`, and `docs/architecture/ARCHITECTURE_OVERVIEW.md`.
+
 ## [0.2.0-alpha.1] - 2026-11-27
 
 ### Added

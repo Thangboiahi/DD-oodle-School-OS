@@ -2,8 +2,8 @@
 
 - **Last Updated:** 2026-11-27
 - **Current Phase:** Phase 2 — Institutional Registry and Academic Structure (**In Progress**; Phase 1 **Complete**)
-- **Current Milestone:** `P2-M01` — Phase 2 ADRs, Registry & CBSE XI–XII Academic Schema, Relationship RLS & pgTAP Suite (**Complete**)
-- **Overall Repository State:** Phase 1 complete (`45951599452`). `P2-M01` verified green in CI Run `45989069548` (`bd7a534`): `ADR-0003`, `ADR-0004`, 19 forced-RLS PostgreSQL tables (`202611270004`–`202611270006`; 26 total forced-RLS tables) for student/staff/guardian registries, custom fields, and CBSE XI–XII academic structure + cross-section teaching groups, expanded two-institution synthetic seed, and **58/58** live pgTAP assertions (`26` Phase 1 + `32` Phase 2).
+- **Current Milestone:** `P2-M02` — People Registry, Guardian Links, Admissions Basics & Custom Fields (Server DAL & UI) (**In Progress — awaiting live CI green confirmation**)
+- **Overall Repository State:** Phase 1 complete (`45951599452`); `P2-M01` schema & pgTAP verified green (`45989069548`). `P2-M02` adds `lib/registry/{schemas,masking}.ts`, server-only `server/audit/log.ts` & `server/registry/service.ts`, and compact responsive `/t/[slug]/people` UI (Students, Student Detail + Guardians + Custom Fields, Staff Directory, Admissions Pipeline, Custom Field Definitions) with unit tests.
 
 ---
 
@@ -32,11 +32,12 @@
 | `P1-M04` — Global Sign-In, Workspace Switcher, Tenant Resolver & Platform Boundary | **Complete** (`30a537d`) | Server-only `getClaims()` DAL, `evaluatePermission()`, `sanitizeNextPath()`, `/sign-in`, `/auth/sign-out`, `/workspace`, `/t/[slug]`, `/platform`, `WorkspaceSwitcher` (`clearPwaCaches`), and 40/40 Vitest unit checks (CI Run `45948606180`) |
 | `P1-M05` — Phase 1 Exit Gate & Live Auth/Tenancy/Responsive/A11y E2E Verification | **Complete** (`eb6ed69` / `d8fa409`) | Seeded synthetic GoTrue credentials, added Playwright + axe-core E2E suites + CI `e2e-live-auth` job; CI Run `45951599452` passed all 3 jobs (`app-quality`, `supabase-rls-pgtap` 26/26, `e2e-live-auth` 10/10) |
 | `P2-M01` — Phase 2 ADRs, 19-Table Registry & CBSE XI–XII Academic Schema, RLS & pgTAP | **Complete** (`bd7a534`) | Accepted `ADR-0003`/`ADR-0004`, migrations `202611270004`–`202611270006` (19 forced-RLS tables), CBSE XI–XII seed, and CI Run `45989069548` passing all 3 jobs (`app-quality` 40/40 unit, `supabase-rls-pgtap` 58/58 pgTAP + `db lint`, `e2e-live-auth` 10/10 Playwright) |
+| `P2-M02` — People Registry, Guardian Links, Admissions & Custom Fields DAL/UI | **In Progress** | `lib/registry/{schemas,masking}.ts`, `server/{audit/log,registry/service}.ts`, `/t/[slug]/people/*` routes & Server Actions, unit tests awaiting CI |
 
-## 3. Latest Verification (`P2-M01` CI Run `45989069548`)
+## 3. Latest Verification (`P2-M02` Pre-CI Baseline)
 
-- **Local Verification (`P2-M01`):** `pnpm typecheck` (0 errors), `pnpm lint` (0 errors), `pnpm test` (10 files, 40/40 passed across all 26 tables), `pnpm build` (clean production bundle).
-- **Live GitHub Actions CI Run (`P2-M01`):** [`45989069548`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/45989069548) on `bd7a534` (`App Quality & Hygiene` PASS + `Supabase RLS & pgTAP Verification` PASS: 26/26 Phase 1 + 32/32 Phase 2 = 58/58 pgTAP assertions & clean `supabase db lint` + `Live Multi-Tenant Auth & A11y E2E` PASS: 10/10 Playwright checks).
+- **Previous Green CI Run (`P2-M01`):** [`45989069548`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/45989069548) on `bd7a534`.
+- **Local Verification (`P2-M02`):** `pnpm typecheck`, `pnpm lint`, `pnpm test`, and `pnpm build` verified cleanly prior to live CI run.
 
 ## 4. Open Blockers / Dependencies
 
@@ -44,4 +45,4 @@
 
 ## 5. Next Bounded Milestone
 
-**`P2-M02`** — Server-Only Phase 2 Registry & Academic Domain Services, Institutional Directories, and CBSE Senior Secondary Structure UI.
+**`P2-M03`** — Academic Structure & CBSE Senior Secondary XI–XII Allocation Server Services & UI (`/t/[slug]/academics`).

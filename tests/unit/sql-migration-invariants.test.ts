@@ -30,7 +30,7 @@ describe("SQL migrations and client secret invariants", () => {
     const tableMatches = [
       ...combinedSql.matchAll(/CREATE TABLE\s+public\.([a-z0-9_]+)/gi),
     ];
-    expect(tableMatches.length).toBe(7);
+    expect(tableMatches.length).toBe(26);
 
     for (const match of tableMatches) {
       const tableName = match[1];
@@ -45,7 +45,7 @@ describe("SQL migrations and client secret invariants", () => {
 
   it("locks search_path on every SECURITY DEFINER function and revokes app_auth from anon/PUBLIC", () => {
     const definerBlocks = combinedSql.split(/SECURITY DEFINER/i).slice(1);
-    expect(definerBlocks.length).toBeGreaterThanOrEqual(5);
+    expect(definerBlocks.length).toBeGreaterThanOrEqual(10);
 
     for (const block of definerBlocks) {
       const headerSlice = block.slice(0, 120);

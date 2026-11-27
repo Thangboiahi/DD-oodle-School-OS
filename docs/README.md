@@ -20,6 +20,8 @@ This directory contains the living operational, architectural, governance, compl
 - [`requirements/DOMAIN_GLOSSARY.md`](requirements/DOMAIN_GLOSSARY.md) — Canonical definitions for core DD-oodle domain entities and boundaries.
 - [`decisions/ADR-0001-multi-tenant-database-strategy.md`](decisions/ADR-0001-multi-tenant-database-strategy.md) — Accepted ADR: shared Supabase PostgreSQL, RLS, Mumbai region & routing hint boundary.
 - [`decisions/ADR-0002-person-identity-and-session-enrolment.md`](decisions/ADR-0002-person-identity-and-session-enrolment.md) — Accepted ADR: global person identity, concurrent memberships & 3-layer session enrolment.
+- [`decisions/ADR-0003-academic-structure-and-typed-assignments.md`](decisions/ADR-0003-academic-structure-and-typed-assignments.md) — Accepted ADR: separated CBSE Senior Secondary academic structure, cross-section teaching groups & typed `academic_assignments`.
+- [`decisions/ADR-0004-normalized-custom-field-engine.md`](decisions/ADR-0004-normalized-custom-field-engine.md) — Accepted ADR: normalized core registries paired with sensitivity-enforced custom field definitions/values.
 - [`architecture/ARCHITECTURE_OVERVIEW.md`](architecture/ARCHITECTURE_OVERVIEW.md) — Confirmed repository facts separated from approved baseline / proposed system design.
 - [`testing/TEST_STRATEGY.md`](testing/TEST_STRATEGY.md) — Testing pyramid, RLS cross-tenant denial gates and verification standards.
 - [`security/MULTI_TENANT_RLS_BASELINE.md`](security/MULTI_TENANT_RLS_BASELINE.md) — Private `app_auth` helpers, forced RLS policies, composite tenant FKs, audit immutability, private Storage isolation, server-only auth DAL & permission engine.
@@ -32,6 +34,7 @@ This directory contains the living operational, architectural, governance, compl
 - [`phase-plans/PHASE-01-MILESTONE-03B-ci-and-live-pgtap-gate.md`](phase-plans/PHASE-01-MILESTONE-03B-ci-and-live-pgtap-gate.md) — Part E milestone plan for `P1-M03b` (GitHub Actions CI & live pgTAP gate).
 - [`phase-plans/PHASE-01-MILESTONE-04-auth-workspace-tenancy.md`](phase-plans/PHASE-01-MILESTONE-04-auth-workspace-tenancy.md) — Part E milestone plan for `P1-M04`.
 - [`phase-plans/PHASE-01-MILESTONE-05-exit-gate-e2e-verification.md`](phase-plans/PHASE-01-MILESTONE-05-exit-gate-e2e-verification.md) — Part E milestone plan for `P1-M05` (Phase 1 exit gate E2E & Phase 1 closure) and candidate `P2-M01` overview.
+- [`phase-plans/PHASE-02-MILESTONE-01-registry-academics-schema.md`](phase-plans/PHASE-02-MILESTONE-01-registry-academics-schema.md) — Part E milestone plan for `P2-M01` (Phase 2 ADRs, 19-table registry & CBSE XI–XII schema, relationship/sensitivity RLS & pgTAP suite).
 - [`progress/MILESTONE-REPORT-P0-M01.md`](progress/MILESTONE-REPORT-P0-M01.md) — Audited completion report for Milestone `P0-M01`.
 - [`progress/MILESTONE-REPORT-P1-M01.md`](progress/MILESTONE-REPORT-P1-M01.md) — Audited completion report for Milestone `P1-M01`.
 - [`progress/MILESTONE-REPORT-P1-M02.md`](progress/MILESTONE-REPORT-P1-M02.md) — Audited completion report for Milestone `P1-M02`.
@@ -39,6 +42,7 @@ This directory contains the living operational, architectural, governance, compl
 - [`progress/MILESTONE-REPORT-P1-M03B.md`](progress/MILESTONE-REPORT-P1-M03B.md) — Audited completion report for Milestone `P1-M03b`.
 - [`progress/MILESTONE-REPORT-P1-M04.md`](progress/MILESTONE-REPORT-P1-M04.md) — Audited completion report for Milestone `P1-M04`.
 - [`progress/MILESTONE-REPORT-P1-M05.md`](progress/MILESTONE-REPORT-P1-M05.md) — Audited completion report & CI evidence for Milestone `P1-M05` (Phase 1 Complete).
+- [`progress/MILESTONE-REPORT-P2-M01.md`](progress/MILESTONE-REPORT-P2-M01.md) — Completion report & CI verification evidence for Milestone `P2-M01`.
 
 ## Deferred `docs/` Folders (Per Blueprint Part D1)
 

@@ -6,6 +6,22 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.2.0-alpha.1] - 2026-11-27
+
+### Added
+- Recorded accepted Phase 2 ADRs: `docs/decisions/ADR-0003-academic-structure-and-typed-assignments.md` (separated CBSE Senior Secondary schema + typed `academic_assignments`) and `docs/decisions/ADR-0004-normalized-custom-field-engine.md` (normalized core registries + sensitivity-classified custom fields).
+- Added Migration 4 (`supabase/migrations/202611270004_people_registry_and_custom_fields.sql`): 6 forced-RLS tables (`student_profiles` with optional non-PK `pen_number`/`apaar_id` and zero Aadhaar column, `staff_profiles`, `student_guardians`, `admission_applications`, `custom_field_definitions`, `custom_field_values`) with composite tenant FKs.
+- Added Migration 5 (`supabase/migrations/202611270005_academic_structure_and_assignments.sql`): 13 forced-RLS tables (`academic_sessions` single-active partial unique index, `academic_terms`, `academic_departments`, `grade_levels`, `sections`, `streams`, `subjects`, `subject_offerings`, `student_session_enrolments`, `student_subject_enrolments`, `teaching_groups`, `teaching_group_memberships`, `academic_assignments`).
+- Added Migration 6 (`supabase/migrations/202611270006_phase2_rls_and_helpers.sql`): private `app_auth` relationship & sensitivity helpers (`can_access_student_profile`, `can_access_student_enrolment`, `is_hod_or_class_teacher_of_student`, `custom_field_sensitivity`, `can_read_custom_field`) and forced RLS policies across all 19 Phase 2 tables.
+- Expanded `supabase/seed.sql` (preserving all 4 Phase 1 users/roles/audit rows) with CBSE XI–XII `2026-27` session data, mixed elective enrolments across `XI-A` & `XI-B`, cross-section teaching groups (`TG-XI-APPMATH-1`, `TG-XI-CS-1`), HOD/Class Teacher/Monitor/Student accounts, Valley guardian link (`Kabir Rao`), and `standard`/`confidential` custom fields.
+- Added 30-assertion pgTAP suite (`supabase/tests/02_phase2_registry_and_academics_rls.test.sql`) and updated `tests/unit/sql-migration-invariants.test.ts` for all 26 forced-RLS public tables.
+
+### Documentation
+- Created `docs/phase-plans/PHASE-02-MILESTONE-01-registry-academics-schema.md` and `docs/progress/MILESTONE-REPORT-P2-M01.md`; updated `docs/ROADMAP.md` (Phase 2 `In Progress`), `docs/PROJECT_STATUS.md`, `docs/README.md`, `docs/security/MULTI_TENANT_RLS_BASELINE.md`, and `docs/architecture/ARCHITECTURE_OVERVIEW.md`.
+
+### Security
+- Enforced relationship-scoped RLS for HODs, class teachers, subject teachers (cross-section), guardians, and read-only monitors, field-level `standard`/`restricted`/`confidential` sensitivity isolation, composite `(institution_id, id)` FK tenant locks, and zero automatic school access for `platform_operators`.
+
 ## [0.1.0-alpha.6] - 2026-11-27
 
 ### Added

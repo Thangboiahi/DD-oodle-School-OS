@@ -1,7 +1,8 @@
 # DD-oodle Multi-Tenant RLS, Schema & Storage Baseline
 
-> **Canonical References:** [`../../DD-oodle_MASTER_PROJECT_BLUEPRINT.md`](../../DD-oodle_MASTER_PROJECT_BLUEPRINT.md) (Part A §2.2–§2.4, §3.4, §4, §7.1, §11.3–§11.5, §12.5), [`../decisions/ADR-0001-multi-tenant-database-strategy.md`](../decisions/ADR-0001-multi-tenant-database-strategy.md), [`../decisions/ADR-0002-person-identity-and-session-enrolment.md`](../decisions/ADR-0002-person-identity-and-session-enrolment.md)  
-> **Milestones:** `P1-M03`, `P1-M04`
+> **Canonical References:** [`../../DD-oodle_MASTER_PROJECT_BLUEPRINT.md`](../../DD-oodle_MASTER_PROJECT_BLUEPRINT.md) (Part A §2.2–§2.4, §3.4, §4, §7.1, §11.3–§11.5, §12.5), [`../decisions/ADR-0001-multi-tenant-database-strategy.md`](../decisions/ADR-0001-multi-tenant-database-strategy.md), [`../decisions/ADR-0002-person-identity-and-session-enrolment.md`](../decisions/ADR-0002-person-identity-and-session-enrolment.md), [`../decisions/ADR-0003-academic-structure-and-typed-assignments.md`](../decisions/ADR-0003-academic-structure-and-typed-assignments.md), [`../decisions/ADR-0004-normalized-custom-field-engine.md`](../decisions/ADR-0004-normalized-custom-field-engine.md)
+
+> **Milestones:** `P1-M03`, `P1-M04`, `P2-M01`
 
 ---
 
@@ -58,3 +59,13 @@
 - **Scoped, Time-Bound Permission Engine (`evaluatePermission`):** Evaluates `membershipStatus === "active"`, `roleIsActive === true`, `assignment.status === "active"`, `startsAt <= now && (endsAt === null || endsAt > now)`, `"institution.*"` vs exact permission strings, and scope hierarchy (`institution` satisfies narrower scopes; otherwise matches `scopeType` and `scopeRefId`). Platform operator status is ignored and grants zero institutional authority.
 - **Strict Platform Separation (`requirePlatformOperator`):** `/platform` verifies `platform_operators.status === "active"` independently from institutional Principal/admin roles, reinforcing PostgreSQL RLS isolation.
 - **Open-Redirect Protection & PWA Cache Isolation:** `sanitizeNextPath()` permits internal single-slash paths only (excluding `//`, external origins, scripts, control chars, and `/auth/sign-out`). Both `WorkspaceSwitcher` and `SignOutButton` invoke `clearPwaCaches()` before context transitions or `POST /auth/sign-out` so cached tenant responses cannot persist across institution switches or sign-out.
+
+---
+
+## 7. Phase 2 Registry, Academic Structure, Relationship & Sensitivity RLS (`P2-M01`)
+
+- **26 Forced-RLS Tables (`202611270004`–`202611270006`):** All 19 new Phase 2 tables (`student_profiles`, `staff_profiles`, `student_guardians`, `admission_applications`, `custom_field_definitions`, `custom_field_values`, `academic_sessions`, `academic_terms`, `academic_departments`, `grade_levels`, `sections`, `streams`, `subjects`, `subject_offerings`, `student_session_enrolments`, `student_subject_enrolments`, `teaching_groups`, `teaching_group_memberships`, `academic_assignments`) enforce `ENABLE` + `FORCE ROW LEVEL SECURITY` and expose `UNIQUE (institution_id, id)` composite tenant keys so cross-tenant links fail with PostgreSQL `23503`.
+- **Private Relationship & Sensitivity Helpers (`app_auth`):**
+  - `app_auth.can_access_student_profile(p_institution_id, p_student_profile_id)` derives access strictly from active institution membership plus `people.read`, student self, active `student_guardians`, or active time-valid `academic_assignments` (`hod` by grade department, `class_teacher`/`monitor`/`monitress` by active section, or `subject_teacher` by active teaching group membership including cross-section groups).
+  - `app_auth.can_read_custom_field(...)` + `app_auth.custom_field_sensitivity(...)` isolate `confidential` fields to `people.sensitive.read` (and writes to `people.manage` + `people.sensitive.write`), `restricted` fields to `people.restricted.read`/`people.sensitive.read`, and `standard` fields to authorized readers/scoped student/staff self.
+- **Monitor/Monitress Read-Only Boundary & Platform Separation:** `monitor`/`monitress` assignments receive scoped read-only access inside `XI-A`, zero access to `confidential` custom fields, and zero write permissions; `platform_operators` retain zero automatic read/write access across all 19 Phase 2 tables.

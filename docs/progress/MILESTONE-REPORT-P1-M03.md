@@ -3,7 +3,7 @@
 **Date:** 2026-11-27  
 **Phase:** Phase 1 — Foundation and Multi-Tenant Platform  
 **Milestone:** `P1-M03`  
-**Status:** **Partial** (all application code, SQL migrations, pgTAP test suite, synthetic seed, static invariant tests, typecheck, lint, and Next.js build verified; live `supabase test db` execution is pending local Docker + Supabase CLI availability)
+**Status:** **Complete** *(live `supabase db reset`, `supabase test db`, and `supabase db lint` verified green in GitHub Actions Run [`45946043527`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/45946043527) under `P1-M03b`)*
 
 ---
 
@@ -27,15 +27,14 @@
 
 ## 2. Verification Results
 
-- `pnpm typecheck`: **Passed** (verified on final edit)
-- `pnpm lint`: **Passed**
-- `pnpm test`: **Passed** (includes `supabase-env.test.ts` and `sql-migration-invariants.test.ts`)
+- `pnpm typecheck`: **Passed** (0 errors)
+- `pnpm lint`: **Passed** (0 errors)
+- `pnpm test`: **Passed** (7 test files, 24/24 tests passed including `supabase-env.test.ts` and `sql-migration-invariants.test.ts`)
 - `pnpm build`: **Passed** (Next.js 16 production build with `proxy.ts`)
-- `supabase db reset` / `supabase test db`: **NOT RUN** — local `supabase` CLI and `docker` are not installed on this Windows host. Live execution of the 26 pgTAP assertions against PostgreSQL + GoTrue + Storage remains an explicit Phase 1 verification item before `P1-M04` / auth rollout.
+- `supabase db reset` / `supabase test db` / `supabase db lint`: **Passed in GitHub Actions CI** ([`45946043527`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/45946043527), Job `140330867821` — `Files=1, Tests=26, Result: PASS`, `No schema errors found`).
 
 ---
 
 ## 3. Next Recommended Action
 
-1. Install Docker + Supabase CLI locally (or run in CI), execute `supabase start && supabase db reset && supabase test db`, and confirm all 26 pgTAP assertions in `supabase/tests/01_multi_tenant_rls.test.sql` pass against live PostgreSQL.
-2. Proceed to **`P1-M04`** — Global Sign-In Flow, Workspace Selector & Verified Server Tenant Context.
+Proceed to **`P1-M04`** — Global Sign-In Flow, Workspace Selector & Verified Server Tenant Context (`P1-M03b` CI pipeline and live pgTAP gate are verified complete).

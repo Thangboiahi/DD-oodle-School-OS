@@ -17,7 +17,8 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ### Documentation
 - Created `docs/phase-plans/PHASE-01-MILESTONE-03B-ci-and-live-pgtap-gate.md` and `docs/progress/MILESTONE-REPORT-P1-M03B.md`.
-- Updated `docs/compliance/COMPLIANCE_AND_RESEARCH_REGISTER.md` (`REF-06B`, `REF-06C`), `docs/testing/TEST_STRATEGY.md`, `docs/README.md`, `docs/PROJECT_STATUS.md`, and `README.md`.
+- Updated `docs/compliance/COMPLIANCE_AND_RESEARCH_REGISTER.md` (`REF-06B`, `REF-06C`), `docs/testing/TEST_STRATEGY.md`, `docs/README.md`, `docs/PROJECT_STATUS.md`, `docs/progress/MILESTONE-REPORT-P1-M03.md`, and `README.md`.
+- Recorded verified live GitHub Actions CI Run `45946043527` (`app-quality` + `supabase-rls-pgtap`: `Files=1, Tests=26, Result: PASS`, `No schema errors found`) and safe non-destructive recovery of `068cf60` (`ef53895` + `c599486`).
 
 ## [0.1.0-alpha.3] - 2026-11-27
 

@@ -3,7 +3,7 @@
 - **Date:** 2026-11-27
 - **Phase:** Phase 2 — Institutional Registry and Academic Structure (**In Progress**)
 - **Milestone:** `P2-M04`
-- **Status:** **Verification Pending CI**
+- **Status:** **Complete**
 
 ---
 
@@ -27,8 +27,16 @@
 
 ## 2. Verification & Live CI Evidence
 
-- **Local Static, Unit & Build Checks:** Pending post-edit run.
-- **Live GitHub Actions CI:** Pending push and workflow run verification.
+- **Local Static, Unit & Build Checks (`aa09764`):**
+  - `pnpm typecheck`: **Passed** (0 errors)
+  - `pnpm lint`: **Passed** (0 errors, 0 warnings)
+  - `pnpm test`: **Passed** (15 test files, **65/65** tests passed)
+  - `pnpm build`: **Passed** (Next.js 16 production build including `/t/[slug]/imports`, `/t/[slug]/imports/[batchId]`, and `/t/[slug]/imports/[batchId]/report`)
+  - Client boundary & docs hygiene: `0` `"use client"` imports of `@/server/*` or `SUPABASE_SECRET_KEY`, `xlsx` absent (`read-excel-file@9.3.20` installed), `0` empty dirs, `67` valid relative links.
+- **Live GitHub Actions CI Run [`45997372362`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/45997372362)** (commit `aa09764`):
+  1. **Job 1 — `App Quality & Hygiene` (`140501808213`):** **PASS** (`47s` — typecheck, lint, **65/65** Vitest unit/SQL checks, Next.js build, docs hygiene)
+  2. **Job 2 — `Supabase RLS & pgTAP Verification` (`140501806565`):** **PASS** (`1m41s` — `supabase start`, `supabase db reset`, **80/80** pgTAP assertions across 3 files, `supabase db lint`: `No schema errors found`)
+  3. **Job 3 — `Live Multi-Tenant Auth & A11y E2E` (`140501808883`):** **PASS** (`2m54s` — **10/10** Playwright E2E/responsive/WCAG AA checks in `12.2s`)
 
 ---
 

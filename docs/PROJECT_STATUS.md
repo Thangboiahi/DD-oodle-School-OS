@@ -2,8 +2,8 @@
 
 - **Last Updated:** 2026-11-27
 - **Current Phase:** Phase 2 — Institutional Registry and Academic Structure (**In Progress**; Phase 1 **Complete**)
-- **Current Milestone:** `P2-M04` — Bulk Import Staging, CSV/XLSX Validation, Dry-Run Preview & Idempotent Commit Engine (**Pending CI Verification**)
-- **Overall Repository State:** Phase 1 complete (`45951599452`); `P2-M01`–`P2-M03` verified green (`61e36d5`, Run `45993903529`); `P2-M04` adds Migration 7 (`import_batches`, `import_rows` with forced RLS + 22-assertion pgTAP suite), `read-excel-file@9.3.20` + RFC-4180 CSV parser & formula neutralization (`lib/imports/*`), caller-RLS staged commit DAL (`server/imports/service.ts`), and `/t/[slug]/imports*` UI & CSV report download.
+- **Current Milestone:** `P2-M04` — Bulk Import Staging, CSV/XLSX Validation, Dry-Run Preview & Idempotent Commit Engine (**Complete**)
+- **Overall Repository State:** Phase 1 complete (`45951599452`); `P2-M01`–`P2-M03` verified green (`61e36d5`, Run `45993903529`); `P2-M04` verified green in CI Run `45997372362` (`aa09764`), adding Migration 7 (`import_batches`, `import_rows` with forced RLS + 22-assertion pgTAP suite), `read-excel-file@9.3.20` + RFC-4180 CSV parser & formula neutralization (`lib/imports/*`), caller-RLS staged commit DAL (`server/imports/service.ts`), and `/t/[slug]/imports*` UI & CSV report download with 65/65 Vitest + 80/80 pgTAP checks.
 
 ---
 
@@ -34,11 +34,12 @@
 | `P2-M01` — Phase 2 ADRs, 19-Table Registry & CBSE XI–XII Academic Schema, RLS & pgTAP | **Complete** (`bd7a534`) | Accepted `ADR-0003`/`ADR-0004`, migrations `202611270004`–`202611270006` (19 forced-RLS tables), CBSE XI–XII seed, and CI Run `45989069548` passing all 3 jobs (`app-quality` 40/40 unit, `supabase-rls-pgtap` 58/58 pgTAP + `db lint`, `e2e-live-auth` 10/10 Playwright) |
 | `P2-M02` — People Registry, Guardian Links, Admissions & Custom Fields DAL/UI | **Complete** (`cf4916f`) | `lib/registry/{schemas,masking}.ts`, `server/{audit/log,registry/service}.ts`, `/t/[slug]/people/*` routes & Server Actions; CI Run `45991352879` passed all 3 jobs (`49/49` unit, `58/58` pgTAP, `10/10` Playwright) |
 | `P2-M03` — Academic Structure, CBSE Electives, Cross-Section Teaching Groups & Allocations | **Complete** (`61e36d5`) | `lib/academics/{schemas,conflicts}.ts`, caller-RLS `server/academics/service.ts`, `/t/[slug]/academics/*` routes & Server Actions; CI Run `45993903529` passed all 3 jobs (`59/59` unit, `58/58` pgTAP, `10/10` Playwright) |
+| `P2-M04` — Bulk Import Staging, CSV/XLSX Validation, Dry-Run Preview & Idempotent Commit | **Complete** (`aa09764`) | Migration 7 (`import_batches`/`import_rows`), `read-excel-file@9.3.20` + RFC-4180 CSV & formula neutralization, `server/imports/service.ts`, `/t/[slug]/imports*`; CI Run `45997372362` passed all 3 jobs (`65/65` unit, `80/80` pgTAP, `10/10` Playwright) |
 
-## 3. Latest Verification (`P2-M03` CI Run `45993903529`)
+## 3. Latest Verification (`P2-M04` CI Run `45997372362`)
 
-- **Local Verification (`P2-M03`):** `pnpm typecheck` (0 errors), `pnpm lint` (0 errors, 0 warnings), `pnpm test` (14 files, 59/59 passed), `pnpm build` (clean production bundle).
-- **Live GitHub Actions CI Run (`P2-M03`):** [`45993903529`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/45993903529) on `61e36d5` (`App Quality & Hygiene` PASS + `Supabase RLS & pgTAP Verification` PASS: 58/58 pgTAP + `Live Multi-Tenant Auth & A11y E2E` PASS: 10/10 Playwright checks).
+- **Local Verification (`P2-M04`):** `pnpm typecheck` (0 errors), `pnpm lint` (0 errors, 0 warnings), `pnpm test` (15 files, 65/65 passed), `pnpm build` (clean production bundle).
+- **Live GitHub Actions CI Run (`P2-M04`):** [`45997372362`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/45997372362) on `aa09764` (`App Quality & Hygiene` PASS + `Supabase RLS & pgTAP Verification` PASS: 80/80 pgTAP + `Live Multi-Tenant Auth & A11y E2E` PASS: 10/10 Playwright checks).
 
 ## 4. Open Blockers / Dependencies
 
@@ -46,4 +47,4 @@
 
 ## 5. Next Bounded Milestone
 
-**`P2-M04`** — Initial Data Onboarding / Bulk Import Foundations & Phase 2 Verification Gate.
+**`P2-M05`** — Phase 2 E2E Exit Gate Verification & Phase 2 Closure.

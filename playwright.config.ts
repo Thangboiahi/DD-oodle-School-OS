@@ -1,6 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const skipWebServer = process.env.E2E_SKIP_WEBSERVER === "true";
+const port = Number(process.env.E2E_PORT ?? "3000");
+const defaultBaseUrl = `http://127.0.0.1:${port}`;
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -15,7 +17,7 @@ export default defineConfig({
     ? [["github"], ["list"], ["html", { open: "never" }]]
     : "list",
   use: {
-    baseURL: process.env.E2E_BASE_URL ?? "http://127.0.0.1:3000",
+    baseURL: process.env.E2E_BASE_URL ?? defaultBaseUrl,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },
@@ -30,8 +32,8 @@ export default defineConfig({
   webServer: skipWebServer
     ? undefined
     : {
-        command: "pnpm exec next start -H 127.0.0.1 -p 3000",
-        url: "http://127.0.0.1:3000/api/health",
+        command: `pnpm exec next start -H 127.0.0.1 -p ${port}`,
+        url: `${defaultBaseUrl}/api/health`,
         reuseExistingServer: !process.env.CI,
         timeout: 60_000,
       },

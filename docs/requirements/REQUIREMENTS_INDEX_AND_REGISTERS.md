@@ -32,15 +32,15 @@
 
 ## 2. Open Decisions Register
 
-These operational/technical choices are not yet finalized and must be confirmed before starting Phase 1 implementation (`P1-M01`):
+Product-owner decisions recorded as **Approved** on `2026-11-27`:
 
-| ID | Topic | Options / Considerations | Impact | Status |
+| ID | Topic | Approved Decision | Impact & Notes | Status |
 |---|---|---|---|---|
-| **OD-01** | Git branching & merge workflow | Direct commits on `main` during solo early bootstrap vs. feature branches (`feat/*`, `docs/*`) + PR checks | Governs every milestone commit/push workflow (Part B10) | Open — needs Product Owner confirmation |
-| **OD-02** | Package manager, Node.js LTS & Supabase CLI | `pnpm` vs `npm`, exact Node.js LTS version, local Docker/Supabase CLI availability on dev machine | Required before running Next.js scaffolding & lockfile generation in `P1-M01` | Open — needs Product Owner / dev environment confirmation |
-| **OD-03** | Multi-tenant routing strategy | Subdomain routing (`school.dd-oodle.com`) with local host mapping vs. path-based dev fallback | Affects Next.js middleware/proxy, auth cookie scope and local testing | Open — needs ADR before Phase 1 routing/auth |
-| **OD-04** | Hosting & India-region data residency | Vercel + Supabase India region (`ap-south-1` Mumbai) vs. alternative managed hosting | Affects latency, DPDP/CERT-In posture and cost | Open — needs Product Owner decision before cloud provisioning |
-| **OD-05** | Native AI tool rules adapter file | Whether to add a small tool-specific adapter file (e.g., `.gemini/` or `AGENTS.md`) pointing back to `PROJECT_INSTRUCTIONS.md` | Improves automatic instruction loading without duplicating rules | Open — optional governance convenience |
+| **OD-01** | Git branching & merge workflow | Direct milestone commits to `main` during solo Phase 1; switch to `feat/<milestone>` + PR before multi-contributor or pilot rollout. | Governs milestone commits in Phase 1 (`P1-M01`+). | **Approved (2026-11-27)** |
+| **OD-02** | Package manager, Node.js LTS & Supabase CLI | `pnpm` + Node.js LTS (`22.x`, `>=22.0.0`; local machine verified at `v26.13.0`) + Supabase CLI (local Docker stack for RLS tests starting in `P1-M03`). | Enforces `pnpm-lock.yaml` from `P1-M01`; Supabase CLI/Docker setup scoped to `P1-M03`. | **Approved (2026-11-27)** |
+| **OD-03** | Multi-tenant routing strategy | Host/path abstraction supporting `<slug>.dd-oodle.com` (production), `<slug>.localhost:3000` (local dev), and `/t/<slug>` (preview fallback only). | Treated strictly as an untrusted routing hint; always validated server-side against verified membership (see `ADR-0001`). | **Approved (2026-11-27)** |
+| **OD-04** | Hosting & India-region data residency | Vercel (Next.js app) + Supabase Mumbai (`ap-south-1`) for India latency and DPDP/CERT-In readiness. | Governs cloud provisioning & region selection (see `ADR-0001`). | **Approved (2026-11-27)** |
+| **OD-05** | Native AI tool rules adapter file | Keep `PROJECT_INSTRUCTIONS.md` canonical; do not create unverified native AI rules files. | Avoids redundant or unverified tool-specific instruction files. | **Approved (2026-11-27)** |
 
 ---
 

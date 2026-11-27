@@ -2,24 +2,22 @@
 
 **DD-oodle** is a configurable, multi-institution School Operations and Learning Ecosystem designed initially for Indian schools (validated against a CBSE Senior Secondary reference school).
 
-> **Current Repository State:** Phase 0 — Governance & Documentation Bootstrap (`P0-M01`). Application scaffolding (Next.js / Supabase) has not started yet.
+> **Current Repository State:** Phase 1 — Milestone `P1-M01` (Next.js App Router, strict TypeScript, Tailwind CSS, ESLint, Vitest foundation & Core ADRs). Supabase schema, RLS and UI design system are scheduled in upcoming Phase 1 milestones.
 
-## Prerequisites (Planned Stack)
+## Prerequisites
 
-When Phase 1 application scaffolding begins, the target stack specified in the master blueprint requires:
-
-- **Git** (version control)
-- **Node.js** (LTS release — exact version & package manager pending Open Decision `OD-02`)
-- **Supabase CLI** (for local PostgreSQL, Auth, Storage and RLS testing — pending `OD-02`)
-- **Next.js (App Router) + TypeScript (strict) + Tailwind CSS**
+- **Git**
+- **Node.js** (`>=22.0.0`, LTS 22.x or newer)
+- **pnpm** (package manager; `pnpm-lock.yaml` is authoritative)
+- **Supabase CLI + Docker** (required starting in `P1-M03` for local PostgreSQL, Auth, Storage and RLS testing)
 
 ## Local Setup
 
-Application source code is not yet initialized. Once Phase 1 Milestone `P1-M01` is approved and executed:
+```bash
+pnpm install --frozen-lockfile
+```
 
-1. Copy `.env.example` to `.env.local` and supply local/development credentials.
-2. Install dependencies with the approved package manager.
-3. Start local Supabase / Next.js development servers.
+Copy `.env.example` to `.env.local` once environment-backed modules (Supabase) are introduced in `P1-M03`.
 
 ## Environment Variables (Names Only)
 
@@ -33,9 +31,16 @@ Defined as placeholders in [`.env.example`](.env.example). **Never commit real v
 | `SUPABASE_SERVICE_ROLE_KEY` | **Server-only** | Privileged Supabase admin key (never expose to client or `NEXT_PUBLIC_*`) |
 | `DATABASE_URL` | **Server-only** | Direct PostgreSQL connection string for migrations/tooling |
 
-## Planned Scripts
+## Scripts
 
-No `package.json` exists in Phase 0. Future Phase 1 scaffolding will establish `dev`, `build`, `start`, `lint`, `typecheck` and `test` scripts.
+| Command | Purpose |
+|---|---|
+| `pnpm dev` | Start Next.js development server |
+| `pnpm build` | Build Next.js production bundle |
+| `pnpm start` | Start Next.js production server |
+| `pnpm lint` | Run ESLint across the repository |
+| `pnpm typecheck` | Run strict TypeScript check (`tsc --noEmit`) |
+| `pnpm test` | Run Vitest unit tests |
 
 ## Canonical Documentation
 
@@ -45,3 +50,6 @@ No `package.json` exists in Phase 0. Future Phase 1 scaffolding will establish `
 - [docs/README.md](docs/README.md) — Repository documentation index
 - [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md) — Current audited phase, milestone, verification and next steps
 - [docs/ROADMAP.md](docs/ROADMAP.md) — Phases 0–10 and future roadmap status
+- [docs/decisions/ADR-0001-multi-tenant-database-strategy.md](docs/decisions/ADR-0001-multi-tenant-database-strategy.md) — Multi-tenant database, storage & routing isolation strategy
+- [docs/decisions/ADR-0002-person-identity-and-session-enrolment.md](docs/decisions/ADR-0002-person-identity-and-session-enrolment.md) — Global person identity & three-layer session enrolment model
+- [docs/testing/TEST_STRATEGY.md](docs/testing/TEST_STRATEGY.md) — Testing pyramid & quality gates

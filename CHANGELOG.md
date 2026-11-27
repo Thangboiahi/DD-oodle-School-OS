@@ -6,6 +6,29 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.1.0-alpha.1] - 2026-11-27
+
+### Added
+- Initialized Next.js App Router (`16.4.6`) + React (`19.3.1`) + strict TypeScript (`5.9.3`, `noUncheckedIndexedAccess: true`) + Tailwind CSS (`4.3.5`) + ESLint (`9.39.5`) + Vitest (`5.1.2`) foundation with `pnpm@12.23.0` and `pnpm-lock.yaml`.
+- Added minimal application shell (`app/layout.tsx`, `app/globals.css`, `app/page.tsx`) and `/api/health` route returning `{ status: "ok", app: "dd-oodle" }` with `Cache-Control: no-store`.
+- Added Zod-validated untrusted tenant routing hint parser (`lib/tenancy/resolve-tenant-hint.ts`) supporting `<slug>.dd-oodle.com`, `<slug>.localhost:3000`, and `/t/<slug>` (`OD-03`).
+- Added unit tests (`tests/unit/resolve-tenant-hint.test.ts`, `tests/unit/health-route.test.ts`) covering valid/invalid/reserved tenant hints and `/api/health`.
+
+### Changed
+- Updated `.gitignore` to ignore `.pnpm-store/`.
+- Updated `README.md` with verified prerequisites, `pnpm` scripts and ADR/testing doc links.
+
+### Documentation
+- Closed Phase 0: added `docs/requirements/DOMAIN_GLOSSARY.md` and recorded Product Owner approval for `OD-01`–`OD-05` in `docs/requirements/REQUIREMENTS_INDEX_AND_REGISTERS.md`.
+- Authored accepted Core ADRs: `docs/decisions/ADR-0001-multi-tenant-database-strategy.md` and `docs/decisions/ADR-0002-person-identity-and-session-enrolment.md`.
+- Added `docs/testing/TEST_STRATEGY.md`, `docs/phase-plans/PHASE-01-MILESTONE-01-foundation-and-core-adrs.md`, and `docs/progress/MILESTONE-REPORT-P1-M01.md`.
+- Updated `docs/README.md`, `docs/ROADMAP.md` (Phase 0 `Complete`, Phase 1 `In Progress`), `docs/PROJECT_STATUS.md`, and `docs/architecture/ARCHITECTURE_OVERVIEW.md`.
+
+### Security
+- Enforced `isTrustedMembership: false` contract and reserved-slug/host validation on `resolveTenantHint` (`OD-03` / `ADR-0001`), plus zero environment or secret exposure in `/api/health`.
+
+## [0.0.2] - 2026-11-27
+
 ### Added
 - `.gitignore` to exclude `.env*` secrets, Node/Next.js build artefacts, logs, OS/IDE files and local data exports.
 - `.env.example` with placeholder variable names only for future Next.js and Supabase setup.

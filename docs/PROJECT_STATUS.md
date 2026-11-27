@@ -1,48 +1,43 @@
 # DD-oodle Project Status
 
 **Last Updated:** 2026-11-27  
-**Current Phase:** Phase 0 — Product Discovery & Repository Governance  
-**Current Milestone:** `P0-M01` — Repository Audit & Documentation Bootstrap  
-**Overall Repository State:** Governance & Documentation Baseline Only (No application code, dependencies, tests or migrations yet)
+**Current Phase:** Phase 1 — Foundation and Multi-Tenant Platform (Phase 0 Complete)  
+**Current Milestone:** `P1-M01` — Phase 0 Closure, Core ADRs & Next.js Foundation  
+**Overall Repository State:** Next.js App Router + strict TypeScript + Tailwind CSS + ESLint + Vitest foundation active (`pnpm` + `pnpm-lock.yaml`). Supabase schema/RLS and UI design system are scheduled in upcoming Phase 1 milestones.
 
 ---
 
-## 1. Audited Repository Condition
-
-Inspected local workspace `m:\DEV\DD-oodle\School-OS` prior to P0-M01 edits:
+## 1. Audited Repository Condition & Toolchain
 
 - **Git Branch & Remote:** `main` tracking `origin/main` (`https://github.com/Thangboiahi/DD-oodle-School-OS.git`).
-- **Baseline Commit:** `d7e0dc7` (`first commit`) containing `DD-oodle_MASTER_PROJECT_BLUEPRINT.md` (v1.0.0) and initial `README.md`.
-- **Framework & Tooling:** None initialized (`package.json`, lockfiles, `app/`, `supabase/`, tests and CI workflows do not exist yet).
-- **Working Tree:** Clean before P0-M01 execution.
+- **Previous Commit:** `a007526` (`docs(governance): bootstrap project instructions and phase 0 control records`).
+- **Active Runtime & Packages:**
+  - Node.js `v26.13.0` (`engines: >=22.0.0`), `pnpm@12.23.0`
+  - `next@16.4.6`, `react@19.3.1`, `react-dom@19.3.1`, `zod@4.6.7`
+  - `typescript@5.9.3`, `tailwindcss@4.3.5`, `@tailwindcss/postcss@4.3.5`, `eslint@9.39.5`, `eslint-config-next@16.4.6`, `vitest@5.1.2`
 
 ## 2. Milestone Summary
 
 | Item | Status | Notes |
 |---|---|---|
-| Baseline Blueprint (`d7e0dc7`) | Complete | `DD-oodle_MASTER_PROJECT_BLUEPRINT.md` committed & pushed to `origin/main` |
-| `P0-M01` Governance Bootstrap | Completing in current commit | Creating `PROJECT_INSTRUCTIONS.md`, `README.md`, `CHANGELOG.md`, `.gitignore`, `.env.example` and core `docs/` control records |
-| Remaining Phase 0 Items | Open | Domain glossary & product-owner resolution of `OD-01`–`OD-05` before Phase 1 coding |
-| Phase 1+ Application Code | Not Started | Intentionally held until Phase 0 sign-off |
+| Phase 0 — Repository Governance & Discovery | **Complete** | `P0-M01` (`a007526`) + Phase 0 closure (`DOMAIN_GLOSSARY.md`, approved `OD-01`–`OD-05`) |
+| `P1-M01` — Core ADRs & Next.js Foundation | **Complete (pending commit/push)** | `ADR-0001`, `ADR-0002`, `TEST_STRATEGY.md`, Next.js App Router skeleton, `/api/health`, `resolveTenantHint` (`OD-03`) & 7 passing unit tests |
+| `P1-M02` — Design System, Responsive Shell & PWA Skeleton | **Not Started** | Candidate next milestone |
+| `P1-M03` — Supabase Auth, Multi-Tenant Schema & RLS Denial Tests | **Not Started** | Requires local Supabase CLI + Docker |
 
-## 3. Verification & Test Results
+## 3. Verification & Test Results (`P1-M01`)
 
-- **Application tests / lint / build:** Not applicable (no `package.json` or runtime code in repo).
-- **P0-M01 governance checks:** Directory tree verified (no empty `docs/` directories), relative Markdown links checked across `README.md` and `docs/README.md`, and staged diff inspected for secrets or unintended changes.
+- `pnpm typecheck` (`tsc --noEmit`): **Passed** (0 errors)
+- `pnpm lint` (`eslint .`): **Passed** (0 errors)
+- `pnpm test` (`vitest run`): **Passed** (2 test files, 7/7 tests passed: `tests/unit/health-route.test.ts`, `tests/unit/resolve-tenant-hint.test.ts`)
+- `pnpm build` (`next build`): **Passed** (`/` static, `/_not-found` static, `/api/health` dynamic)
+- Directory & link checks: Verified zero empty directories under `docs/` or root and all relative Markdown links resolved in `README.md` and `docs/README.md`.
 
-## 4. Blockers & Open Decisions
+## 4. Open Blockers / Dependencies
 
-No technical failures block Phase 0 completion. Moving to Phase 1 coding (`P1-M01`) requires product-owner confirmation of:
-
-- `OD-01`: Branching & PR/merge workflow on `main`.
-- `OD-02`: Package manager (`pnpm` vs `npm`), Node.js LTS version and Supabase CLI workflow.
-- `OD-03`: Tenant routing approach (`subdomain` vs path/local dev fallback).
-- `OD-04`: Hosting & India-region data residency targets (Vercel / Supabase region).
-- `OD-05`: Whether to add a native AI tool rules adapter file pointing to `PROJECT_INSTRUCTIONS.md`.
-
-*(See [`requirements/REQUIREMENTS_INDEX_AND_REGISTERS.md`](requirements/REQUIREMENTS_INDEX_AND_REGISTERS.md) for full details.)*
+- **None for `P1-M01`.**
+- Future `P1-M03` dependency: Supabase CLI + local Docker runtime for PostgreSQL RLS and cross-tenant denial testing.
 
 ## 5. Next Bounded Milestone
 
-**Candidate:** `P1-M01` — Phase 1 Architecture Decisions & Next.js / TypeScript / Tailwind Foundation Setup  
-**Status:** Proposed (awaiting product-owner sign-off on Phase 0 exit gate and `OD-01`–`OD-05`; do not start Phase 1 coding without explicit direction).
+**Recommended:** `P1-M02` — Design System Tokens (`Clarity`, `Calm`, `Focus` Light/Dark), Responsive App Shell, Public Landing Shell & PWA Skeleton.

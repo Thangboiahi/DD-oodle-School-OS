@@ -2,8 +2,8 @@
 
 - **Last Updated:** 2026-11-27
 - **Current Phase:** Phase 2 — Institutional Registry and Academic Structure (**In Progress**; Phase 1 **Complete**)
-- **Current Milestone:** `P2-M03` — Academic Structure, CBSE Electives, Cross-Section Teaching Groups & Time-Bound Allocations (**Pending CI Verification**)
-- **Overall Repository State:** Phase 1 complete (`45951599452`); `P2-M01` schema & pgTAP verified green (`45989069548`); `P2-M02` people registry/masking/custom fields verified green (`45991352879`); `P2-M03` adds `lib/academics/{schemas,conflicts}.ts`, caller-RLS `server/academics/service.ts`, and `/t/[slug]/academics/*` UI/Server Actions supporting CBSE XI–XII sessions, departments, sections, individual electives, cross-section teaching groups, and time-bound allocations.
+- **Current Milestone:** `P2-M03` — Academic Structure, CBSE Electives, Cross-Section Teaching Groups & Time-Bound Allocations (**Complete**)
+- **Overall Repository State:** Phase 1 complete (`45951599452`); `P2-M01` schema & pgTAP verified green (`45989069548`); `P2-M02` people registry verified green (`45991352879`); `P2-M03` verified green in CI Run `45993903529` (`61e36d5`), adding `lib/academics/{schemas,conflicts}.ts`, caller-RLS `server/academics/service.ts`, and `/t/[slug]/academics/*` UI/Server Actions supporting CBSE XI–XII sessions, departments, sections, individual electives, cross-section teaching groups, and time-bound allocations with 59/59 Vitest unit checks.
 
 ---
 
@@ -33,11 +33,12 @@
 | `P1-M05` — Phase 1 Exit Gate & Live Auth/Tenancy/Responsive/A11y E2E Verification | **Complete** (`eb6ed69` / `d8fa409`) | Seeded synthetic GoTrue credentials, added Playwright + axe-core E2E suites + CI `e2e-live-auth` job; CI Run `45951599452` passed all 3 jobs (`app-quality`, `supabase-rls-pgtap` 26/26, `e2e-live-auth` 10/10) |
 | `P2-M01` — Phase 2 ADRs, 19-Table Registry & CBSE XI–XII Academic Schema, RLS & pgTAP | **Complete** (`bd7a534`) | Accepted `ADR-0003`/`ADR-0004`, migrations `202611270004`–`202611270006` (19 forced-RLS tables), CBSE XI–XII seed, and CI Run `45989069548` passing all 3 jobs (`app-quality` 40/40 unit, `supabase-rls-pgtap` 58/58 pgTAP + `db lint`, `e2e-live-auth` 10/10 Playwright) |
 | `P2-M02` — People Registry, Guardian Links, Admissions & Custom Fields DAL/UI | **Complete** (`cf4916f`) | `lib/registry/{schemas,masking}.ts`, `server/{audit/log,registry/service}.ts`, `/t/[slug]/people/*` routes & Server Actions; CI Run `45991352879` passed all 3 jobs (`49/49` unit, `58/58` pgTAP, `10/10` Playwright) |
+| `P2-M03` — Academic Structure, CBSE Electives, Cross-Section Teaching Groups & Allocations | **Complete** (`61e36d5`) | `lib/academics/{schemas,conflicts}.ts`, caller-RLS `server/academics/service.ts`, `/t/[slug]/academics/*` routes & Server Actions; CI Run `45993903529` passed all 3 jobs (`59/59` unit, `58/58` pgTAP, `10/10` Playwright) |
 
-## 3. Latest Verification (`P2-M02` CI Run `45991352879`)
+## 3. Latest Verification (`P2-M03` CI Run `45993903529`)
 
-- **Local Verification (`P2-M02`):** `pnpm typecheck` (0 errors), `pnpm lint` (0 errors), `pnpm test` (12 files, 49/49 passed), `pnpm build` (clean production bundle).
-- **Live GitHub Actions CI Run (`P2-M02`):** [`45991352879`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/45991352879) on `cf4916f` (`App Quality & Hygiene` PASS + `Supabase RLS & pgTAP Verification` PASS: 58/58 pgTAP + `Live Multi-Tenant Auth & A11y E2E` PASS: 10/10 Playwright checks).
+- **Local Verification (`P2-M03`):** `pnpm typecheck` (0 errors), `pnpm lint` (0 errors, 0 warnings), `pnpm test` (14 files, 59/59 passed), `pnpm build` (clean production bundle).
+- **Live GitHub Actions CI Run (`P2-M03`):** [`45993903529`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/45993903529) on `61e36d5` (`App Quality & Hygiene` PASS + `Supabase RLS & pgTAP Verification` PASS: 58/58 pgTAP + `Live Multi-Tenant Auth & A11y E2E` PASS: 10/10 Playwright checks).
 
 ## 4. Open Blockers / Dependencies
 
@@ -45,4 +46,4 @@
 
 ## 5. Next Bounded Milestone
 
-**`P2-M03`** — Academic Structure & CBSE Senior Secondary XI–XII Allocation Server Services & UI (`/t/[slug]/academics`).
+**`P2-M04`** — Initial Data Onboarding / Bulk Import Foundations & Phase 2 Verification Gate.

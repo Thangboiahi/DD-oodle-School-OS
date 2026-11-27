@@ -8,27 +8,24 @@ This document strictly separates **Confirmed Facts** (verified in the current re
 
 ## 1. Confirmed Facts (Current Repository State)
 
-Audited on `2026-11-27` (`P1-M03`):
+Audited on `2026-11-27` (`P1-M02`):
 
-- **Codebase state:** Next.js 16 App Router application with governance, architecture (`ADR-0001`, `ADR-0002`), UI/UX & PWA spec, multi-tenant RLS/Storage baseline spec, glossary, testing and compliance records.
+- **Codebase state:** Next.js 16 App Router application with governance, architecture (`ADR-0001`, `ADR-0002`), UI/UX & PWA spec, glossary, testing and compliance records.
 - **Installed Runtime & Toolchain (`package.json` + `pnpm-lock.yaml`):**
   - Package manager: `pnpm` (`12.23.0`); Node.js `>=22.0.0` (verified locally on `v26.13.0`)
   - Framework & UI: `next` (`16.4.6`), `react` (`19.3.1`), `react-dom` (`19.3.1`)
-  - Backend/Auth SDK: `@supabase/supabase-js` (`2.119.2`), `@supabase/ssr` (`0.12.7`), `server-only` (`0.0.1`)
   - Language & validation: `typescript` (`5.9.3`, `strict: true`, `noUncheckedIndexedAccess: true`), `zod` (`4.6.7`)
   - Styling: `tailwindcss` (`4.3.5`), `@tailwindcss/postcss` (`4.3.5`), `postcss` (`8.5.33`)
   - Lint & tests: `eslint` (`9.39.5`), `eslint-config-next` (`16.4.6`), `vitest` (`5.1.2`)
 - **Verified Directory Layout:**
   - `app/` (`layout.tsx`, `globals.css`, `page.tsx`, `manifest.ts`, `shell-preview/page.tsx`, `sign-in/page.tsx`, `api/health/route.ts`)
-  - `proxy.ts` (Next.js 16 root SSR session-refresh proxy)
   - `components/` (`theme/`, `ui/`, `shell/`, `pwa/`)
-  - `lib/` (`tenancy/resolve-tenant-hint.ts`, `ui/theme.ts`, `security/headers.ts`, `supabase/{env,browser,server,admin,proxy}.ts`)
+  - `lib/` (`tenancy/resolve-tenant-hint.ts`, `ui/theme.ts`, `security/headers.ts`)
   - `public/` (`offline.html`, `sw.js`, `icons/icon-192x192.png`, `icons/icon-512x512.png`, `icons/maskable-512x512.png`)
-  - `supabase/` (`config.toml`, `migrations/202611270001..202611270003`, `seed.sql`, `tests/01_multi_tenant_rls.test.sql`)
-  - `tests/unit/` (`resolve-tenant-hint.test.ts`, `health-route.test.ts`, `theme.test.ts`, `manifest-and-pwa.test.ts`, `security-headers.test.ts`, `supabase-env.test.ts`, `sql-migration-invariants.test.ts`)
-  - `docs/` (`architecture/`, `compliance/`, `decisions/`, `phase-plans/`, `progress/`, `requirements/`, `security/`, `testing/`, `ui-ux/`)
-- **Design System & PWA Baseline (`P1-M02`):** Active (`Clarity`, `Calm`, `Focus` Light/Dark + density, 4-mode `AppShell`, native `app/manifest.ts`, auditable `public/sw.js`, global & `/sw.js` security headers).
-- **Database Migrations, RLS & SSR Plumbing (`P1-M03`):** Versioned SQL migrations (`persons`, `platform_operators`, `institutions`, `institution_memberships`, `institution_roles`, `role_assignments`, `audit_events`), private `app_auth` RLS helpers, `institution-private` bucket, synthetic seed, 26-assertion pgTAP suite, and `@supabase/ssr` + `proxy.ts` implemented; live `supabase test db` execution is pending local Docker + Supabase CLI installation. Interactive sign-in and workspace switcher UI are deferred to `P1-M04`.
+  - `tests/unit/` (`resolve-tenant-hint.test.ts`, `health-route.test.ts`, `theme.test.ts`, `manifest-and-pwa.test.ts`, `security-headers.test.ts`)
+  - `docs/` (`architecture/`, `compliance/`, `decisions/`, `phase-plans/`, `progress/`, `requirements/`, `testing/`, `ui-ux/`)
+- **Design System & PWA Baseline (`P1-M02`):** Active (`Clarity`, `Calm`, `Focus` Light/Dark + density, 4-mode `AppShell`, native `app/manifest.ts`, auditable `public/sw.js` precaching only `/offline.html`, global & `/sw.js` security headers).
+- **Database / migrations / auth:** Not yet implemented (`supabase/`, PostgreSQL schemas, RLS policies and Supabase Auth flows are deferred to `P1-M03`).
 
 ---
 

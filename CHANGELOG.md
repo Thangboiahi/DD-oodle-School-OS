@@ -6,30 +6,6 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
-## [0.1.0-alpha.3] - 2026-11-27
-
-### Added
-- Installed `@supabase/supabase-js@2.119.2`, `@supabase/ssr@0.12.7`, and `server-only@0.0.1` for Next.js 16 SSR authentication plumbing.
-- Created `supabase/config.toml` exposing `public` only (keeping `app_auth` hidden from PostgREST) with pgTAP testing and `supabase/seed.sql` enabled.
-- Created core SQL migrations:
-  - `supabase/migrations/202611270001_core_identity_and_tenancy.sql`: private `app_auth` schema, 7 core multi-tenant tables (`persons`, `platform_operators`, `institutions`, `institution_memberships`, `institution_roles`, `role_assignments`, `audit_events`), composite tenant-safe FKs, append-only `audit_events` immutability trigger, `updated_at` triggers, and B-tree indexes.
-  - `supabase/migrations/202611270002_rls_helpers_and_policies.sql`: `STABLE SECURITY DEFINER SET search_path = ''` helpers in `app_auth`, forced RLS (`ENABLE` + `FORCE`) across all 7 tables, column-restricted `persons` profile `UPDATE`, and explicit `TO authenticated` initPlan policies.
-  - `supabase/migrations/202611270003_private_storage_baseline.sql`: private `institution-private` bucket (`public = false`) and UUID-folder-prefixed Storage RLS policies.
-- Created synthetic two-institution seed (`supabase/seed.sql`) and 26-assertion pgTAP security suite (`supabase/tests/01_multi_tenant_rls.test.sql`).
-- Implemented `lib/supabase/{env,browser,server,admin,proxy}.ts` and Next.js 16 root `proxy.ts` (`getClaims()` session refresh with graceful pass-through when unconfigured).
-- Added `tests/unit/supabase-env.test.ts` and `tests/unit/sql-migration-invariants.test.ts`.
-
-### Changed
-- Updated `.env.example` and `README.md` with `NEXT_PUBLIC_APP_DOMAIN`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, and local `supabase test db` instructions.
-
-### Documentation
-- Created `docs/security/MULTI_TENANT_RLS_BASELINE.md`, `docs/phase-plans/PHASE-01-MILESTONE-03-supabase-schema-rls-storage.md`, and `docs/progress/MILESTONE-REPORT-P1-M03.md`.
-- Verified Nov 2026 Supabase official documentation (`REF-04`, `REF-05`, `REF-05B`, `REF-06`, `REF-06B`) in `docs/compliance/COMPLIANCE_AND_RESEARCH_REGISTER.md`.
-- Updated `docs/README.md` (moved `docs/security/` from deferred to active), `docs/PROJECT_STATUS.md`, and `docs/architecture/ARCHITECTURE_OVERVIEW.md`.
-
-### Security
-- Enforced private `app_auth` helper isolation, `FORCE ROW LEVEL SECURITY` on all 7 public tables, composite cross-tenant FK rejection, platform-vs-institution separation, append-only `audit_events`, private Storage bucket access control, and browser runtime guards on `SUPABASE_SECRET_KEY`. Live `supabase test db` run pending local Docker + Supabase CLI setup.
-
 ## [0.1.0-alpha.2] - 2026-11-27
 
 ### Added

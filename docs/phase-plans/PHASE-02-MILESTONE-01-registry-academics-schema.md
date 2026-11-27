@@ -13,7 +13,7 @@ IN SCOPE:
   - Migration 5 (supabase/migrations/202611270005_academic_structure_and_assignments.sql): 13 academic structure, mixed-elective enrolment, cross-section teaching group, and typed time-bound academic_assignments tables.
   - Migration 6 (supabase/migrations/202611270006_phase2_rls_and_helpers.sql): Private app_auth helpers and ENABLE + FORCE ROW LEVEL SECURITY policies across all 19 tables.
   - Synthetic Seed (supabase/seed.sql): Preserve Phase 1 users/roles/audit and seed CBSE XI-XII Sunrise & Valley institutions, mixed electives, cross-section TG-XI-APPMATH-1 & TG-XI-CS-1, HOD/Class Teacher/Monitor/Student test accounts, and standard/confidential custom fields.
-  - Verification: Update tests/unit/sql-migration-invariants.test.ts (26 public tables) and add supabase/tests/02_phase2_registry_and_academics_rls.test.sql (30 pgTAP assertions).
+  - Verification: Update tests/unit/sql-migration-invariants.test.ts (26 public tables) and add supabase/tests/02_phase2_registry_and_academics_rls.test.sql (32 pgTAP assertions).
   - Docs: Update ROADMAP.md (Phase 2 In Progress), PROJECT_STATUS.md, docs/README.md, MULTI_TENANT_RLS_BASELINE.md, ARCHITECTURE_OVERVIEW.md, CHANGELOG.md, PHASE-02-MILESTONE-01-registry-academics-schema.md, MILESTONE-REPORT-P2-M01.md.
 OUT OF SCOPE:
   - Phase 2 UI screens, Server Actions, CSV/XLSX bulk import tooling, or Phase 3+ attendance/leave modules.

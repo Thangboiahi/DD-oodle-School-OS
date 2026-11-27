@@ -3,7 +3,7 @@
 - **Date:** 2026-11-27
 - **Phase:** Phase 2 — Institutional Registry and Academic Structure (**In Progress**)
 - **Milestone:** `P2-M01`
-- **Status:** Local checks passed; awaiting live GitHub Actions CI confirmation (updated immediately post-CI)
+- **Status:** **Complete**
 
 ---
 
@@ -18,10 +18,25 @@
    - [`202611270006_phase2_rls_and_helpers.sql`](../../supabase/migrations/202611270006_phase2_rls_and_helpers.sql): 5 `STABLE SECURITY DEFINER SET search_path = ''` `app_auth` helpers and `ENABLE` + `FORCE ROW LEVEL SECURITY` initPlan policies across all 19 tables.
 3. **CBSE XI–XII Synthetic Seed & pgTAP Verification (`supabase/seed.sql`, `supabase/tests/`):**
    - Expanded `supabase/seed.sql` while preserving all 4 Phase 1 accounts/roles/audit rows, adding `hod.srsec.sunrise@example.test`, `classteacher.11a.sunrise@example.test`, `monitor.11a.sunrise@example.test`, and `student.11b.sunrise@example.test`, Senior Secondary `2026-27` terms/sections/streams/mixed electives, cross-section `TG-XI-APPMATH-1` & `TG-XI-CS-1`, guardian link for `dual.member@example.test` on Valley `Kabir Rao`, and `house_name` (`standard`) + `counseling_note` (`confidential`) custom fields.
-   - Added [`02_phase2_registry_and_academics_rls.test.sql`](../../supabase/tests/02_phase2_registry_and_academics_rls.test.sql) (30 pgTAP assertions) and updated [`sql-migration-invariants.test.ts`](../../tests/unit/sql-migration-invariants.test.ts) (verifying 26 forced-RLS tables and `SECURITY DEFINER` `SET search_path = ''` lock).
+   - Added [`02_phase2_registry_and_academics_rls.test.sql`](../../supabase/tests/02_phase2_registry_and_academics_rls.test.sql) (32 pgTAP assertions) and updated [`sql-migration-invariants.test.ts`](../../tests/unit/sql-migration-invariants.test.ts) (verifying 26 forced-RLS tables and `SECURITY DEFINER` `SET search_path = ''` lock).
 
 ---
 
-## 2. Verification Results
+## 2. Verification & Live CI Evidence
 
-- Pending post-push CI run verification (will be updated with exact GitHub Actions Run ID, URL, and job counts once CI completes).
+- **Local Static, Unit & Build Checks:**
+  - `pnpm typecheck`: **Passed** (0 errors)
+  - `pnpm lint`: **Passed** (0 errors)
+  - `pnpm test`: **Passed** (10 test files, **40/40** unit & SQL invariant tests across 26 forced-RLS tables)
+  - `pnpm build`: **Passed** (Next.js 16 production build)
+  - Documentation hygiene: `0` empty dirs, `59` valid relative links.
+- **Live GitHub Actions CI Run [`45989069548`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/45989069548)** (commit `bd7a534`):
+  1. **Job 1 — `App Quality & Hygiene` (`140471985271`):** **PASS** (`38s` — frozen lockfile install, typecheck, lint, 40/40 Vitest tests, Next.js build, docs hygiene)
+  2. **Job 2 — `Supabase RLS & pgTAP Verification` (`140471984761`):** **PASS** (`1m49s` — live `supabase start`, clean `supabase db reset`, **58/58** live pgTAP assertions across 2 suites [`01_multi_tenant_rls.test.sql` **26/26** + `02_phase2_registry_and_academics_rls.test.sql` **32/32**], `supabase db lint --schema public,app_auth --level error` clean)
+  3. **Job 3 — `Live Multi-Tenant Auth & A11y E2E` (`140471985138`):** **PASS** (`2m55s` — **10/10** Playwright E2E, responsive & WCAG AA checks against live Supabase Auth + PostgREST + Next.js with Phase 2 schema and expanded seed)
+
+---
+
+## 3. Next Recommended Action
+
+Proceed to **`P2-M02`** — Server-Only Phase 2 Registry & Academic Domain Services, Institutional Directories, and CBSE Senior Secondary Structure UI.

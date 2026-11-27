@@ -100,6 +100,26 @@ function NavIconSvg({ icon }: { icon: ShellNavIcon }) {
           />
         </svg>
       );
+    case "academics":
+      return (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          className="h-4 w-4 shrink-0"
+        >
+          <path
+            d="M3.5 5.5 10 3l6.5 2.5L10 8 3.5 5.5Z"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M5.5 7.5v5c0 1.4 2 2.5 4.5 2.5s4.5-1.1 4.5-2.5v-5"
+            strokeLinecap="round"
+          />
+        </svg>
+      );
     case "governance":
       return (
         <svg

@@ -4,6 +4,7 @@ export type ShellNavIcon =
   | "states"
   | "public"
   | "people"
+  | "academics"
   | "governance"
   | "audit"
   | "files"

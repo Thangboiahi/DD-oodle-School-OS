@@ -6,6 +6,20 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.2.0-alpha.3] - 2026-11-27
+
+### Added
+- Added academic Zod schemas & pure conflict engine (`lib/academics/schemas.ts`, `lib/academics/conflicts.ts`): `detectAcademicAssignmentConflicts()` preventing overlapping active `class_teacher` and per-role `monitor`/`monitress` allocations while permitting concurrent teacher roles and validating section monitor eligibility, plus `validateCrossSectionGroupMembership()` validating active session & subject offering enrolment for cross-section groups.
+- Added server-only Academics DAL (`server/academics/service.ts` with `import "server-only"`): caller-RLS queries (`getAcademicsOverview`, `getSectionDetail`, `listTeachingGroups`, `listAcademicAssignments`) and `academics.manage`-gated audited mutations (`createSession`, `activateSession`, `createDepartment`, `createGradeAndSection`, `createSubjectAndOffering`, `enrolStudentInSession`, `enrolStudentInSubject`, `createTeachingGroup`, `addStudentToTeachingGroup`, `assignAcademicResponsibility`, `revokeAcademicResponsibility`) with zero admin client imports.
+- Added `/t/[slug]/academics/*` App Router UI, `components/academics/AcademicsSubNav.tsx`, and route-slug-bound Server Actions (`app/t/[slug]/academics/actions.ts`) covering Sessions/Terms/Departments/Sections, Section Detail (with read-only Monitor banner and individual elective badges), Cross-Section Teaching Groups, and Time-Bound Allocations ledger + revocation.
+- Added unit tests `tests/unit/academics-conflicts.test.ts` and `tests/unit/academics-schemas.test.ts`, and updated `tests/unit/safe-redirect-and-nav.test.ts`.
+
+### Changed
+- Updated `components/shell/nav-config.ts`, `components/shell/AppShell.tsx`, and `lib/auth/navigation.ts` to expose `"Academics"` (`/t/${slug}/academics`) for authorized institutional roles while keeping Governance/Audit hidden from non-Principals.
+
+### Documentation
+- Created `docs/phase-plans/PHASE-02-MILESTONE-03-academic-structure-and-allocations.md` and `docs/progress/MILESTONE-REPORT-P2-M03.md`; updated `docs/PROJECT_STATUS.md`, `docs/README.md`, and `docs/architecture/ARCHITECTURE_OVERVIEW.md`.
+
 ## [0.2.0-alpha.2] - 2026-11-27
 
 ### Added

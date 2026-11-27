@@ -8,7 +8,7 @@ This document strictly separates **Confirmed Facts** (verified in the current re
 
 ## 1. Confirmed Facts (Current Repository State)
 
-Audited on `2026-11-27` (`P2-M02`):
+Audited on `2026-11-27` (`P2-M03`):
 
 - **Codebase state:** Next.js 16 App Router application with governance, architecture (`ADR-0001`–`ADR-0004`), UI/UX & PWA spec, multi-tenant RLS/auth DAL baseline spec, glossary, testing and compliance records.
 - **Installed Runtime & Toolchain (`package.json` + `pnpm-lock.yaml`):**
@@ -19,11 +19,11 @@ Audited on `2026-11-27` (`P2-M02`):
   - Styling: `tailwindcss` (`4.3.5`), `@tailwindcss/postcss` (`4.3.5`), `postcss` (`8.5.33`)
   - Lint & tests: `eslint` (`9.39.5`), `eslint-config-next` (`16.4.6`), `vitest` (`5.1.2`), `@playwright/test` (`1.65.1`), `@axe-core/playwright` (`4.14.1`)
 - **Verified Directory Layout:**
-  - `app/` (`layout.tsx`, `globals.css`, `page.tsx`, `manifest.ts`, `shell-preview/page.tsx`, `sign-in/{actions.ts,SignInForm.tsx,page.tsx}`, `auth/sign-out/route.ts`, `workspace/page.tsx`, `t/[slug]/{layout.tsx,page.tsx}`, `t/[slug]/people/{page.tsx,actions.ts,students/[studentId]/page.tsx,staff/page.tsx,admissions/page.tsx,custom-fields/page.tsx}`, `platform/page.tsx`, `api/health/route.ts`)
+  - `app/` (`layout.tsx`, `globals.css`, `page.tsx`, `manifest.ts`, `shell-preview/page.tsx`, `sign-in/{actions.ts,SignInForm.tsx,page.tsx}`, `auth/sign-out/route.ts`, `workspace/page.tsx`, `t/[slug]/{layout.tsx,page.tsx}`, `t/[slug]/people/{page.tsx,actions.ts,students/[studentId]/page.tsx,staff/page.tsx,admissions/page.tsx,custom-fields/page.tsx}`, `t/[slug]/academics/{page.tsx,actions.ts,sections/[sectionId]/page.tsx,teaching-groups/page.tsx,allocations/page.tsx}`, `platform/page.tsx`, `api/health/route.ts`)
   - `proxy.ts` (Next.js 16 root SSR session-refresh & untrusted subdomain hint proxy)
-  - `server/` (`import "server-only"` DAL: `auth/{types,session,guards}.ts`, `tenancy/resolve-context.ts`, `audit/log.ts`, `registry/service.ts`)
-  - `components/` (`theme/`, `ui/`, `shell/` including `WorkspaceSwitcher.tsx`, `auth/SignOutButton.tsx`, `registry/{PeopleSubNav,RegistryActionForm}.tsx`, `pwa/`)
-  - `lib/` (`tenancy/resolve-tenant-hint.ts`, `auth/{safe-redirect,permissions,navigation}.ts`, `registry/{schemas,masking}.ts`, `ui/theme.ts`, `security/headers.ts`, `supabase/{env,browser,server,admin,proxy}.ts`)
+  - `server/` (`import "server-only"` DAL: `auth/{types,session,guards}.ts`, `tenancy/resolve-context.ts`, `audit/log.ts`, `registry/service.ts`, `academics/service.ts`)
+  - `components/` (`theme/`, `ui/`, `shell/` including `WorkspaceSwitcher.tsx`, `auth/SignOutButton.tsx`, `registry/{PeopleSubNav,RegistryActionForm}.tsx`, `academics/AcademicsSubNav.tsx`, `pwa/`)
+  - `lib/` (`tenancy/resolve-tenant-hint.ts`, `auth/{safe-redirect,permissions,navigation}.ts`, `registry/{schemas,masking}.ts`, `academics/{schemas,conflicts}.ts`, `ui/theme.ts`, `security/headers.ts`, `supabase/{env,browser,server,admin,proxy}.ts`)
   - `public/` (`offline.html`, `sw.js`, `icons/icon-192x192.png`, `icons/icon-512x512.png`, `icons/maskable-512x512.png`)
   - `supabase/` (`config.toml`, `migrations/202611270001..202611270006`, `seed.sql`, `tests/01_multi_tenant_rls.test.sql`, `tests/02_phase2_registry_and_academics_rls.test.sql`)
   - `tests/unit/` (10 test files, 40 unit tests covering routing hints, health, theme, PWA manifest/icons/SW, headers, Supabase env, SQL migration invariants across all 26 forced-RLS tables, permissions, safe-redirect/nav, and tenant context resolution) and `tests/e2e/` (`public-and-responsive.spec.ts`, `multi-tenant-auth.spec.ts`)

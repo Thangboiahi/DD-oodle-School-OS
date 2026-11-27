@@ -82,12 +82,16 @@ describe("buildInstitutionNav", () => {
     expect(nav.map((item) => item.id)).toEqual([
       "overview",
       "people",
+      "academics",
       "governance",
       "audit",
       "files",
     ]);
     expect(nav.find((item) => item.id === "people")?.href).toBe(
       "/t/sunrise-cbse/people",
+    );
+    expect(nav.find((item) => item.id === "academics")?.href).toBe(
+      "/t/sunrise-cbse/academics",
     );
     expect(nav.find((item) => item.id === "people")?.badge).toBeUndefined();
   });
@@ -99,10 +103,14 @@ describe("buildInstitutionNav", () => {
       ]),
       now,
     );
-    expect(nav.map((item) => item.id)).toEqual(["overview", "people"]);
+    expect(nav.map((item) => item.id)).toEqual([
+      "overview",
+      "people",
+      "academics",
+    ]);
   });
 
-  it("renders overview and scoped people link for Parent/Guardian and Monitor", () => {
+  it("renders overview and scoped people/academics links for Parent/Guardian and Monitor", () => {
     const parentNav = buildInstitutionNav(
       buildContextWithRole("parent_guardian", "Parent / Guardian", [
         "ward.read",
@@ -116,7 +124,15 @@ describe("buildInstitutionNav", () => {
       now,
     );
 
-    expect(parentNav.map((item) => item.id)).toEqual(["overview", "people"]);
-    expect(monitorNav.map((item) => item.id)).toEqual(["overview", "people"]);
+    expect(parentNav.map((item) => item.id)).toEqual([
+      "overview",
+      "people",
+      "academics",
+    ]);
+    expect(monitorNav.map((item) => item.id)).toEqual([
+      "overview",
+      "people",
+      "academics",
+    ]);
   });
 });

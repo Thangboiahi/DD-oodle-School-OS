@@ -2,8 +2,8 @@
 
 - **Last Updated:** 2026-11-27
 - **Current Phase:** Phase 2 — Institutional Registry and Academic Structure (**In Progress**; Phase 1 **Complete**)
-- **Current Milestone:** `P2-M02` — People Registry, Guardian Links, Admissions Basics & Custom Fields (Server DAL & UI) (**Complete**)
-- **Overall Repository State:** Phase 1 complete (`45951599452`); `P2-M01` schema & pgTAP verified green (`45989069548`); `P2-M02` verified green in CI Run `45991352879` (`cf4916f`), adding `lib/registry/{schemas,masking}.ts`, server-only `server/audit/log.ts` & `server/registry/service.ts`, and compact responsive `/t/[slug]/people` UI (Students, Student Detail + Guardians + Custom Fields, Staff Directory, Admissions Pipeline, Custom Field Definitions) with 49/49 Vitest unit checks.
+- **Current Milestone:** `P2-M03` — Academic Structure, CBSE Electives, Cross-Section Teaching Groups & Time-Bound Allocations (**Pending CI Verification**)
+- **Overall Repository State:** Phase 1 complete (`45951599452`); `P2-M01` schema & pgTAP verified green (`45989069548`); `P2-M02` people registry/masking/custom fields verified green (`45991352879`); `P2-M03` adds `lib/academics/{schemas,conflicts}.ts`, caller-RLS `server/academics/service.ts`, and `/t/[slug]/academics/*` UI/Server Actions supporting CBSE XI–XII sessions, departments, sections, individual electives, cross-section teaching groups, and time-bound allocations.
 
 ---
 

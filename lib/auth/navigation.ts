@@ -54,12 +54,20 @@ export function buildInstitutionNav(
     evaluatePermission(context, { permission: "self.read" }, now).allowed;
 
   if (canAccessPeopleOrTeaching) {
-    items.push({
-      id: "people",
-      label: "People & Registry",
-      href: `${basePath}/people`,
-      icon: "people",
-    });
+    items.push(
+      {
+        id: "people",
+        label: "People & Registry",
+        href: `${basePath}/people`,
+        icon: "people",
+      },
+      {
+        id: "academics",
+        label: "Academics",
+        href: `${basePath}/academics`,
+        icon: "academics",
+      },
+    );
   }
 
   const canViewGovernance =

@@ -27,6 +27,13 @@ supabase db reset
 supabase test db
 ```
 
+## Continuous Integration (GitHub Actions)
+
+Workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs automatically on pushes and pull requests to `main`:
+
+- **`app-quality`:** `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and documentation link/directory checks.
+- **`supabase-rls-pgtap`:** Starts a real Supabase Docker stack (`supabase start`), replays migrations + synthetic seed (`supabase db reset`), runs all pgTAP cross-tenant RLS/Storage/audit tests (`supabase test db`), and lints PostgreSQL schemas (`supabase db lint`).
+
 ## Environment Variables (Names Only)
 
 Defined as placeholders in [`.env.example`](.env.example). **Never commit real values or `.env*` files.**

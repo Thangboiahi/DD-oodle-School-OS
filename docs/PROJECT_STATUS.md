@@ -2,8 +2,8 @@
 
 **Last Updated:** 2026-11-27  
 **Current Phase:** Phase 1 — Foundation and Multi-Tenant Platform (Phase 0 Complete)  
-**Current Milestone:** `P1-M03` — Supabase Core Multi-Tenant Schema, RLS Baseline, Private Storage, Synthetic Seed & Next.js 16 SSR Client Foundation  
-**Overall Repository State:** Next.js 16 App Router foundation with 3-theme Light/Dark design system, 4-mode shell, native PWA skeleton, Supabase multi-tenant SQL migrations (`app_auth` + 7 forced-RLS tables + `institution-private` storage), pgTAP test suite, synthetic two-institution seed, and Next.js 16 `@supabase/ssr` + `proxy.ts` plumbing. Live `supabase test db` run is pending Docker + Supabase CLI availability on the host.
+**Current Milestone:** `P1-M03b` — GitHub Actions CI Pipeline & Live Supabase pgTAP Verification Gate  
+**Overall Repository State:** Next.js 16 App Router foundation with 3-theme Light/Dark design system, 4-mode shell, native PWA skeleton, Supabase multi-tenant SQL migrations (`app_auth` + 7 forced-RLS tables + `institution-private` storage), pgTAP test suite, synthetic seed, Next.js 16 `@supabase/ssr` + `proxy.ts` plumbing, and `.github/workflows/ci.yml` CI pipeline. Live CI run pending watch confirmation.
 
 ---
 

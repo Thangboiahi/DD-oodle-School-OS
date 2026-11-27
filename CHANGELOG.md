@@ -6,6 +6,19 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.1.0-alpha.4] - 2026-11-27
+
+### Added
+- Created GitHub Actions CI workflow (`.github/workflows/ci.yml`) running `app-quality` (Node 22, pnpm `--frozen-lockfile`, typecheck, lint, unit/SQL-invariant tests, Next.js build, docs hygiene) and `supabase-rls-pgtap` (`supabase/setup-cli@v1`, `supabase start`, `supabase db reset`, `supabase test db`, `supabase db lint`).
+
+### Fixed
+- Hardened `app_auth.can_write_institution_storage()` (`supabase/migrations/202611270003_private_storage_baseline.sql`) with explicit `CASE WHEN` regex guard before `::uuid` casting so non-UUID storage paths deterministically deny with RLS `42501`.
+- Added `SET LOCAL search_path = public, extensions;` in `supabase/seed.sql` and `supabase/tests/01_multi_tenant_rls.test.sql` and explicit empty-string token columns on seeded `auth.users` rows.
+
+### Documentation
+- Created `docs/phase-plans/PHASE-01-MILESTONE-03B-ci-and-live-pgtap-gate.md` and `docs/progress/MILESTONE-REPORT-P1-M03B.md`.
+- Updated `docs/compliance/COMPLIANCE_AND_RESEARCH_REGISTER.md` (`REF-06B`, `REF-06C`), `docs/testing/TEST_STRATEGY.md`, `docs/README.md`, `docs/PROJECT_STATUS.md`, and `README.md`.
+
 ## [0.1.0-alpha.3] - 2026-11-27
 
 ### Added

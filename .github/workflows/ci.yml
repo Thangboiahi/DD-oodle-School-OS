@@ -1,0 +1,114 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app-quality:
+    name: App Quality & Hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Run unit & static SQL invariant tests
+        run: pnpm test
+
+      - name: Build Next.js production bundle
+        run: pnpm build
+
+      - name: Verify docs directories and relative links
+        run: |
+          node -e "
+            const fs = require('node:fs');
+            const path = require('node:path');
+            const emptyDirs = [];
+            function walk(dir) {
+              for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+                if (!e.isDirectory()) continue;
+                const full = path.join(dir, e.name);
+                if (fs.readdirSync(full).length === 0) emptyDirs.push(full);
+                else walk(full);
+              }
+            }
+            if (fs.existsSync('docs')) walk('docs');
+            if (emptyDirs.length > 0) {
+              console.error('Empty docs directories found:', emptyDirs);
+              process.exit(1);
+            }
+            const broken = [];
+            let count = 0;
+            for (const mdFile of ['README.md', 'docs/README.md']) {
+              const content = fs.readFileSync(mdFile, 'utf8');
+              const base = path.dirname(mdFile);
+              for (const m of content.matchAll(/\[[^\]]+\]\(([^)]+)\)/g)) {
+                const target = m[1];
+                if (target.startsWith('http://') || target.startsWith('https://') || target.startsWith('#')) continue;
+                count++;
+                const resolved = path.resolve(base, target.split('#')[0]);
+                if (!fs.existsSync(resolved)) broken.push({ mdFile, target });
+              }
+            }
+            if (broken.length > 0) {
+              console.error('Broken relative links:', broken);
+              process.exit(1);
+            }
+            console.log('Verified 0 empty docs dirs and', count, 'valid relative links.');
+          "
+
+  supabase-rls-pgtap:
+    name: Supabase RLS & pgTAP Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start local Supabase stack
+        run: supabase start
+
+      - name: Reset database and apply migrations + synthetic seed
+        run: supabase db reset
+
+      - name: Run pgTAP multi-tenant RLS test suite
+        run: supabase test db
+
+      - name: Lint PostgreSQL schemas
+        run: supabase db lint --schema public,app_auth --level error
+
+      - name: Stop local Supabase stack
+        if: always()
+        run: supabase stop --no-backup

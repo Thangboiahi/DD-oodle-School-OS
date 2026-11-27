@@ -3,6 +3,8 @@
 
 BEGIN;
 
+SET LOCAL search_path = public, extensions;
+
 -- Deterministic synthetic institution UUIDs
 -- sunrise-cbse: 11111111-1111-4111-8111-111111111101
 -- valley-cbse:  11111111-1111-4111-8111-111111111102
@@ -15,6 +17,10 @@ INSERT INTO auth.users (
   email,
   encrypted_password,
   email_confirmed_at,
+  confirmation_token,
+  recovery_token,
+  email_change_token_new,
+  email_change,
   raw_app_meta_data,
   raw_user_meta_data,
   created_at,
@@ -29,6 +35,10 @@ VALUES
     'principal.sunrise@example.test',
     crypt('SyntheticDevOnly!1', gen_salt('bf')),
     now(),
+    '',
+    '',
+    '',
+    '',
     '{"provider":"email","providers":["email"]}'::jsonb,
     '{}'::jsonb,
     now(),
@@ -42,6 +52,10 @@ VALUES
     'dual.member@example.test',
     crypt('SyntheticDevOnly!2', gen_salt('bf')),
     now(),
+    '',
+    '',
+    '',
+    '',
     '{"provider":"email","providers":["email"]}'::jsonb,
     '{}'::jsonb,
     now(),
@@ -55,6 +69,10 @@ VALUES
     'principal.valley@example.test',
     crypt('SyntheticDevOnly!3', gen_salt('bf')),
     now(),
+    '',
+    '',
+    '',
+    '',
     '{"provider":"email","providers":["email"]}'::jsonb,
     '{}'::jsonb,
     now(),
@@ -68,6 +86,10 @@ VALUES
     'platform.ops@example.test',
     crypt('SyntheticDevOnly!4', gen_salt('bf')),
     now(),
+    '',
+    '',
+    '',
+    '',
     '{"provider":"email","providers":["email"]}'::jsonb,
     '{}'::jsonb,
     now(),

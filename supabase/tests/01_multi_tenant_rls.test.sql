@@ -5,6 +5,8 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 
 BEGIN;
 
+SET LOCAL search_path = public, extensions;
+
 SELECT plan(26);
 
 -- 1. Verify RLS is enabled and forced on all 7 public core tables

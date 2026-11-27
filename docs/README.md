@@ -29,10 +29,12 @@ This directory contains the living operational, architectural, governance, compl
 - [`phase-plans/PHASE-01-MILESTONE-01-foundation-and-core-adrs.md`](phase-plans/PHASE-01-MILESTONE-01-foundation-and-core-adrs.md) — Part E milestone plan for `P1-M01` and candidate definition for `P1-M02`.
 - [`phase-plans/PHASE-01-MILESTONE-02-design-system-shell-pwa.md`](phase-plans/PHASE-01-MILESTONE-02-design-system-shell-pwa.md) — Part E milestone plan for `P1-M02` and candidate definition for `P1-M03`.
 - [`phase-plans/PHASE-01-MILESTONE-03-supabase-schema-rls-storage.md`](phase-plans/PHASE-01-MILESTONE-03-supabase-schema-rls-storage.md) — Part E milestone plan for `P1-M03` and candidate definition for `P1-M04`.
+- [`phase-plans/PHASE-01-MILESTONE-03B-ci-and-live-pgtap-gate.md`](phase-plans/PHASE-01-MILESTONE-03B-ci-and-live-pgtap-gate.md) — Part E milestone plan for `P1-M03b` (GitHub Actions CI & live pgTAP gate).
 - [`progress/MILESTONE-REPORT-P0-M01.md`](progress/MILESTONE-REPORT-P0-M01.md) — Audited completion report for Milestone `P0-M01`.
 - [`progress/MILESTONE-REPORT-P1-M01.md`](progress/MILESTONE-REPORT-P1-M01.md) — Audited completion report for Milestone `P1-M01`.
 - [`progress/MILESTONE-REPORT-P1-M02.md`](progress/MILESTONE-REPORT-P1-M02.md) — Audited completion report for Milestone `P1-M02`.
 - [`progress/MILESTONE-REPORT-P1-M03.md`](progress/MILESTONE-REPORT-P1-M03.md) — Audited completion/status report for Milestone `P1-M03`.
+- [`progress/MILESTONE-REPORT-P1-M03B.md`](progress/MILESTONE-REPORT-P1-M03B.md) — Audited report for Milestone `P1-M03b` (GitHub Actions CI & live pgTAP execution).
 
 ## Deferred `docs/` Folders (Per Blueprint Part D1)
 

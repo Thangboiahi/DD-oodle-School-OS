@@ -12,12 +12,21 @@
 | **Lint & Code Hygiene** | ESLint (`pnpm lint`) | Next.js Core Web Vitals, TypeScript rules and hook/a11y conventions | Every milestone |
 | **Unit Tests** | Vitest (`pnpm test`) | Pure domain logic, Zod schemas, tenant-hint parsing, permission evaluators, API route handlers | Every milestone |
 | **Production Build** | Next.js (`pnpm build`) | Route compilation, App Router server/client boundary verification and bundle build | Every milestone |
-| **Database & RLS Tests** | Supabase local CLI + SQL/integration tests *(starting `P1-M03`)* | Positive access + **explicit cross-tenant & privilege-escalation denial tests** on all tables and Storage buckets | Every schema/auth/module milestone |
+| **Database & RLS Tests** | Supabase local CLI + SQL/pgTAP tests *(starting `P1-M03` / CI in `P1-M03b`)* | Positive access + **explicit cross-tenant & privilege-escalation denial tests** on all tables and Storage buckets (`supabase start`, `supabase db reset`, `supabase test db`, `supabase db lint`) | Every schema/auth/module milestone & automated CI |
 | **E2E, Responsive & Accessibility** | Browser / Playwright + Lighthouse / axe checks *(starting `P1-M02`+)* | Critical user flows, phone/tablet/desktop portrait & landscape viewports, keyboard navigation, contrast and theme modes | UI-facing milestones |
 
 ---
 
-## 2. Mandatory Milestone Exit Gates
+## 2. Automated CI Quality Gates (`.github/workflows/ci.yml`)
+
+Every push and pull request targeting `main` runs two parallel GitHub Actions jobs:
+
+1. **`app-quality`:** Node.js 22 (`pnpm --frozen-lockfile`), `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and documentation link/empty-directory hygiene verification.
+2. **`supabase-rls-pgtap`:** Official Supabase CLI (`supabase/setup-cli@v1`), local Docker stack (`supabase start`), clean idempotent schema + synthetic seed replay (`supabase db reset`), live pgTAP cross-tenant RLS/Storage/audit verification (`supabase test db`), schema lint (`supabase db lint`), and teardown (`supabase stop --no-backup`).
+
+---
+
+## 3. Mandatory Milestone Exit Gates
 
 1. **No failing checks hidden:** Never delete, skip or weaken security/RLS tests to make a build pass.
 2. **Synthetic test data only:** Never use real student, parent or staff PII in unit/integration fixtures or seeds.

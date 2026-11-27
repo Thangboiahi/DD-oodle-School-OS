@@ -35,13 +35,16 @@ STABLE
 SECURITY DEFINER
 SET search_path = ''
 AS $$
-  SELECT
-    coalesce(
+  SELECT CASE
+    WHEN coalesce(
       (storage.foldername(p_object_name))[1] ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
       false
     )
-    AND ((storage.foldername(p_object_name))[1])::uuid IN (SELECT app_auth.active_institution_ids())
-    AND app_auth.has_institution_permission(((storage.foldername(p_object_name))[1])::uuid, 'files.write');
+    THEN
+      ((storage.foldername(p_object_name))[1])::uuid IN (SELECT app_auth.active_institution_ids())
+      AND app_auth.has_institution_permission(((storage.foldername(p_object_name))[1])::uuid, 'files.write')
+    ELSE false
+  END;
 $$;
 
 REVOKE ALL ON FUNCTION app_auth.can_write_institution_storage(text) FROM PUBLIC, anon;

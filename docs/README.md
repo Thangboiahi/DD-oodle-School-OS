@@ -22,19 +22,21 @@ This directory contains the living operational, architectural, governance, compl
 - [`decisions/ADR-0002-person-identity-and-session-enrolment.md`](decisions/ADR-0002-person-identity-and-session-enrolment.md) — Accepted ADR: global person identity, concurrent memberships & 3-layer session enrolment.
 - [`architecture/ARCHITECTURE_OVERVIEW.md`](architecture/ARCHITECTURE_OVERVIEW.md) — Confirmed repository facts separated from approved baseline / proposed system design.
 - [`testing/TEST_STRATEGY.md`](testing/TEST_STRATEGY.md) — Testing pyramid, RLS cross-tenant denial gates and verification standards.
+- [`security/MULTI_TENANT_RLS_BASELINE.md`](security/MULTI_TENANT_RLS_BASELINE.md) — Private `app_auth` helpers, forced RLS policies, composite tenant FKs, audit immutability and private Storage isolation.
 - [`ui-ux/DESIGN_SYSTEM_AND_PWA.md`](ui-ux/DESIGN_SYSTEM_AND_PWA.md) — Design system tokens (`Clarity`, `Calm`, `Focus`), density, 4-mode responsive shell, accessibility rules and PWA boundaries.
 - [`compliance/COMPLIANCE_AND_RESEARCH_REGISTER.md`](compliance/COMPLIANCE_AND_RESEARCH_REGISTER.md) — Official source & regulatory research register seeded from Part F.
 - [`phase-plans/PHASE-00-MILESTONE-01-governance-bootstrap.md`](phase-plans/PHASE-00-MILESTONE-01-governance-bootstrap.md) — Part E milestone plan for `P0-M01`.
 - [`phase-plans/PHASE-01-MILESTONE-01-foundation-and-core-adrs.md`](phase-plans/PHASE-01-MILESTONE-01-foundation-and-core-adrs.md) — Part E milestone plan for `P1-M01` and candidate definition for `P1-M02`.
 - [`phase-plans/PHASE-01-MILESTONE-02-design-system-shell-pwa.md`](phase-plans/PHASE-01-MILESTONE-02-design-system-shell-pwa.md) — Part E milestone plan for `P1-M02` and candidate definition for `P1-M03`.
+- [`phase-plans/PHASE-01-MILESTONE-03-supabase-schema-rls-storage.md`](phase-plans/PHASE-01-MILESTONE-03-supabase-schema-rls-storage.md) — Part E milestone plan for `P1-M03` and candidate definition for `P1-M04`.
 - [`progress/MILESTONE-REPORT-P0-M01.md`](progress/MILESTONE-REPORT-P0-M01.md) — Audited completion report for Milestone `P0-M01`.
 - [`progress/MILESTONE-REPORT-P1-M01.md`](progress/MILESTONE-REPORT-P1-M01.md) — Audited completion report for Milestone `P1-M01`.
 - [`progress/MILESTONE-REPORT-P1-M02.md`](progress/MILESTONE-REPORT-P1-M02.md) — Audited completion report for Milestone `P1-M02`.
+- [`progress/MILESTONE-REPORT-P1-M03.md`](progress/MILESTONE-REPORT-P1-M03.md) — Audited completion/status report for Milestone `P1-M03`.
 
 ## Deferred `docs/` Folders (Per Blueprint Part D1)
 
 To avoid empty placeholder directories, the following Part D1 folders are **not created yet** and will be added when their first real artefact is produced:
 
-- `docs/security/` — Threat model, permission matrix, privacy impact and security reviews.
 - `docs/integrations/` — External provider contracts (Study Buddy, WhatsApp Business, campus device gateway, UDISE+/APAAR).
 - `docs/operations/` — Deployment, backup/recovery, monitoring and support runbooks.

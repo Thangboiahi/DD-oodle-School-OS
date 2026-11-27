@@ -2,42 +2,45 @@
 
 **Last Updated:** 2026-11-27  
 **Current Phase:** Phase 1 — Foundation and Multi-Tenant Platform (Phase 0 Complete)  
-**Current Milestone:** `P1-M02` — Design System Tokens, 3 Theme Families, Responsive App Shell, Public Landing Shell & PWA Skeleton  
-**Overall Repository State:** Next.js 16 App Router application with strict TypeScript, Tailwind CSS v4 design tokens (`Clarity`, `Calm`, `Focus` in Light/Dark + density), 4-mode responsive shell (`/shell-preview`), public landing shell (`/`), `/sign-in` placeholder, and native PWA skeleton (`app/manifest.ts`, `public/sw.js`, `public/offline.html`, verified PNG icons, security headers). Supabase Auth, schema, and RLS are scheduled next in `P1-M03`.
+**Current Milestone:** `P1-M03` — Supabase Core Multi-Tenant Schema, RLS Baseline, Private Storage, Synthetic Seed & Next.js 16 SSR Client Foundation  
+**Overall Repository State:** Next.js 16 App Router foundation with 3-theme Light/Dark design system, 4-mode shell, native PWA skeleton, Supabase multi-tenant SQL migrations (`app_auth` + 7 forced-RLS tables + `institution-private` storage), pgTAP test suite, synthetic two-institution seed, and Next.js 16 `@supabase/ssr` + `proxy.ts` plumbing. Live `supabase test db` run is pending Docker + Supabase CLI availability on the host.
 
 ---
 
 ## 1. Audited Repository Condition & Toolchain
 
 - **Git Branch & Remote:** `main` tracking `origin/main` (`https://github.com/Thangboiahi/DD-oodle-School-OS.git`).
-- **Previous Commit:** `da5bf9c` (`feat(foundation): scaffold nextjs app router toolchain and record core adrs`).
+- **Previous Commit:** `5e699cf` (`feat(ui-pwa): add design system themes, responsive shell, public landing and pwa skeleton`).
 - **Active Runtime & Packages:**
   - Node.js `v26.13.0` (`engines: >=22.0.0`), `pnpm@12.23.0`
   - `next@16.4.6`, `react@19.3.1`, `react-dom@19.3.1`, `zod@4.6.7`
+  - `@supabase/supabase-js@2.119.2`, `@supabase/ssr@0.12.7`, `server-only@0.0.1`
   - `typescript@5.9.3`, `tailwindcss@4.3.5`, `@tailwindcss/postcss@4.3.5`, `postcss@8.5.33`, `eslint@9.39.5`, `eslint-config-next@16.4.6`, `vitest@5.1.2`
+- **Local Supabase/Docker Status:** Neither `supabase` CLI nor `docker` is installed on the current Windows host (`supabase test db` not yet executed locally).
 
 ## 2. Milestone Summary
 
 | Item | Status | Notes |
 |---|---|---|
 | Phase 0 — Repository Governance & Discovery | **Complete** | `P0-M01` (`a007526`) + Phase 0 closure (`DOMAIN_GLOSSARY.md`, approved `OD-01`–`OD-05`) |
-| `P1-M01` — Core ADRs & Next.js Foundation | **Complete** (`da5bf9c`) | `ADR-0001`, `ADR-0002`, `TEST_STRATEGY.md`, Next.js App Router skeleton, `/api/health`, `resolveTenantHint` (`OD-03`) |
-| `P1-M02` — Design System, Responsive Shell & PWA Skeleton | **Complete (pending commit/push)** | 3 theme families (Light/Dark) + density, accessible UI primitives, 4-mode `AppShell`, `/shell-preview`, public landing & `/sign-in` placeholder, native PWA + security headers, 17 unit tests |
-| `P1-M03` — Supabase Auth, Multi-Tenant Schema & RLS Denial Tests | **Not Started** | Candidate next milestone; requires local Supabase CLI + Docker |
+| `P1-M01` — Core ADRs & Next.js Foundation | **Complete** (`da5bf9c`) | `ADR-0001`, `ADR-0002`, `TEST_STRATEGY.md`, `/api/health`, `resolveTenantHint` (`OD-03`) |
+| `P1-M02` — Design System, Responsive Shell & PWA Skeleton | **Complete** (`5e699cf`) | 3 theme families (Light/Dark) + density, 4-mode `AppShell`, `/shell-preview`, landing & `/sign-in` placeholder, native PWA + headers |
+| `P1-M03` — Supabase Core Schema, RLS, Storage & SSR Proxy | **Partial (pending live `supabase test db`)** | SQL migrations, `app_auth` RLS helpers, `institution-private` bucket, synthetic seed, 26-assertion pgTAP suite, `@supabase/ssr` + `proxy.ts` & static SQL invariant tests implemented; requires Docker + Supabase CLI for live DB test run |
+| `P1-M04` — Global Sign-In, Workspace Switcher & Verified Tenant Context | **Not Started** | Candidate next milestone after live pgTAP verification |
 
-## 3. Verification & Test Results (`P1-M02`)
+## 3. Verification & Test Results (`P1-M03`)
 
-- `pnpm typecheck` (`tsc --noEmit`): **Passed** (0 errors)
-- `pnpm lint` (`eslint .`): **Passed** (0 errors)
-- `pnpm test` (`vitest run`): **Passed** (5 test files, 17/17 tests passed)
-- `pnpm build` (`next build`): **Verified cleanly on final changes** (see `MILESTONE-REPORT-P1-M02.md`)
-- Directory & link checks: Verified zero empty directories under `docs/` or root and all relative Markdown links resolved in `README.md` and `docs/README.md`.
+- `pnpm typecheck` (`tsc --noEmit`): Verified cleanly
+- `pnpm lint` (`eslint .`): Verified cleanly
+- `pnpm test` (`vitest run`): Verified cleanly (`supabase-env.test.ts`, `sql-migration-invariants.test.ts` + prior unit suites)
+- `pnpm build` (`next build`): Verified cleanly
+- `supabase db reset` / `supabase test db`: **NOT RUN** (local `supabase` CLI and `docker` are not installed on this machine)
 
 ## 4. Open Blockers / Dependencies
 
-- **None for `P1-M02`.**
-- Future `P1-M03` dependency: Supabase CLI + local Docker runtime for PostgreSQL RLS and cross-tenant denial testing.
+- **`P1-M03` Live pgTAP Verification:** Local Docker Desktop + Supabase CLI must be installed/available before `supabase start`, `supabase db reset`, and `supabase test db` can execute the 26 assertions in `supabase/tests/01_multi_tenant_rls.test.sql`.
 
 ## 5. Next Bounded Milestone
 
-**Recommended:** `P1-M03` — Supabase Auth, Multi-Tenant Core Schema (`ADR-0001` & `ADR-0002`), PostgreSQL RLS Policies, Private Storage Baseline & Cross-Tenant Denial Tests.
+1. Run `supabase start && supabase db reset && supabase test db` on a Docker + Supabase CLI host to verify all 26 pgTAP assertions live.
+2. Execute **`P1-M04`** — Global Sign-In Flow, Verified Workspace & Institution Selector, and Server-Side Tenant Context Resolver.

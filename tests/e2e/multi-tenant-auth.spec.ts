@@ -105,7 +105,8 @@ test.describe("Live multi-tenant auth, isolation, dual-member switching & platfo
         name: "Sunrise Synthetic CBSE Academy",
       }),
     ).toBeVisible();
-    await expect(page.getByText("Principal (principal)")).toBeVisible();
+    await expect(page.locator("#governance")).toContainText("Principal");
+    await expect(page.locator("#governance")).toContainText("(principal)");
     await expect(
       page.getByRole("link", { name: "Governance & Roles" }).first(),
     ).toBeVisible();
@@ -162,9 +163,10 @@ test.describe("Live multi-tenant auth, isolation, dual-member switching & platfo
         name: "Sunrise Synthetic CBSE Academy",
       }),
     ).toBeVisible();
-    await expect(
-      page.getByText("Subject Teacher (subject_teacher)"),
-    ).toBeVisible();
+    await expect(page.locator("#governance")).toContainText("Subject Teacher");
+    await expect(page.locator("#governance")).toContainText(
+      "(subject_teacher)",
+    );
     await expect(
       page.getByRole("link", { name: "Governance & Roles" }),
     ).toHaveCount(0);
@@ -183,9 +185,12 @@ test.describe("Live multi-tenant auth, isolation, dual-member switching & platfo
         name: "Valley Synthetic CBSE Senior Secondary",
       }),
     ).toBeVisible();
-    await expect(
-      page.getByText("Parent / Guardian (parent_guardian)"),
-    ).toBeVisible();
+    await expect(page.locator("#governance")).toContainText(
+      "Parent / Guardian",
+    );
+    await expect(page.locator("#governance")).toContainText(
+      "(parent_guardian)",
+    );
 
     await page.goto("/platform");
     await expect(appAlert(page)).toContainText(

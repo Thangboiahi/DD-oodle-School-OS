@@ -6,6 +6,19 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.4.0-alpha.4] - 2026-11-28
+
+### Added
+- Added pure hybrid assignment schemas and domain rules (`lib/assignments/{schemas,rules}.ts`): `objectiveQuestionSchema`, `createAssignmentSchema` (auto-MCQ refinements), `transitionAssignmentStatusSchema`, `submitStudentAssignmentSchema` (traversal-safe relative storage paths), `recordOfflineCompletionSchema`, `evaluateSubmissionSchema`, deterministic `scoreObjectiveQuiz()`, `determineSubmissionStatus()`, `canTransitionAssignmentStatus()`, `canStudentSubmitAssignment()`, `sanitizeObjectiveQuestionsForLearner()`, `buildMonitorBoardAssignmentView()`, and `computeAssignmentCompletionMetrics()`.
+- Added caller-RLS server-only Assignments DAL (`server/assignments/service.ts` with `import "server-only"`, zero admin client imports, batched `fetchPersonNameMap()`, student grade-column RLS compliance, and server-computed `auto_mcq` score confirmation) and Server Actions (`app/t/[slug]/assignments/actions.ts`).
+- Added `"Assignments"` workspace nav link (`components/shell/{nav-config,AppShell}.tsx`, `lib/auth/navigation.ts`), controlled client draft box (`components/assignments/OfflineDraftBox.tsx`), and 2 compact WCAG AA responsive routes at `/t/[slug]/assignments` (including Monitor read-only classroom board) and `/t/[slug]/assignments/[assignmentId]` (student MCQ/text submit, offline notebook completion, evaluation, and contextual `record_comments`).
+- Wired live Phase 4 assignments & submission summaries directly into Phase 3's Digital Student Handbook (`server/handbook/service.ts`, `lib/handbook/rules.ts`, `app/t/[slug]/handbook/[studentProfileId]/page.tsx`) while preserving Monitor peer denial and leaving Phase 6 (`Fee Receipts & Ledger`) as the remaining planned seam.
+- Added unit tests in `tests/unit/assignments-rules.test.ts` and updated `tests/unit/handbook-rules.test.ts` and `tests/unit/safe-redirect-and-nav.test.ts`.
+
+### Documentation
+- Recorded `P4-M03` live CI Run `46118712061` (`314875f`: `108/108` Vitest, `178/178` pgTAP + `db lint`, `20/20` Playwright) in `docs/progress/MILESTONE-REPORT-P4-M03.md` and `docs/PROJECT_STATUS.md`.
+- Created `docs/phase-plans/PHASE-04-MILESTONE-04-hybrid-assignments-and-handbook-wiring.md` and `docs/progress/MILESTONE-REPORT-P4-M04.md`; updated `docs/README.md` and `docs/architecture/ARCHITECTURE_OVERVIEW.md`.
+
 ## [0.4.0-alpha.3] - 2026-11-28
 
 ### Added

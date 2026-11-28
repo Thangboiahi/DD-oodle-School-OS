@@ -205,6 +205,27 @@ function NavIconSvg({ icon }: { icon: ShellNavIcon }) {
           />
         </svg>
       );
+    case "assignments":
+      return (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          className="h-4 w-4 shrink-0"
+        >
+          <path
+            d="M6.5 4.5h7a1.5 1.5 0 0 1 1.5 1.5v10a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 5 16V6a1.5 1.5 0 0 1 1.5-1.5Z"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M8 3.5h4M7.5 10l1.5 1.5 3.5-3.5M7.5 14h5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
     case "imports":
       return (
         <svg

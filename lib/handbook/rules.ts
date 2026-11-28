@@ -264,26 +264,18 @@ export function canGuardianAcknowledgeEntry(
 
 export interface HandbookExtensionSeamDto {
   id: string;
-  phase: "Phase 4" | "Phase 6";
+  phase: "Phase 6";
   title: string;
   status: "planned";
   description: string;
 }
 
 /**
- * Typed ADR-0006 extension seams reserving future Phase 4 & Phase 6 sections
- * without emitting placeholder rows.
+ * Typed ADR-0006 extension seams reserving future Phase 6 sections
+ * without emitting placeholder rows now that Phase 4 Assignments are live.
  */
 export function buildHandbookExtensionSeams(): readonly HandbookExtensionSeamDto[] {
   return [
-    {
-      id: "assignments-work",
-      phase: "Phase 4",
-      title: "Assignments & Subject Work",
-      status: "planned",
-      description:
-        "Assignments & Subject Work — available in Phase 4 (coursework, rubric status, and submission tracking).",
-    },
     {
       id: "fee-receipts-ledger",
       phase: "Phase 6",

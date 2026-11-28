@@ -125,6 +125,12 @@ export function buildInstitutionNav(
         href: `${basePath}/planning`,
         icon: "planning",
       },
+      {
+        id: "assignments",
+        label: "Assignments",
+        href: `${basePath}/assignments`,
+        icon: "assignments",
+      },
     );
   }
 

@@ -170,7 +170,7 @@ export default async function StudentHandbookDetailPage({
           detail.student.rollNumber ? ` • Roll #${detail.student.rollNumber}` : ""
         }${detail.student.sessionName ? ` • ${detail.student.sessionName}` : ""}`}
       >
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-3">
           <div className="rounded-md border border-border-subtle bg-elevated p-3 text-xs">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="font-semibold text-fg">
@@ -208,6 +208,28 @@ export default async function StudentHandbookDetailPage({
             <p className="mt-1 text-fg-muted">
               Assembled live from authoritative leave and guardian notice tables
               under caller PostgreSQL RLS.
+            </p>
+          </div>
+
+          <div className="rounded-md border border-border-subtle bg-elevated p-3 text-xs">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="font-semibold text-fg">
+                Live Assignments &amp; Coursework
+              </span>
+              <Badge
+                tone={
+                  detail.liveAssignmentsSummary.pendingCount > 0
+                    ? "warning"
+                    : "success"
+                }
+              >
+                {detail.liveAssignmentsSummary.completedCount}/
+                {detail.liveAssignmentsSummary.totalAssigned} done
+              </Badge>
+            </div>
+            <p className="mt-1 text-fg-muted">
+              Evaluated: {detail.liveAssignmentsSummary.evaluatedCount} •
+              Pending: {detail.liveAssignmentsSummary.pendingCount}
             </p>
           </div>
         </div>
@@ -689,8 +711,87 @@ export default async function StudentHandbookDetailPage({
       </div>
 
       <Card
+        title="Assignments & Subject Work (Phase 4 Live)"
+        description="Live assignment submissions, offline notebook completions, and evaluation remarks assembled strictly under caller RLS."
+      >
+        {detail.liveAssignmentsSummary.recentRecords.length === 0 ? (
+          <p className="text-xs text-fg-muted">
+            No published or closed assignments are currently active for this
+            student&apos;s enrolled teaching groups.
+          </p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[38rem] border-collapse text-left text-xs">
+              <thead>
+                <tr className="border-b border-border-subtle text-fg-muted">
+                  <th className="py-2 pr-3 font-medium">Assignment</th>
+                  <th className="py-2 pr-3 font-medium">Subject / Group</th>
+                  <th className="py-2 pr-3 font-medium">Channel</th>
+                  <th className="py-2 pr-3 font-medium">Status</th>
+                  <th className="py-2 pr-3 font-medium">Marks</th>
+                  <th className="py-2 font-medium">Teacher Remarks</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border-subtle">
+                {detail.liveAssignmentsSummary.recentRecords.map((rec) => (
+                  <tr key={rec.assignmentId}>
+                    <td className="py-2 pr-3 font-medium text-fg">
+                      <Link
+                        href={`/t/${encodeURIComponent(context.institutionSlug)}/assignments/${encodeURIComponent(rec.assignmentId)}`}
+                        className="text-accent hover:underline"
+                      >
+                        {rec.title}
+                      </Link>
+                      <span className="ml-1.5 text-[11px] text-fg-muted">
+                        ({rec.assignmentType})
+                      </span>
+                    </td>
+                    <td className="py-2 pr-3 text-fg-muted">
+                      {rec.teachingGroupLabel}
+                    </td>
+                    <td className="py-2 pr-3 text-fg-muted">
+                      {rec.submissionChannel === "offline_recorded"
+                        ? "Offline"
+                        : rec.submissionChannel === "online"
+                          ? "Online"
+                          : rec.submissionMode}
+                    </td>
+                    <td className="py-2 pr-3">
+                      <Badge
+                        tone={
+                          rec.submissionStatus === "evaluated" ||
+                          rec.submissionStatus === "completed_offline"
+                            ? "success"
+                            : rec.submissionStatus === "resubmit_requested" ||
+                                rec.submissionStatus === "late_submitted"
+                              ? "warning"
+                              : "neutral"
+                        }
+                      >
+                        {rec.submissionStatus.replace("_", " ")}
+                      </Badge>
+                    </td>
+                    <td className="py-2 pr-3 font-mono text-fg">
+                      {rec.marksAwarded !== null
+                        ? `${rec.marksAwarded}${rec.maxMarks !== null ? ` / ${rec.maxMarks}` : ""}`
+                        : rec.maxMarks !== null
+                          ? `— / ${rec.maxMarks}`
+                          : "—"}
+                    </td>
+                    <td className="py-2 text-fg-muted">
+                      {rec.teacherRemarks ?? "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Card>
+
+      <Card
         title="Upcoming Handbook Sections (ADR-0006 Extension Seams)"
-        description="Authoritative Phase 4 & Phase 6 module sections integrate live at read time without schema duplication."
+        description="Authoritative Phase 6 fee ledger integrates live at read time without schema duplication."
       >
         <div className="grid gap-3 sm:grid-cols-2">
           {detail.extensionSeams.map((seam) => (

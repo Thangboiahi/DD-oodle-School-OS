@@ -5,6 +5,13 @@ import {
   type AttendanceShortageSummary,
 } from "@/lib/attendance/rules";
 import type {
+  AssignmentStatus,
+  AssignmentType,
+  SubmissionChannel,
+  SubmissionMode,
+  SubmissionStatus,
+} from "@/lib/assignments/schemas";
+import type {
   StudentDailyAttendanceStatus,
   StudentVerificationStatus,
 } from "@/lib/attendance/schemas";
@@ -128,6 +135,29 @@ export interface HandbookParentNoticeRecordDto {
   guardianName: string;
 }
 
+export interface HandbookAssignmentRecordDto {
+  assignmentId: string;
+  title: string;
+  teachingGroupLabel: string;
+  assignmentType: AssignmentType;
+  submissionMode: SubmissionMode;
+  assignmentStatus: AssignmentStatus;
+  dueAt: string | null;
+  maxMarks: number | null;
+  submissionChannel: SubmissionChannel | null;
+  submissionStatus: SubmissionStatus;
+  marksAwarded: number | null;
+  teacherRemarks: string | null;
+}
+
+export interface HandbookLiveAssignmentsSummaryDto {
+  totalAssigned: number;
+  completedCount: number;
+  pendingCount: number;
+  evaluatedCount: number;
+  recentRecords: readonly HandbookAssignmentRecordDto[];
+}
+
 export type StudentHandbookDetailResult =
   | { status: "not-found" }
   | { status: "denied"; reason: string }
@@ -162,6 +192,7 @@ export type StudentHandbookDetailResult =
       };
       leaves: readonly HandbookLeaveRecordDto[];
       parentNotices: readonly HandbookParentNoticeRecordDto[];
+      liveAssignmentsSummary: HandbookLiveAssignmentsSummaryDto;
       entries: readonly HandbookEntryDto[];
       authoringPolicy: HandbookAuthoringPolicy;
       assignedTeachingGroups: readonly HandbookTeachingGroupOptionDto[];
@@ -839,6 +870,170 @@ export async function getStudentHandbookDetail(
     (tgRes.data ?? []).map((g) => [g.id, `${g.code} — ${g.name}`]),
   );
 
+  let liveAssignmentsSummary: HandbookLiveAssignmentsSummaryDto = {
+    totalAssigned: 0,
+    completedCount: 0,
+    pendingCount: 0,
+    evaluatedCount: 0,
+    recentRecords: [],
+  };
+
+  if (scope.activeSession && enrolmentRes.data?.id) {
+    const [tgMembershipRes, studentSubmissionsRes] = await Promise.all([
+      supabase
+        .from("teaching_group_memberships")
+        .select("teaching_group_id")
+        .eq("institution_id", context.institutionId)
+        .eq("student_enrolment_id", enrolmentRes.data.id)
+        .eq("status", "active")
+        .returns<{ teaching_group_id: string }[]>(),
+      supabase
+        .from("assignment_submissions")
+        .select(
+          "assignment_id, submission_channel, status, marks_awarded, teacher_remarks",
+        )
+        .eq("institution_id", context.institutionId)
+        .eq("student_profile_id", studentProfile.id)
+        .eq("student_enrolment_id", enrolmentRes.data.id)
+        .returns<
+          {
+            assignment_id: string;
+            submission_channel: SubmissionChannel;
+            status: SubmissionStatus;
+            marks_awarded: number | null;
+            teacher_remarks: string | null;
+          }[]
+        >(),
+    ]);
+
+    if (tgMembershipRes.error) {
+      throw new Error(
+        `Failed to resolve student teaching group memberships: ${tgMembershipRes.error.message}`,
+      );
+    }
+    if (studentSubmissionsRes.error) {
+      throw new Error(
+        `Failed to resolve student assignment submissions: ${studentSubmissionsRes.error.message}`,
+      );
+    }
+
+    const enrolledTgIds = [
+      ...new Set(
+        (tgMembershipRes.data ?? []).map((row) => row.teaching_group_id),
+      ),
+    ];
+
+    if (enrolledTgIds.length > 0) {
+      const [assignmentsRes, missingTgLabelsRes] = await Promise.all([
+        supabase
+          .from("assignments")
+          .select(
+            "id, teaching_group_id, title, assignment_type, submission_mode, max_marks, due_at, status, created_at",
+          )
+          .eq("institution_id", context.institutionId)
+          .eq("session_id", scope.activeSession.id)
+          .in("teaching_group_id", enrolledTgIds)
+          .in("status", ["published", "closed"])
+          .order("due_at", { ascending: false, nullsFirst: false })
+          .order("created_at", { ascending: false })
+          .limit(30)
+          .returns<
+            {
+              id: string;
+              teaching_group_id: string;
+              title: string;
+              assignment_type: AssignmentType;
+              submission_mode: SubmissionMode;
+              max_marks: number | null;
+              due_at: string | null;
+              status: AssignmentStatus;
+              created_at: string;
+            }[]
+          >(),
+        (() => {
+          const missingIds = enrolledTgIds.filter((id) => !tgLabelById.has(id));
+          if (missingIds.length === 0) {
+            return Promise.resolve({ data: [], error: null });
+          }
+          return supabase
+            .from("teaching_groups")
+            .select("id, code, name")
+            .eq("institution_id", context.institutionId)
+            .in("id", missingIds)
+            .returns<{ id: string; code: string; name: string }[]>();
+        })(),
+      ]);
+
+      if (assignmentsRes.error) {
+        throw new Error(
+          `Failed to load student assignments for handbook: ${assignmentsRes.error.message}`,
+        );
+      }
+      if (missingTgLabelsRes.error) {
+        throw new Error(
+          `Failed to resolve teaching group labels for assignments: ${missingTgLabelsRes.error.message}`,
+        );
+      }
+
+      for (const tgRow of missingTgLabelsRes.data ?? []) {
+        tgLabelById.set(tgRow.id, `${tgRow.code} — ${tgRow.name}`);
+      }
+
+      const submissionByAssignmentId = new Map(
+        (studentSubmissionsRes.data ?? []).map((sub) => [sub.assignment_id, sub]),
+      );
+
+      const assignmentRows = assignmentsRes.data ?? [];
+      let completedCount = 0;
+      let evaluatedCount = 0;
+
+      const records: HandbookAssignmentRecordDto[] = assignmentRows.map(
+        (asg) => {
+          const sub = submissionByAssignmentId.get(asg.id);
+          const subStatus: SubmissionStatus = sub?.status ?? "assigned";
+          if (
+            subStatus === "submitted" ||
+            subStatus === "late_submitted" ||
+            subStatus === "completed_offline" ||
+            subStatus === "evaluated"
+          ) {
+            completedCount += 1;
+          }
+          if (subStatus === "evaluated") {
+            evaluatedCount += 1;
+          }
+
+          return {
+            assignmentId: asg.id,
+            title: asg.title,
+            teachingGroupLabel:
+              tgLabelById.get(asg.teaching_group_id) ?? "Teaching Group",
+            assignmentType: asg.assignment_type,
+            submissionMode: asg.submission_mode,
+            assignmentStatus: asg.status,
+            dueAt: asg.due_at,
+            maxMarks: asg.max_marks !== null ? Number(asg.max_marks) : null,
+            submissionChannel: sub?.submission_channel ?? null,
+            submissionStatus: subStatus,
+            marksAwarded:
+              sub?.marks_awarded !== null && sub?.marks_awarded !== undefined
+                ? Number(sub.marks_awarded)
+                : null,
+            teacherRemarks: sub?.teacher_remarks ?? null,
+          };
+        },
+      );
+
+      liveAssignmentsSummary = {
+        totalAssigned: assignmentRows.length,
+        completedCount,
+        pendingCount: Math.max(0, assignmentRows.length - completedCount),
+        evaluatedCount,
+        recentRecords: records.slice(0, 15),
+      };
+    }
+  }
+
   const policyMin = policyRes.data
     ? Number(policyRes.data.minimum_attendance_percent)
     : 75;
@@ -945,6 +1140,7 @@ export async function getStudentHandbookDetail(
       status: n.status,
       guardianName: personNameMap.get(n.guardian_person_id) ?? "Guardian",
     })),
+    liveAssignmentsSummary,
     entries,
     authoringPolicy: authoringState.authoringPolicy,
     assignedTeachingGroups: authoringState.assignedTeachingGroups,

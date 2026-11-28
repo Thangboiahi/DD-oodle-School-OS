@@ -10,6 +10,7 @@ export type ShellNavIcon =
   | "handbook"
   | "communication"
   | "planning"
+  | "assignments"
   | "imports"
   | "governance"
   | "audit"

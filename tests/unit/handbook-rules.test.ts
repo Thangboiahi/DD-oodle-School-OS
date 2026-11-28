@@ -181,13 +181,13 @@ describe("handbook authoring policy & validation boundaries", () => {
     ).toBe(false);
   });
 
-  it("marks disciplinary and student_support sensitive and builds Phase 4/6 extension seams", () => {
+  it("marks disciplinary and student_support sensitive and reserves Phase 6 extension seam now that Phase 4 is live", () => {
     expect(HANDBOOK_CATEGORY_META.disciplinary.isSensitive).toBe(true);
     expect(HANDBOOK_CATEGORY_META.student_support.isSensitive).toBe(true);
     expect(HANDBOOK_CATEGORY_META.academic_observation.isSensitive).toBe(false);
 
     const seams = buildHandbookExtensionSeams();
-    expect(seams.map((s) => s.phase)).toEqual(["Phase 4", "Phase 6"]);
+    expect(seams.map((s) => s.phase)).toEqual(["Phase 6"]);
     expect(seams.every((s) => s.status === "planned")).toBe(true);
   });
 });

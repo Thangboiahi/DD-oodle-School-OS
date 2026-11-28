@@ -6,6 +6,18 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.5.0-alpha.1] - 2026-11-28
+
+### Added
+- Recorded accepted Phase 5 ADRs: `docs/decisions/ADR-0009-versioned-weekly-timetables-and-substitutions.md` (versioned `timetables`, partial unique double-booking constraints on `timetable_slots`, and date-scoped non-mutating `timetable_substitutions`) and `docs/decisions/ADR-0010-configurable-assessment-schemes-and-immutable-result-snapshots.md` (configurable versioned `assessment_schemes`, staged `exam_marks_entries` governance, zero student/guardian/monitor access to raw marks, and statement-level immutable `result_snapshots` with reason-audited reissues).
+- Added Migration 17 (`supabase/migrations/202611280008_timetable_and_calendar_schema.sql`): 6 tables (`venues`, `timetable_periods`, `timetables`, `timetable_slots` with partial unique indexes preventing teacher/venue/teaching_group double-booking, `timetable_substitutions`, `academic_calendar_events` with strict `scope_type` target check) with composite tenant FKs and B-tree indexes.
+- Added Migration 18 (`supabase/migrations/202611280009_examinations_and_result_snapshots.sql`): 5 tables (`assessment_schemes`, `exam_cycles`, `exam_schedules`, `exam_marks_entries`, and append-only `result_snapshots` protected by statement-level `BEFORE UPDATE OR DELETE` trigger `trg_result_snapshots_immutable` raising `42501` and requiring non-empty `reissue_reason` when `revision_no > 1`).
+- Added Migration 19 (`supabase/migrations/202611280010_phase5_rls_and_helpers.sql`): enabled + forced RLS across all 11 new tables (**56** total forced-RLS `public.*` tables across 19 migrations), added private `app_auth` helpers (`can_manage_timetable`, `can_read_timetable`, `can_write_timetable_substitution`, `can_manage_exams`, `can_enter_exam_marks`, `can_moderate_exam_marks`, `can_read_result_snapshot`), and configured strict `TO authenticated` RLS policies.
+- Expanded `supabase/seed.sql` (preserving all Phase 1–4 fixtures), added 50-assertion pgTAP suite (`supabase/tests/06_phase5_timetable_exams_results_rls.test.sql`), and updated `tests/unit/sql-migration-invariants.test.ts` to assert all **56** forced-RLS public tables.
+
+### Documentation
+- Created `docs/phase-plans/PHASE-05-MILESTONE-01-timetable-exams-results-schema.md` and `docs/progress/MILESTONE-REPORT-P5-M01.md`; updated `docs/ROADMAP.md` (Phase 5 `In Progress`), `docs/PROJECT_STATUS.md`, `docs/README.md`, `docs/security/MULTI_TENANT_RLS_BASELINE.md`, `docs/architecture/ARCHITECTURE_OVERVIEW.md`, and `docs/compliance/COMPLIANCE_AND_RESEARCH_REGISTER.md` (`REF-10B`).
+
 ## [0.4.0] - 2026-11-28
 
 ### Added

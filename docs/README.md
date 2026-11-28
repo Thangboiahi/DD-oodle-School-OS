@@ -26,6 +26,8 @@ This directory contains the living operational, architectural, governance, compl
 - [`decisions/ADR-0006-category-partitioned-digital-student-handbook.md`](decisions/ADR-0006-category-partitioned-digital-student-handbook.md) — Accepted ADR: category- and visibility-scope-partitioned Digital Student Handbook enforced in PostgreSQL RLS.
 - [`decisions/ADR-0007-record-bound-contextual-communication.md`](decisions/ADR-0007-record-bound-contextual-communication.md) — Accepted ADR: strictly record-bound contextual comments, scoped official notices, and formal parent enquiry cases.
 - [`decisions/ADR-0008-unified-hybrid-assignments-and-handbook-seam.md`](decisions/ADR-0008-unified-hybrid-assignments-and-handbook-seam.md) — Accepted ADR: unified online/offline/MCQ assignments, normalized syllabus hierarchy, and Digital Handbook Phase 4 seam.
+- [`decisions/ADR-0009-versioned-weekly-timetables-and-substitutions.md`](decisions/ADR-0009-versioned-weekly-timetables-and-substitutions.md) — Accepted ADR: versioned weekly timetables, slot conflict constraints, and non-mutating daily substitutions.
+- [`decisions/ADR-0010-configurable-assessment-schemes-and-immutable-result-snapshots.md`](decisions/ADR-0010-configurable-assessment-schemes-and-immutable-result-snapshots.md) — Accepted ADR: configurable assessment schemes, staged marks governance, and statement-level immutable result snapshots with audited reissues.
 - [`architecture/ARCHITECTURE_OVERVIEW.md`](architecture/ARCHITECTURE_OVERVIEW.md) — Confirmed repository facts separated from approved baseline / proposed system design.
 - [`testing/TEST_STRATEGY.md`](testing/TEST_STRATEGY.md) — Testing pyramid, RLS cross-tenant denial gates and verification standards.
 - [`security/MULTI_TENANT_RLS_BASELINE.md`](security/MULTI_TENANT_RLS_BASELINE.md) — Private `app_auth` helpers, forced RLS policies, composite tenant FKs, audit immutability, private Storage isolation, server-only auth DAL & permission engine.
@@ -53,6 +55,7 @@ This directory contains the living operational, architectural, governance, compl
 - [`phase-plans/PHASE-04-MILESTONE-03-academic-planning-syllabus-lessons-resources-ui.md`](phase-plans/PHASE-04-MILESTONE-03-academic-planning-syllabus-lessons-resources-ui.md) — Part E milestone plan for `P4-M03` (Academic Planning, Syllabus Hierarchy, Lesson Plans, Subject Learning Resources & Oversight).
 - [`phase-plans/PHASE-04-MILESTONE-04-hybrid-assignments-and-handbook-wiring.md`](phase-plans/PHASE-04-MILESTONE-04-hybrid-assignments-and-handbook-wiring.md) — Part E milestone plan for `P4-M04` (Unified Hybrid Assignments, MCQ Quizzes, Offline Completion, Monitor Board & Live Handbook Phase 4 Wiring).
 - [`phase-plans/PHASE-04-MILESTONE-05-exit-gate-e2e-verification.md`](phase-plans/PHASE-04-MILESTONE-05-exit-gate-e2e-verification.md) — Part E milestone plan for `P4-M05` (Phase 4 Exit Gate E2E Verification & Phase 4 Closure).
+- [`phase-plans/PHASE-05-MILESTONE-01-timetable-exams-results-schema.md`](phase-plans/PHASE-05-MILESTONE-01-timetable-exams-results-schema.md) — Part E milestone plan for `P5-M01` (Phase 5 ADRs, Timetable, Calendar, Examinations & Immutable Result Snapshots Core Schema, Forced RLS & pgTAP Suite).
 - [`progress/MILESTONE-REPORT-P0-M01.md`](progress/MILESTONE-REPORT-P0-M01.md) — Audited completion report for Milestone `P0-M01`.
 - [`progress/MILESTONE-REPORT-P1-M01.md`](progress/MILESTONE-REPORT-P1-M01.md) — Audited completion report for Milestone `P1-M01`.
 - [`progress/MILESTONE-REPORT-P1-M02.md`](progress/MILESTONE-REPORT-P1-M02.md) — Audited completion report for Milestone `P1-M02`.
@@ -75,6 +78,7 @@ This directory contains the living operational, architectural, governance, compl
 - [`progress/MILESTONE-REPORT-P4-M03.md`](progress/MILESTONE-REPORT-P4-M03.md) — Audited completion report & CI Run `46118712061` evidence for Milestone `P4-M03`.
 - [`progress/MILESTONE-REPORT-P4-M04.md`](progress/MILESTONE-REPORT-P4-M04.md) — Audited completion report & CI Run `46120075849` evidence for Milestone `P4-M04`.
 - [`progress/MILESTONE-REPORT-P4-M05.md`](progress/MILESTONE-REPORT-P4-M05.md) — Audited completion report & CI Run `46122793847` evidence for Milestone `P4-M05` (Phase 4 Complete).
+- [`progress/MILESTONE-REPORT-P5-M01.md`](progress/MILESTONE-REPORT-P5-M01.md) — Completion report & verification record for Milestone `P5-M01`.
 
 ## Deferred `docs/` Folders (Per Blueprint Part D1)
 

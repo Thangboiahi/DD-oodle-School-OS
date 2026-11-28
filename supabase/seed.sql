@@ -1695,4 +1695,538 @@ VALUES
   )
 ON CONFLICT (id) DO NOTHING;
 
+-- ============================================================
+-- Phase 5 Seed: Venues, Periods, Versioned Timetables, Slots,
+-- Substitutions, Academic Calendar Events, Assessment Schemes,
+-- Exam Cycles, Exam Schedules, Marks Entries & Immutable Result Snapshots
+-- ============================================================
+
+INSERT INTO public.venues (id, institution_id, code, name, venue_kind, capacity, building, floor)
+VALUES
+  ('eeeeeeee-eeee-4eee-8eee-eeeeeeee0101', '11111111-1111-4111-8111-111111111101', 'RM-XI-A', 'Class XI-A Homeroom', 'classroom', 40, 'Block B', '2nd Floor'),
+  ('eeeeeeee-eeee-4eee-8eee-eeeeeeee0102', '11111111-1111-4111-8111-111111111101', 'LAB-CS-1', 'Computer Science Lab 1', 'lab', 35, 'Block C', '1st Floor'),
+  ('eeeeeeee-eeee-4eee-8eee-eeeeeeee0201', '11111111-1111-4111-8111-111111111102', 'V-RM-1', 'Valley Wing XI-A Room', 'classroom', 40, 'North Wing', '1st Floor')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.timetable_periods (id, institution_id, code, label, period_kind, sequence_no, start_time, end_time)
+VALUES
+  ('eeeeeeee-eeee-4eee-8eee-eeeeeeee1101', '11111111-1111-4111-8111-111111111101', 'P1', 'Period 1', 'instructional', 1, '08:30:00', '09:15:00'),
+  ('eeeeeeee-eeee-4eee-8eee-eeeeeeee1102', '11111111-1111-4111-8111-111111111101', 'P2', 'Period 2', 'instructional', 2, '09:15:00', '10:00:00'),
+  ('eeeeeeee-eeee-4eee-8eee-eeeeeeee1103', '11111111-1111-4111-8111-111111111101', 'BREAK-1', 'Short Recess', 'break', 3, '10:00:00', '10:20:00'),
+  ('eeeeeeee-eeee-4eee-8eee-eeeeeeee1201', '11111111-1111-4111-8111-111111111102', 'P1', 'Morning Period 1', 'instructional', 1, '08:30:00', '09:15:00')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.timetables (
+  id,
+  institution_id,
+  session_id,
+  term_id,
+  code,
+  name,
+  version_no,
+  effective_from,
+  effective_to,
+  status,
+  is_offline_cacheable,
+  published_at,
+  published_by_person_id,
+  authored_by_person_id
+)
+VALUES
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee2101',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999991102',
+    'TT-AY26-T2',
+    'Term 2 Senior Secondary Master Timetable (v1)',
+    1,
+    '2026-10-01',
+    '2027-03-31',
+    'published',
+    true,
+    '2026-10-01T03:00:00Z',
+    '33333333-3333-4333-8333-333333333301',
+    '33333333-3333-4333-8333-333333333301'
+  ),
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee2102',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999991102',
+    'TT-AY26-T2',
+    'Term 2 Senior Secondary Master Timetable (v2 Draft)',
+    2,
+    '2027-01-05',
+    '2027-03-31',
+    'draft',
+    true,
+    NULL,
+    NULL,
+    '33333333-3333-4333-8333-333333333301'
+  ),
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee2201',
+    '11111111-1111-4111-8111-111111111102',
+    '99999999-9999-4999-8999-999999990201',
+    '99999999-9999-4999-8999-999999991202',
+    'V-TT-AY26-T2',
+    'Valley Term 2 Timetable (v1)',
+    1,
+    '2026-10-01',
+    '2027-03-31',
+    'published',
+    true,
+    '2026-10-01T03:30:00Z',
+    '33333333-3333-4333-8333-333333333303',
+    '33333333-3333-4333-8333-333333333303'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.timetable_slots (
+  id,
+  institution_id,
+  timetable_id,
+  day_of_week,
+  period_id,
+  teaching_group_id,
+  section_id,
+  teacher_person_id,
+  venue_id,
+  notes
+)
+VALUES
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee3101',
+    '11111111-1111-4111-8111-111111111101',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee2101',
+    1,
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee1101',
+    '99999999-9999-4999-8999-999999999101',
+    NULL,
+    '33333333-3333-4333-8333-333333333302',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee0101',
+    'Applied Mathematics cross-section Monday Period 1'
+  ),
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee3102',
+    '11111111-1111-4111-8111-111111111101',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee2101',
+    1,
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee1102',
+    '99999999-9999-4999-8999-999999999102',
+    NULL,
+    '33333333-3333-4333-8333-333333333305',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee0102',
+    'Computer Science Lab Monday Period 2'
+  ),
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee3201',
+    '11111111-1111-4111-8111-111111111102',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee2201',
+    1,
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee1201',
+    NULL,
+    '99999999-9999-4999-8999-999999994201',
+    '33333333-3333-4333-8333-333333333303',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee0201',
+    'Valley XI-A Homeroom Period 1'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.timetable_substitutions (
+  id,
+  institution_id,
+  timetable_slot_id,
+  substitution_date,
+  original_teacher_person_id,
+  substitute_teacher_person_id,
+  reason,
+  status,
+  assigned_by_person_id
+)
+VALUES
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee4101',
+    '11111111-1111-4111-8111-111111111101',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee3101',
+    '2026-11-30',
+    '33333333-3333-4333-8333-333333333302',
+    '33333333-3333-4333-8333-333333333305',
+    'Subject teacher attending CBSE Senior Secondary regional moderation workshop',
+    'assigned',
+    '33333333-3333-4333-8333-333333333301'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.academic_calendar_events (
+  id,
+  institution_id,
+  session_id,
+  term_id,
+  scope_type,
+  department_id,
+  section_id,
+  event_kind,
+  title,
+  description,
+  starts_on,
+  ends_on,
+  is_non_instructional,
+  status,
+  authored_by_person_id
+)
+VALUES
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee5101',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999991102',
+    'institution',
+    NULL,
+    NULL,
+    'holiday',
+    'Winter Break (Institutional Holiday)',
+    'Synthetic winter vacation across all departments.',
+    '2026-12-25',
+    '2027-01-03',
+    true,
+    'published',
+    '33333333-3333-4333-8333-333333333301'
+  ),
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee5102',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999991102',
+    'department',
+    '99999999-9999-4999-8999-999999992101',
+    NULL,
+    'parent_meeting',
+    'Draft Sr Sec PTM Planning Slot',
+    'Internal draft awaiting Principal calendar sign-off.',
+    '2026-12-19',
+    '2026-12-19',
+    false,
+    'draft',
+    '33333333-3333-4333-8333-333333333305'
+  ),
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee5201',
+    '11111111-1111-4111-8111-111111111102',
+    '99999999-9999-4999-8999-999999990201',
+    '99999999-9999-4999-8999-999999991202',
+    'institution',
+    NULL,
+    NULL,
+    'holiday',
+    'Valley Winter Vacation',
+    'Valley CBSE published school holiday window.',
+    '2026-12-26',
+    '2027-01-02',
+    true,
+    'published',
+    '33333333-3333-4333-8333-333333333303'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.assessment_schemes (
+  id,
+  institution_id,
+  code,
+  name,
+  board_code,
+  scheme_version,
+  source_reference,
+  compliance_verified_at,
+  components,
+  grading_scale,
+  pass_criteria,
+  is_active,
+  created_by_person_id
+)
+VALUES
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee6101',
+    '11111111-1111-4111-8111-111111111101',
+    'CBSE-SRSEC-CONFIG-V1',
+    'Configurable Senior Secondary Term Examination Pattern',
+    'CBSE_CONFIGURABLE',
+    '1.0',
+    'Institutional baseline pending verification against latest official cbseacademic.nic.in assessment circular',
+    NULL,
+    '[{"code":"THEORY","label":"Theory Paper","maxMarks":80},{"code":"INTERNAL","label":"Internal / Practical","maxMarks":20}]'::jsonb,
+    '[{"minPercent":91,"grade":"A1"},{"minPercent":81,"grade":"A2"},{"minPercent":71,"grade":"B1"},{"minPercent":33,"grade":"D"},{"minPercent":0,"grade":"E"}]'::jsonb,
+    '{"minOverallPercent":33,"minTheoryPercent":33}'::jsonb,
+    true,
+    '33333333-3333-4333-8333-333333333301'
+  ),
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee6201',
+    '11111111-1111-4111-8111-111111111102',
+    'CBSE-SRSEC-CONFIG-V1',
+    'Valley Configurable Senior Secondary Term Pattern',
+    'CBSE_CONFIGURABLE',
+    '1.0',
+    'Institutional baseline pending verification against latest official cbseacademic.nic.in assessment circular',
+    NULL,
+    '[{"code":"THEORY","label":"Theory Paper","maxMarks":80},{"code":"INTERNAL","label":"Internal Assessment","maxMarks":20}]'::jsonb,
+    '[{"minPercent":91,"grade":"A1"},{"minPercent":81,"grade":"A2"},{"minPercent":33,"grade":"D"},{"minPercent":0,"grade":"E"}]'::jsonb,
+    '{"minOverallPercent":33}'::jsonb,
+    true,
+    '33333333-3333-4333-8333-333333333303'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.exam_cycles (
+  id,
+  institution_id,
+  session_id,
+  term_id,
+  assessment_scheme_id,
+  code,
+  name,
+  starts_on,
+  ends_on,
+  status,
+  published_at,
+  published_by_person_id,
+  authored_by_person_id
+)
+VALUES
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee7101',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999991101',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee6101',
+    'TERM1-2026',
+    'Term 1 Half-Yearly Examination 2026',
+    '2026-09-10',
+    '2026-09-24',
+    'published',
+    '2026-10-05T05:00:00Z',
+    '33333333-3333-4333-8333-333333333301',
+    '33333333-3333-4333-8333-333333333301'
+  ),
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee7201',
+    '11111111-1111-4111-8111-111111111102',
+    '99999999-9999-4999-8999-999999990201',
+    '99999999-9999-4999-8999-999999991201',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee6201',
+    'TERM1-2026',
+    'Valley Term 1 Examination 2026',
+    '2026-09-12',
+    '2026-09-22',
+    'published',
+    '2026-10-06T05:00:00Z',
+    '33333333-3333-4333-8333-333333333303',
+    '33333333-3333-4333-8333-333333333303'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.exam_schedules (
+  id,
+  institution_id,
+  exam_cycle_id,
+  subject_offering_id,
+  teaching_group_id,
+  exam_date,
+  start_time,
+  end_time,
+  venue_id,
+  max_marks,
+  pass_marks,
+  instructions
+)
+VALUES
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee8101',
+    '11111111-1111-4111-8111-111111111101',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee7101',
+    '99999999-9999-4999-8999-999999997104',
+    '99999999-9999-4999-8999-999999999101',
+    '2026-09-14',
+    '09:00:00',
+    '12:00:00',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee0101',
+    100.00,
+    33.00,
+    'Bring non-programmable geometry instruments; CBSE formula sheet provided.'
+  ),
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee8102',
+    '11111111-1111-4111-8111-111111111101',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee7101',
+    '99999999-9999-4999-8999-999999997105',
+    '99999999-9999-4999-8999-999999999102',
+    '2026-09-17',
+    '09:00:00',
+    '12:00:00',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee0102',
+    100.00,
+    33.00,
+    'Written theory + practical viva record evaluation.'
+  ),
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee8201',
+    '11111111-1111-4111-8111-111111111102',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee7201',
+    '99999999-9999-4999-8999-999999997201',
+    NULL,
+    '2026-09-15',
+    '09:00:00',
+    '12:00:00',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee0201',
+    100.00,
+    33.00,
+    'English Core Term 1 written examination.'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.exam_marks_entries (
+  id,
+  institution_id,
+  exam_cycle_id,
+  exam_schedule_id,
+  student_enrolment_id,
+  student_profile_id,
+  component_marks,
+  total_marks,
+  attendance_flag,
+  status,
+  remarks,
+  entered_by_person_id,
+  moderated_by_person_id,
+  moderated_at,
+  approved_by_person_id,
+  approved_at
+)
+VALUES
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee9101',
+    '11111111-1111-4111-8111-111111111101',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee7101',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee8101',
+    '99999999-9999-4999-8999-999999998101',
+    '88888888-8888-4888-8888-888888880101',
+    '{"THEORY":72,"INTERNAL":18}'::jsonb,
+    90.00,
+    'present',
+    'published',
+    'Strong analytical accuracy across Unit 1.',
+    '33333333-3333-4333-8333-333333333302',
+    '33333333-3333-4333-8333-333333333305',
+    '2026-10-01T06:00:00Z',
+    '33333333-3333-4333-8333-333333333301',
+    '2026-10-02T06:00:00Z'
+  ),
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee9102',
+    '11111111-1111-4111-8111-111111111101',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee7101',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee8101',
+    '99999999-9999-4999-8999-999999998103',
+    '88888888-8888-4888-8888-888888880103',
+    '{"THEORY":64,"INTERNAL":16}'::jsonb,
+    80.00,
+    'present',
+    'draft',
+    'Subject teacher entry awaiting final check.',
+    '33333333-3333-4333-8333-333333333302',
+    NULL,
+    NULL,
+    NULL,
+    NULL
+  ),
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee9103',
+    '11111111-1111-4111-8111-111111111101',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee7101',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee8102',
+    '99999999-9999-4999-8999-999999998102',
+    '88888888-8888-4888-8888-888888880102',
+    '{"THEORY":70,"INTERNAL":19}'::jsonb,
+    89.00,
+    'present',
+    'submitted',
+    'Ready for Class Teacher / HOD moderation.',
+    '33333333-3333-4333-8333-333333333305',
+    NULL,
+    NULL,
+    NULL,
+    NULL
+  ),
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee9201',
+    '11111111-1111-4111-8111-111111111102',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee7201',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee8201',
+    '99999999-9999-4999-8999-999999998201',
+    '88888888-8888-4888-8888-888888880201',
+    '{"THEORY":68,"INTERNAL":18}'::jsonb,
+    86.00,
+    'present',
+    'published',
+    'Published Valley English Core Term 1 marks.',
+    '33333333-3333-4333-8333-333333333303',
+    '33333333-3333-4333-8333-333333333303',
+    '2026-10-03T06:00:00Z',
+    '33333333-3333-4333-8333-333333333303',
+    '2026-10-04T06:00:00Z'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.result_snapshots (
+  id,
+  institution_id,
+  exam_cycle_id,
+  student_enrolment_id,
+  student_profile_id,
+  revision_no,
+  supersedes_snapshot_id,
+  reissue_reason,
+  snapshot_payload,
+  overall_percentage,
+  overall_grade,
+  result_status,
+  published_at,
+  published_by_person_id
+)
+VALUES
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeeea101',
+    '11111111-1111-4111-8111-111111111101',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee7101',
+    '99999999-9999-4999-8999-999999998101',
+    '88888888-8888-4888-8888-888888880101',
+    1,
+    NULL,
+    NULL,
+    '{"cycleCode":"TERM1-2026","subjects":[{"subjectCode":"APP-MATH","maxMarks":100,"marksObtained":90,"grade":"A2"}]}'::jsonb,
+    90.00,
+    'A2',
+    'pass',
+    '2026-10-05T05:00:00Z',
+    '33333333-3333-4333-8333-333333333301'
+  ),
+  (
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeeea201',
+    '11111111-1111-4111-8111-111111111102',
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee7201',
+    '99999999-9999-4999-8999-999999998201',
+    '88888888-8888-4888-8888-888888880201',
+    1,
+    NULL,
+    NULL,
+    '{"cycleCode":"TERM1-2026","subjects":[{"subjectCode":"ENG-CORE","maxMarks":100,"marksObtained":86,"grade":"A2"}]}'::jsonb,
+    86.00,
+    'A2',
+    'pass',
+    '2026-10-06T05:00:00Z',
+    '33333333-3333-4333-8333-333333333303'
+  )
+ON CONFLICT (id) DO NOTHING;
+
 COMMIT;

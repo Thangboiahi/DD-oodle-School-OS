@@ -3,7 +3,7 @@
 - **Last Updated:** 2026-11-28
 - **Current Phase:** Phase 4 — Structured Communication & Academic Planning (**In Progress**; Phases 0–3 **Complete**)
 - **Current Milestone:** `P4-M01` — Phase 4 ADRs, Structured Communication, Academic Planning & Hybrid Assignments Core Schema, Forced RLS & pgTAP Suite (**Local Verified — Pushing for Live CI**)
-- **Overall Repository State:** Phases 0–3 **Complete** (`P3-M05` verified in CI Run `46105679125` on `efccad9` + `46109385779` on `0aedd64`); `P4-M01` adds `ADR-0007`/`ADR-0008`, 3 SQL migrations (`202611280005`–`202611280007`) extending `academic_terms` and creating 9 new forced-RLS tables (**45** forced-RLS public tables across 16 migrations), expanded synthetic seed, and 44-assertion pgTAP suite (`05_phase4_communication_planning_assignments_rls.test.sql`).
+- **Overall Repository State:** Phases 0–3 **Complete** (`P3-M05` verified in CI Run `46105679125` on `efccad9` + `46109385779` on `0aedd64`); `P4-M01` adds `ADR-0007`/`ADR-0008`, 3 SQL migrations (`202611280005`–`202611280007`) extending `academic_terms` and creating 9 new forced-RLS tables (**45** forced-RLS public tables across 16 migrations), expanded synthetic seed, and 47-assertion pgTAP suite (`05_phase4_communication_planning_assignments_rls.test.sql`).
 
 ---
 
@@ -41,7 +41,7 @@
 | `P3-M03` — Student & Staff Leave Workflows, Parent Notices & Verified Class Summary | **Complete** (`9b69e75`) | `lib/leave/{schemas,rules}.ts`, caller-RLS `server/leave/service.ts`, `/t/[slug]/leave*` & `/t/[slug]/attendance/summary` Server Actions & UI, `tests/unit/leave-and-summary-rules.test.ts`; CI Run `46099916419` passed all 3 jobs (`88/88` unit, `131/131` pgTAP + `db lint`, `15/15` Playwright) |
 | `P3-M04` — Digital Student Handbook with Strict Category & Visibility Privacy Controls | **Complete** (`bff9076`) | `lib/handbook/{schemas,rules}.ts`, caller-RLS `server/handbook/service.ts`, `/t/[slug]/handbook*` Server Actions & UI, and `tests/unit/handbook-rules.test.ts`; CI Run `46101572764` passed all 3 jobs (`95/95` unit, `131/131` pgTAP + `db lint`, `15/15` Playwright) |
 | `P3-M05` — Phase 3 Exit Gate & Phase 3 Closure | **Complete** (`efccad9`, `0aedd64`) | `tests/e2e/phase3-school-day-and-handbook.spec.ts`, `server/leave/service.ts` Monitor guard fix, and Phase 3 closure docs; CI Runs `46105679125` & `46109385779` passed all 3 jobs (`95/95` unit, `131/131` pgTAP + `db lint`, `20/20` Playwright) |
-| `P4-M01` — Phase 4 ADRs, Communication, Academic Planning & Hybrid Assignments Core Schema, RLS & pgTAP | **In Progress (Local Verified)** | `ADR-0007` & `ADR-0008`, Migrations `202611280005`–`202611280007` (`academic_terms.status` + 9 forced-RLS tables = 45 total), synthetic seed, 44-assertion pgTAP suite (`05_phase4_communication_planning_assignments_rls.test.sql`), and `sql-migration-invariants.test.ts` (45 tables) |
+| `P4-M01` — Phase 4 ADRs, Communication, Academic Planning & Hybrid Assignments Core Schema, RLS & pgTAP | **In Progress (Local Verified)** | `ADR-0007` & `ADR-0008`, Migrations `202611280005`–`202611280007` (`academic_terms.status` + 9 forced-RLS tables = 45 total), synthetic seed, 47-assertion pgTAP suite (`05_phase4_communication_planning_assignments_rls.test.sql`), and `sql-migration-invariants.test.ts` (45 tables) |
 
 ## 3. Latest Verification (`P4-M01` Local Verification + Baseline `P3-M05` CI Run `46109385779`)
 

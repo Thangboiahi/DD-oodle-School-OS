@@ -18,13 +18,13 @@
    - `202611280007_phase4_rls_and_helpers.sql`: Enables + forces RLS on all 9 new tables (**45** total forced-RLS `public.*` tables across 16 migrations, including existing `academic_terms`), defines 11 `STABLE SECURITY DEFINER SET search_path = ''` `app_auth` helpers (`is_active_staff_or_leadership`, `is_department_hod`, `is_teaching_group_oversight`, `is_student_or_guardian_in_teaching_group`, `is_monitor_for_teaching_group`, `can_manage_subject_offering_planning`, `can_read_subject_offering_planning`, `can_read_official_notice`, `can_read_parent_enquiry`, `can_read_assignment`, `can_read_record_comment`), and configures explicit `TO authenticated` RLS policies.
 3. **Synthetic Seed, pgTAP Suite & Static SQL Invariants:**
    - Expanded [`seed.sql`](../../supabase/seed.sql) (preserving all Phase 1–3 rows) with Sunrise & Valley `TERM-2` rows, Sunrise `APP-MATH` `syllabus_items` (`in_progress` + `delayed`), `lesson_plans`, `learning_resources`, published & draft hybrid `assignments`, `online` + `completed_offline` submissions, scoped `official_notices`, Sunrise & Valley `parent_enquiries`, and public + internal-staff `record_comments`.
-   - Added 44-assertion pgTAP suite [`05_phase4_communication_planning_assignments_rls.test.sql`](../../supabase/tests/05_phase4_communication_planning_assignments_rls.test.sql) and updated [`sql-migration-invariants.test.ts`](../../tests/unit/sql-migration-invariants.test.ts) to enforce all **45** forced-RLS `public.*` tables.
+   - Added 47-assertion pgTAP suite [`05_phase4_communication_planning_assignments_rls.test.sql`](../../supabase/tests/05_phase4_communication_planning_assignments_rls.test.sql) and updated [`sql-migration-invariants.test.ts`](../../tests/unit/sql-migration-invariants.test.ts) to enforce all **45** forced-RLS `public.*` tables.
 
 ---
 
 ## 2. Verification Summary
 
-- Local TypeScript, ESLint, Vitest (asserting 45 forced-RLS public tables), Next.js production build, and docs hygiene checks verified cleanly prior to `origin/main` push; live PostgreSQL `supabase db reset`, `supabase test db` (175 total pgTAP assertions across 5 suites), `supabase db lint`, and Playwright CI results pending GitHub Actions verification.
+- Local TypeScript, ESLint, Vitest (asserting 45 forced-RLS public tables), Next.js production build, and docs hygiene checks verified cleanly prior to `origin/main` push; live PostgreSQL `supabase db reset`, `supabase test db` (178 total pgTAP assertions across 5 suites), `supabase db lint`, and Playwright CI results pending GitHub Actions verification.
 
 ---
 

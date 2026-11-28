@@ -12,7 +12,7 @@ IN SCOPE:
   - Migration 14 (202611280005_academic_planning_and_assignments.sql): extend existing forced-RLS academic_terms with status column + create 5 tables (syllabus_items, lesson_plans, learning_resources, assignments, assignment_submissions) with composite tenant FKs, triggers, and indexes.
   - Migration 15 (202611280006_communication_and_contextual_comments.sql): official_notices, notice_acknowledgements, parent_enquiries, record_comments (strict mutually exclusive parent CHECK enforcing zero unlinked comments).
   - Migration 16 (202611280007_phase4_rls_and_helpers.sql): FORCE ROW LEVEL SECURITY across all 9 newly created tables (45 total forced-RLS public tables), private app_auth oversight/contextual-visibility helpers, Subject Teacher independent TG execution vs Class Teacher/HOD oversight, student grade-column protection, and Monitor board-only / zero internal-note boundaries.
-  - Synthetic seed expansion (supabase/seed.sql), 44-assertion pgTAP suite (05_phase4_communication_planning_assignments_rls.test.sql), and updated sql-migration-invariants.test.ts (45 tables).
+  - Synthetic seed expansion (supabase/seed.sql), 47-assertion pgTAP suite (05_phase4_communication_planning_assignments_rls.test.sql), and updated sql-migration-invariants.test.ts (45 tables).
 OUT OF SCOPE:
   - Phase 4 server DAL services, Server Actions, or App Router UI for Communication, Academic Planning, Hybrid Assignments, or Handbook live integration (scheduled next in P4-M02-P4-M04).
   - Open chat rooms, direct messages, or modifying DD-oodle_MASTER_PROJECT_BLUEPRINT.md.

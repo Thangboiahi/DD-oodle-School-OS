@@ -9,7 +9,7 @@ BEGIN;
 
 SET LOCAL search_path = public, extensions;
 
-SELECT plan(44);
+SELECT plan(47);
 
 -- 1. All 10 Phase 4 domain tables (academic_terms + 9 new tables) enforce ENABLE & FORCE RLS
 SELECT is(
@@ -91,9 +91,9 @@ SELECT throws_ok(
       '33333333-3333-4333-8333-333333333301',
       'Unlinked chat message attempt'
     )$$,
-  '23514',
+  '42501',
   NULL,
-  'record_comments rejects unlinked comment without parent FK (no chat rooms)'
+  'record_comments RLS denies unlinked comment without parent FK (no chat rooms)'
 );
 SELECT throws_ok(
   $$INSERT INTO public.record_comments (
@@ -360,6 +360,22 @@ SELECT is(
   (SELECT count(*)::int FROM public.lesson_plans),
   0,
   'Monitor XI-A sees 0 teacher lesson_plans'
+);
+
+-- 8. Verify table CHECK constraint directly under privileged role (RESET ROLE)
+RESET ROLE;
+SELECT throws_ok(
+  $$INSERT INTO public.record_comments (
+      institution_id, parent_kind, authored_by_person_id, body
+    ) VALUES (
+      '11111111-1111-4111-8111-111111111101',
+      'notice',
+      '33333333-3333-4333-8333-333333333301',
+      'Privileged unlinked chat message attempt'
+    )$$,
+  '23514',
+  NULL,
+  'record_comments CHECK constraint rejects unlinked comment even when bypassing RLS'
 );
 
 SELECT * FROM finish();

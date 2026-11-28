@@ -1,9 +1,9 @@
 # DD-oodle Project Status
 
 - **Last Updated:** 2026-11-28
-- **Current Phase:** Phase 3 — Attendance, Leave & Digital Handbook (**In Progress**; Phase 1 & Phase 2 **Complete**)
-- **Current Milestone:** `P3-M04` — Digital Student Handbook with Strict Category & Visibility Privacy Controls (**Local Verified — Pushing for Live CI**)
-- **Overall Repository State:** Phase 2 **Complete** (`P2-M01`–`P2-M05`, CI Run `46087393787` on `beab9d2`); `P3-M01` **Complete** (`95bbda0`, Run `46095870562`), `P3-M02` **Complete** (`7efa07a`, Run `46097947497`), `P3-M03` **Complete** (`9b69e75`, Run `46099916419`); `P3-M04` adds `lib/handbook/{schemas,rules}.ts`, caller-RLS `server/handbook/service.ts`, Server Actions & routes under `/t/[slug]/handbook*`.
+- **Current Phase:** Phase 3 — Attendance, Leave & Digital Handbook (**Complete**; Phase 0, Phase 1, Phase 2 & Phase 3 **Complete** — awaiting Product Owner kick-off for **Phase 4**)
+- **Current Milestone:** `P3-M05` — Phase 3 Exit Gate & Phase 3 Closure (**Complete** — Stage A verified in CI Run `46105679125` on `efccad9`)
+- **Overall Repository State:** Phase 0 **Complete** (`P0-M01`), Phase 1 **Complete** (`P1-M01`–`P1-M05`, CI Run `45951599452`), Phase 2 **Complete** (`P2-M01`–`P2-M05`, CI Run `46087393787`), and Phase 3 **Complete** (`P3-M01`–`P3-M05`, CI Run `46105679125` on `efccad9`: **95/95** Vitest unit & SQL static checks across 18 files, **131/131** pgTAP assertions across 4 suites covering 36 forced-RLS public tables across 13 SQL migrations, and **20/20** live Playwright E2E/responsive/WCAG AA checks).
 
 ---
 
@@ -39,12 +39,15 @@
 | `P3-M01` — Phase 3 ADRs, Attendance, Leave & Digital Handbook Schema, RLS & pgTAP | **Complete** (`95bbda0`) | `ADR-0005` & `ADR-0006`, Migrations `202611280001`–`202611280004` (8 forced-RLS tables, 36 total + statement-level immutable `attendance_events`), synthetic seed, 43-assertion pgTAP (`04_phase3_attendance_leave_handbook_rls.test.sql`); CI Run `46095870562` passed all 3 jobs (`66/66` unit, `131/131` pgTAP + `db lint`, `15/15` Playwright) |
 | `P3-M02` — Attendance, Verification, Sign-Off, Audited Correction Ledger & Offline Sync | **Complete** (`7efa07a`) | `lib/attendance/{schemas,rules}.ts`, caller-RLS `server/attendance/service.ts`, `POST /api/t/[slug]/attendance/sync`, `/t/[slug]/attendance/*` Server Actions & UI, `tests/unit/attendance-rules.test.ts`; CI Run `46097947497` passed all 3 jobs (`78/78` unit, `131/131` pgTAP + `db lint`, `15/15` Playwright) |
 | `P3-M03` — Student & Staff Leave Workflows, Parent Notices & Verified Class Summary | **Complete** (`9b69e75`) | `lib/leave/{schemas,rules}.ts`, caller-RLS `server/leave/service.ts`, `/t/[slug]/leave*` & `/t/[slug]/attendance/summary` Server Actions & UI, `tests/unit/leave-and-summary-rules.test.ts`; CI Run `46099916419` passed all 3 jobs (`88/88` unit, `131/131` pgTAP + `db lint`, `15/15` Playwright) |
-| `P3-M04` — Digital Student Handbook with Strict Category & Visibility Privacy Controls | **In Progress (Local Verified)** | `lib/handbook/{schemas,rules}.ts`, caller-RLS `server/handbook/service.ts`, `/t/[slug]/handbook*` Server Actions & UI (live attendance/leave/notices, category/visibility partitioning, Monitor classmate block, guardian ack, Phase 4/6 seams), and `tests/unit/handbook-rules.test.ts` |
+| `P3-M04` — Digital Student Handbook with Strict Category & Visibility Privacy Controls | **Complete** (`bff9076`) | `lib/handbook/{schemas,rules}.ts`, caller-RLS `server/handbook/service.ts`, `/t/[slug]/handbook*` Server Actions & UI, and `tests/unit/handbook-rules.test.ts`; CI Run `46101572764` passed all 3 jobs (`95/95` unit, `131/131` pgTAP + `db lint`, `15/15` Playwright) |
+| `P3-M05` — Phase 3 Exit Gate & Phase 3 Closure | **Complete** (`efccad9`) | `tests/e2e/phase3-school-day-and-handbook.spec.ts` (full school-day reconstruction, offline sync replay, leave/notice/monitor isolation, handbook category/visibility privacy & guardian ack, 4-viewport & WCAG AA), `server/leave/service.ts` Monitor guard fix, and Phase 3 closure docs; Stage A CI Run `46105679125` passed all 3 jobs (`95/95` unit, `131/131` pgTAP + `db lint`, `20/20` Playwright) |
 
-## 3. Latest Verification (`P3-M04` Local Verification + Baseline `P3-M03` CI Run `46099916419`)
+## 3. Latest Verification (`P3-M05` Stage A CI Run `46105679125` on `efccad9`)
 
-- **Local Verification (`P3-M04`):** `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and docs hygiene checks verified prior to `origin/main` push.
-- **Live GitHub Actions CI Baseline (`P3-M03`):** [`46099916419`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46099916419) on `9b69e75` (`App Quality & Hygiene` `140839790395` PASS `57s`: 88/88 unit + `Supabase RLS & pgTAP Verification` `140839790233` PASS `2m17s`: 131/131 pgTAP + `Live Multi-Tenant Auth & A11y E2E` `140839790494` PASS `3m43s`: 15/15 Playwright).
+- **Live GitHub Actions CI (`efccad9`):** [`46105679125`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46105679125) **PASSED all 3 jobs**:
+  1. `App Quality & Hygiene` (Job ID `140857764989`, `47s`): **PASS** (`pnpm typecheck`, `pnpm lint`, **18 files / 95/95** Vitest unit & SQL static invariant checks across 36 forced-RLS public tables / 13 migrations, `pnpm build`, docs hygiene).
+  2. `Supabase RLS & pgTAP Verification` (Job ID `140857764772`, `2m25s`): **PASS** (`Files=4, Tests=131, Result: PASS` across `01_multi_tenant_rls` 26/26, `02_phase2_registry_and_academics_rls` 40/40, `03_import_staging_rls` 22/22, `04_phase3_attendance_leave_handbook_rls` 43/43, plus `supabase db lint` -> `No schema errors found`).
+  3. `Live Multi-Tenant Auth & A11y E2E` (Job ID `140857764958`, `3m50s`): **PASS** (`20 passed (44.4s)` across `public-and-responsive.spec.ts`, `multi-tenant-auth.spec.ts`, `phase2-registry-and-cbse-academics.spec.ts`, and `phase3-school-day-and-handbook.spec.ts`).
 
 ## 4. Open Blockers / Dependencies
 
@@ -52,4 +55,4 @@
 
 ## 5. Next Bounded Milestone
 
-**`P3-M05`** — Phase 3 Exit Gate (Live E2E Verification across Attendance/Leave/Handbook Privacy, Responsive/WCAG AA Audit & Phase 3 Closure).
+**Phase 3 is Complete.** Awaiting Product Owner kick-off for candidate **`P4-M01`** (Phase 4 — Structured Communication, Classwork/Homework Assignments & Subject Progress Updates).

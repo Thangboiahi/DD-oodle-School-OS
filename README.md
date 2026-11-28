@@ -2,7 +2,7 @@
 
 **DD-oodle** is a configurable, multi-institution School Operations and Learning Ecosystem designed initially for Indian schools (validated against a CBSE Senior Secondary reference school).
 
-> **Current Repository State:** **Phase 2 Complete** (`P2-M05`, CI Run `46087393787` green on `beab9d2`: Next.js 16 App Router, 3-family Light/Dark Design System, 4-mode Responsive Shell, Native PWA Skeleton, 9 Supabase SQL migrations across 28 forced-RLS public tables, People Registry, Guardian Links, Custom Fields & Sensitivity Masking, CBSE XI–XII Academic Structure & Cross-Section Teaching Groups, Staged CSV/XLSX Bulk Import Engine, and **66/66** Vitest + **88/88** pgTAP + **15/15** Playwright E2E/Responsive/WCAG AA checks).
+> **Current Repository State:** **Phase 3 Complete** (`P3-M05`, CI Run `46105679125` green on `efccad9`: Next.js 16 App Router, 3-family Light/Dark Design System, 4-mode Responsive Shell, Native PWA Skeleton, 13 Supabase SQL migrations across 36 forced-RLS public tables, People Registry & Staged Imports, CBSE XI–XII Academics, Two-Layer Attendance & Offline Sync, Leave & Parent Notices, Digital Student Handbook with category/visibility partitioning, and **95/95** Vitest + **131/131** pgTAP + **20/20** Playwright E2E/Responsive/WCAG AA checks).
 
 ## Prerequisites
 
@@ -33,7 +33,7 @@ Workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs automatical
 
 - **`app-quality`:** `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and documentation link/directory checks.
 - **`supabase-rls-pgtap`:** Starts a real Supabase Docker stack (`supabase start`), replays migrations + synthetic seed (`supabase db reset`), runs all pgTAP cross-tenant RLS/Storage/audit tests (`supabase test db`), and lints PostgreSQL schemas (`supabase db lint`).
-- **`e2e-live-auth`:** Starts local Supabase + seed, exports runtime env via `supabase status -o env`, builds Next.js, and runs Playwright E2E checks across public/PWA/4-viewport responsive/WCAG AA `axe-core`, live multi-tenant auth/switching/platform separation, CBSE XI–XII academics, relationship & confidential redaction, and staged CSV bulk import (`pnpm test:e2e`, 15/15 checks).
+- **`e2e-live-auth`:** Starts local Supabase + seed, exports runtime env via `supabase status -o env`, builds Next.js, and runs Playwright E2E checks across public/PWA/4-viewport responsive/WCAG AA `axe-core`, live multi-tenant auth/switching/platform separation, CBSE XI–XII academics, relationship & confidential redaction, staged CSV bulk import, full Phase 3 school-day reconstruction & offline queue replay, leave/notices, Monitor boundaries, and Digital Student Handbook privacy (`pnpm test:e2e`, 20/20 checks).
 
 ## Environment Variables (Names Only)
 

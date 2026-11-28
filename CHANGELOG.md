@@ -6,6 +6,18 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-28
+
+### Added
+- Added live Phase 3 Exit-Gate E2E suite (`tests/e2e/phase3-school-day-and-handbook.spec.ts` with `E2E_REQUIRE_SUPABASE=true` fail-fast guard) verifying full school-day daily/staff attendance -> verification -> sign-off -> post-sign-off correction -> chronological `attendance_events` ledger reconstruction (with biometric disabled by default), idempotent `POST /api/t/[slug]/attendance/sync` replay & `401`/`403` tenant/role denials, Valley guardian notice isolation & Sunrise leave approval + Monitor read-only summary/route denials, Digital Student Handbook category/visibility privacy boundaries + Valley guardian acknowledgement + Monitor classmate block, and 4-viewport responsive + WCAG 2.0/2.1 AA `axe-core` audits across all 9 Phase 3 routes (`20/20` Playwright total).
+
+### Fixed
+- Tightened `isMonitorRestricted` in `server/leave/service.ts` (`getLeaveWorkspace` and `getParentNoticesWorkspace`) so dual Student+Monitor accounts (`monitor.11a.sunrise@example.test`) receive strict explicit permission-denied views on `/t/[slug]/leave` and `/t/[slug]/leave/notices` rather than empty self views.
+
+### Documentation
+- Recorded `P3-M04` CI Run `46101572764` (`bff9076`) and Stage A `P3-M05` live CI Run `46105679125` (`efccad9`: **95/95** Vitest across 18 files, **131/131** pgTAP across 4 suites, **20/20** Playwright) and formally closed **Phase 3 — Attendance, Leave & Digital Handbook** as **Complete**.
+- Created `docs/phase-plans/PHASE-03-MILESTONE-05-exit-gate-e2e-verification.md` and `docs/progress/MILESTONE-REPORT-P3-M05.md`; updated `docs/progress/MILESTONE-REPORT-P3-M04.md`, `docs/ROADMAP.md`, `docs/PROJECT_STATUS.md`, `docs/testing/TEST_STRATEGY.md`, `docs/README.md`, and `README.md`.
+
 ## [0.3.0-alpha.4] - 2026-11-28
 
 ### Added

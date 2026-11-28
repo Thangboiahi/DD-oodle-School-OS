@@ -6,6 +6,18 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.3.0-alpha.1] - 2026-11-28
+
+### Added
+- Recorded accepted Phase 3 ADRs: `docs/decisions/ADR-0005-two-layer-attendance-ledger-and-signoff.md` (append-only `attendance_events` ledger + `draft` -> `class_teacher_verified` -> `signed_off` registers + disabled-by-default zero-template biometric boundary) and `docs/decisions/ADR-0006-category-partitioned-digital-student-handbook.md` (live Phase 3 assembly + category/scope-partitioned `handbook_entries`).
+- Added Migration 10 (`supabase/migrations/202611280001_attendance_and_leave_schema.sql`): 7 tables (`attendance_policies`, append-only `attendance_events` with `BEFORE UPDATE OR DELETE` trigger + `UNIQUE (institution_id, idempotency_key)`, `student_daily_attendance`, `student_period_attendance`, `staff_daily_attendance`, `leave_applications`, `parent_attendance_notices`) with composite tenant FKs.
+- Added Migration 11 (`supabase/migrations/202611280002_digital_student_handbook.sql`): `public.handbook_entries` partitioned by `category` and `visibility_scope`.
+- Added Migration 12 (`supabase/migrations/202611280003_phase3_rls_and_helpers.sql`): `ENABLE` + `FORCE ROW LEVEL SECURITY` on all 8 new tables (36 total forced-RLS public tables), private `app_auth` helpers (`is_section_class_teacher_or_hod`, `is_section_monitor`, `is_teaching_group_teacher`, `can_read_handbook_entry`), verified-only monitor daily attendance reads, and category/scope handbook RLS policies.
+- Expanded `supabase/seed.sql` (preserving all Phase 1 & Phase 2 rows) and added 41-assertion pgTAP suite `supabase/tests/04_phase3_attendance_leave_handbook_rls.test.sql`; updated `tests/unit/sql-migration-invariants.test.ts` to assert 36 forced-RLS public tables.
+
+### Documentation
+- Created `docs/phase-plans/PHASE-03-MILESTONE-01-attendance-leave-handbook-schema.md` and `docs/progress/MILESTONE-REPORT-P3-M01.md`; updated `docs/ROADMAP.md` (Phase 3 `In Progress`), `docs/PROJECT_STATUS.md`, `docs/README.md`, `docs/security/MULTI_TENANT_RLS_BASELINE.md`, `docs/architecture/ARCHITECTURE_OVERVIEW.md`, and `docs/compliance/COMPLIANCE_AND_RESEARCH_REGISTER.md` (`REF-10`).
+
 ## [0.2.0] - 2026-11-28
 
 ### Added

@@ -30,7 +30,7 @@ describe("SQL migrations and client secret invariants", () => {
     const tableMatches = [
       ...combinedSql.matchAll(/CREATE TABLE\s+public\.([a-z0-9_]+)/gi),
     ];
-    expect(tableMatches.length).toBe(28);
+    expect(tableMatches.length).toBe(36);
 
     for (const match of tableMatches) {
       const tableName = match[1];

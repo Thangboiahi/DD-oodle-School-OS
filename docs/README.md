@@ -22,6 +22,8 @@ This directory contains the living operational, architectural, governance, compl
 - [`decisions/ADR-0002-person-identity-and-session-enrolment.md`](decisions/ADR-0002-person-identity-and-session-enrolment.md) — Accepted ADR: global person identity, concurrent memberships & 3-layer session enrolment.
 - [`decisions/ADR-0003-academic-structure-and-typed-assignments.md`](decisions/ADR-0003-academic-structure-and-typed-assignments.md) — Accepted ADR: separated CBSE Senior Secondary academic structure, cross-section teaching groups & typed `academic_assignments`.
 - [`decisions/ADR-0004-normalized-custom-field-engine.md`](decisions/ADR-0004-normalized-custom-field-engine.md) — Accepted ADR: normalized core registries paired with sensitivity-enforced custom field definitions/values.
+- [`decisions/ADR-0005-two-layer-attendance-ledger-and-signoff.md`](decisions/ADR-0005-two-layer-attendance-ledger-and-signoff.md) — Accepted ADR: two-layer append-only attendance ledger, verification/sign-off states & disabled-by-default biometric posture.
+- [`decisions/ADR-0006-category-partitioned-digital-student-handbook.md`](decisions/ADR-0006-category-partitioned-digital-student-handbook.md) — Accepted ADR: category- and visibility-scope-partitioned Digital Student Handbook enforced in PostgreSQL RLS.
 - [`architecture/ARCHITECTURE_OVERVIEW.md`](architecture/ARCHITECTURE_OVERVIEW.md) — Confirmed repository facts separated from approved baseline / proposed system design.
 - [`testing/TEST_STRATEGY.md`](testing/TEST_STRATEGY.md) — Testing pyramid, RLS cross-tenant denial gates and verification standards.
 - [`security/MULTI_TENANT_RLS_BASELINE.md`](security/MULTI_TENANT_RLS_BASELINE.md) — Private `app_auth` helpers, forced RLS policies, composite tenant FKs, audit immutability, private Storage isolation, server-only auth DAL & permission engine.
@@ -39,6 +41,7 @@ This directory contains the living operational, architectural, governance, compl
 - [`phase-plans/PHASE-02-MILESTONE-03-academic-structure-and-allocations.md`](phase-plans/PHASE-02-MILESTONE-03-academic-structure-and-allocations.md) — Part E milestone plan for `P2-M03` (Academic Structure, CBSE Electives, Cross-Section Teaching Groups & Time-Bound Allocations).
 - [`phase-plans/PHASE-02-MILESTONE-04-bulk-import-staging.md`](phase-plans/PHASE-02-MILESTONE-04-bulk-import-staging.md) — Part E milestone plan for `P2-M04` (Bulk Import Staging, CSV/XLSX Validation, Dry-Run Preview & Idempotent Commit Engine).
 - [`phase-plans/PHASE-02-MILESTONE-05-exit-gate-e2e-verification.md`](phase-plans/PHASE-02-MILESTONE-05-exit-gate-e2e-verification.md) — Part E milestone plan for `P2-M05` (Phase 2 Exit Gate E2E, Relationship Privacy & Phase 2 Closure).
+- [`phase-plans/PHASE-03-MILESTONE-01-attendance-leave-handbook-schema.md`](phase-plans/PHASE-03-MILESTONE-01-attendance-leave-handbook-schema.md) — Part E milestone plan for `P3-M01` (Phase 3 ADRs, Attendance, Leave & Digital Handbook Schema, Forced RLS & pgTAP Suite).
 - [`progress/MILESTONE-REPORT-P0-M01.md`](progress/MILESTONE-REPORT-P0-M01.md) — Audited completion report for Milestone `P0-M01`.
 - [`progress/MILESTONE-REPORT-P1-M01.md`](progress/MILESTONE-REPORT-P1-M01.md) — Audited completion report for Milestone `P1-M01`.
 - [`progress/MILESTONE-REPORT-P1-M02.md`](progress/MILESTONE-REPORT-P1-M02.md) — Audited completion report for Milestone `P1-M02`.
@@ -51,6 +54,7 @@ This directory contains the living operational, architectural, governance, compl
 - [`progress/MILESTONE-REPORT-P2-M03.md`](progress/MILESTONE-REPORT-P2-M03.md) — Completion report & verification record for Milestone `P2-M03`.
 - [`progress/MILESTONE-REPORT-P2-M04.md`](progress/MILESTONE-REPORT-P2-M04.md) — Completion report & verification record for Milestone `P2-M04`.
 - [`progress/MILESTONE-REPORT-P2-M05.md`](progress/MILESTONE-REPORT-P2-M05.md) — Audited completion report & CI Run `46087393787` evidence for Milestone `P2-M05` (Phase 2 Complete).
+- [`progress/MILESTONE-REPORT-P3-M01.md`](progress/MILESTONE-REPORT-P3-M01.md) — Completion report & verification record for Milestone `P3-M01`.
 
 ## Deferred `docs/` Folders (Per Blueprint Part D1)
 

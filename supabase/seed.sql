@@ -1010,4 +1010,308 @@ VALUES
   )
 ON CONFLICT (id) DO NOTHING;
 
+-- Phase 3 synthetic seed: Attendance policies, verified/draft attendance +
+-- append-only events, staff attendance, student leave, parent notice, and
+-- category-partitioned Digital Student Handbook entries.
+INSERT INTO public.attendance_policies (
+  id,
+  institution_id,
+  minimum_attendance_percent,
+  warning_threshold_percent,
+  period_attendance_enabled,
+  biometric_enabled,
+  policy_notes
+)
+VALUES
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc0101',
+    '11111111-1111-4111-8111-111111111101',
+    75.00,
+    80.00,
+    false,
+    false,
+    'Configurable institutional baseline (biometric disabled by default)'
+  ),
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc0201',
+    '11111111-1111-4111-8111-111111111102',
+    75.00,
+    80.00,
+    false,
+    false,
+    'Valley CBSE configurable attendance policy baseline'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.attendance_events (
+  id,
+  institution_id,
+  idempotency_key,
+  subject_kind,
+  student_profile_id,
+  staff_profile_id,
+  session_id,
+  section_id,
+  attendance_date,
+  event_type,
+  attendance_status,
+  source,
+  recorded_by_person_id
+)
+VALUES
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc1101',
+    '11111111-1111-4111-8111-111111111101',
+    'seed-sr-2026-11-27-aarav',
+    'student',
+    '88888888-8888-4888-8888-888888880101',
+    NULL,
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999994101',
+    '2026-11-27',
+    'day_roll',
+    'present',
+    'manual',
+    '33333333-3333-4333-8333-333333333306'
+  ),
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc1102',
+    '11111111-1111-4111-8111-111111111101',
+    'seed-sr-2026-11-27-diya',
+    'student',
+    '88888888-8888-4888-8888-888888880102',
+    NULL,
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999994101',
+    '2026-11-27',
+    'day_roll',
+    'present',
+    'manual',
+    '33333333-3333-4333-8333-333333333306'
+  ),
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc1103',
+    '11111111-1111-4111-8111-111111111101',
+    'seed-sr-2026-11-27-rohan',
+    'student',
+    '88888888-8888-4888-8888-888888880103',
+    NULL,
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999994102',
+    '2026-11-27',
+    'day_roll',
+    'absent',
+    'manual',
+    '33333333-3333-4333-8333-333333333305'
+  ),
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc1104',
+    '11111111-1111-4111-8111-111111111101',
+    'seed-sr-2026-11-27-emp001',
+    'staff',
+    NULL,
+    '88888888-8888-4888-8888-888888881101',
+    NULL,
+    NULL,
+    '2026-11-27',
+    'staff_check_in',
+    'present',
+    'manual',
+    '33333333-3333-4333-8333-333333333301'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.student_daily_attendance (
+  id,
+  institution_id,
+  session_id,
+  student_enrolment_id,
+  student_profile_id,
+  section_id,
+  attendance_date,
+  status,
+  verification_status,
+  marked_by_person_id,
+  verified_by_person_id,
+  verified_at,
+  signed_off_by_person_id,
+  signed_off_at
+)
+VALUES
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc2101',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999998101',
+    '88888888-8888-4888-8888-888888880101',
+    '99999999-9999-4999-8999-999999994101',
+    '2026-11-27',
+    'present',
+    'class_teacher_verified',
+    '33333333-3333-4333-8333-333333333306',
+    '33333333-3333-4333-8333-333333333306',
+    now(),
+    NULL,
+    NULL
+  ),
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc2102',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999998102',
+    '88888888-8888-4888-8888-888888880102',
+    '99999999-9999-4999-8999-999999994101',
+    '2026-11-27',
+    'present',
+    'signed_off',
+    '33333333-3333-4333-8333-333333333306',
+    '33333333-3333-4333-8333-333333333306',
+    now(),
+    '33333333-3333-4333-8333-333333333301',
+    now()
+  ),
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc2103',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999998103',
+    '88888888-8888-4888-8888-888888880103',
+    '99999999-9999-4999-8999-999999994102',
+    '2026-11-27',
+    'absent',
+    'draft',
+    '33333333-3333-4333-8333-333333333305',
+    NULL,
+    NULL,
+    NULL,
+    NULL
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.staff_daily_attendance (
+  id,
+  institution_id,
+  staff_profile_id,
+  attendance_date,
+  status,
+  verification_status,
+  marked_by_person_id
+)
+VALUES
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc3101',
+    '11111111-1111-4111-8111-111111111101',
+    '88888888-8888-4888-8888-888888881101',
+    '2026-11-27',
+    'present',
+    'verified',
+    '33333333-3333-4333-8333-333333333301'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.leave_applications (
+  id,
+  institution_id,
+  applicant_kind,
+  session_id,
+  student_profile_id,
+  staff_profile_id,
+  starts_on,
+  ends_on,
+  leave_type,
+  reason,
+  status,
+  submitted_by_person_id
+)
+VALUES
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc4101',
+    '11111111-1111-4111-8111-111111111101',
+    'student',
+    '99999999-9999-4999-8999-999999990101',
+    '88888888-8888-4888-8888-888888880101',
+    NULL,
+    '2026-12-02',
+    '2026-12-03',
+    'family',
+    'Synthetic family travel leave request',
+    'submitted',
+    '33333333-3333-4333-8333-333333333301'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.parent_attendance_notices (
+  id,
+  institution_id,
+  student_profile_id,
+  guardian_person_id,
+  attendance_date,
+  notice_kind,
+  message,
+  status
+)
+VALUES
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc5101',
+    '11111111-1111-4111-8111-111111111102',
+    '88888888-8888-4888-8888-888888880201',
+    '33333333-3333-4333-8333-333333333302',
+    '2026-11-28',
+    'late_arrival',
+    'Synthetic medical appointment delay notice from linked guardian',
+    'submitted'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.handbook_entries (
+  id,
+  institution_id,
+  session_id,
+  student_profile_id,
+  category,
+  visibility_scope,
+  teaching_group_id,
+  title,
+  body,
+  authored_by_person_id
+)
+VALUES
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc6101',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '88888888-8888-4888-8888-888888880101',
+    'academic_observation',
+    'student_and_guardian',
+    '99999999-9999-4999-8999-999999999101',
+    'Strong Applied Math Problem Solving',
+    'Demonstrated clear analytical steps during TG-XI-APPMATH-1 seminar.',
+    '33333333-3333-4333-8333-333333333302'
+  ),
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc6102',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '88888888-8888-4888-8888-888888880101',
+    'student_support',
+    'class_teacher_and_leadership',
+    NULL,
+    'Class Teacher & Leadership Check-In',
+    'Synthetic wellbeing follow-up restricted to Class Teacher XI-A, HOD, and leadership.',
+    '33333333-3333-4333-8333-333333333306'
+  ),
+  (
+    'cccccccc-cccc-4ccc-8ccc-cccccccc6103',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '88888888-8888-4888-8888-888888880101',
+    'disciplinary',
+    'leadership_only',
+    NULL,
+    'Leadership Confidential Conduct Record',
+    'Synthetic leadership-only disciplinary entry hidden from teachers, monitors, students, and guardians.',
+    '33333333-3333-4333-8333-333333333301'
+  )
+ON CONFLICT (id) DO NOTHING;
+
 COMMIT;

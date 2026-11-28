@@ -2,7 +2,7 @@
 
 > **Canonical References:** [`../../DD-oodle_MASTER_PROJECT_BLUEPRINT.md`](../../DD-oodle_MASTER_PROJECT_BLUEPRINT.md) (Part A §2.2–§2.4, §3.4, §4, §7.1, §11.3–§11.5, §12.5), [`../decisions/ADR-0001-multi-tenant-database-strategy.md`](../decisions/ADR-0001-multi-tenant-database-strategy.md), [`../decisions/ADR-0002-person-identity-and-session-enrolment.md`](../decisions/ADR-0002-person-identity-and-session-enrolment.md), [`../decisions/ADR-0003-academic-structure-and-typed-assignments.md`](../decisions/ADR-0003-academic-structure-and-typed-assignments.md), [`../decisions/ADR-0004-normalized-custom-field-engine.md`](../decisions/ADR-0004-normalized-custom-field-engine.md)
 
-> **Milestones:** `P1-M03`, `P1-M04`, `P2-M01`, `P2-M04`, `P2-M05`
+> **Milestones:** `P1-M03`, `P1-M04`, `P2-M01`, `P2-M04`, `P2-M05`, `P3-M01`
 
 ---
 
@@ -87,3 +87,14 @@
   - an institutional `staff_profiles` or active `student_guardians` link when the caller holds `people.read` or `academics.manage`, or
   - an active date-valid staff leadership/teaching row in `academic_assignments` strictly restricted (`Migration 0009`) to `assignment_type IN ('hod', 'class_teacher', 'subject_teacher')` (explicitly excluding student `'monitor'`/`'monitress'` rows so monitor visibility remains section-scoped).
 - **88-Assertion pgTAP Gate:** Verified live across `01_multi_tenant_rls.test.sql` (26), `02_phase2_registry_and_academics_rls.test.sql` (40), and `03_import_staging_rls.test.sql` (22) confirming cross-tenant denial and `platform_operators` seeing strictly their own single `persons` row.
+
+---
+
+## 10. Phase 3 Attendance, Leave, Notices & Digital Student Handbook RLS (`P3-M01`)
+
+- **36 Forced-RLS Public Tables (`202611280001`–`202611280003`):** All 8 new Phase 3 tables (`attendance_policies`, `attendance_events`, `student_daily_attendance`, `student_period_attendance`, `staff_daily_attendance`, `leave_applications`, `parent_attendance_notices`, `handbook_entries`) enforce `ENABLE` + `FORCE ROW LEVEL SECURITY` and composite `(institution_id, id)` tenant foreign keys.
+- **Append-Only Attendance Ledger & Biometric Exclusion (`ADR-0005`):** `public.attendance_events` defines `BEFORE UPDATE OR DELETE` trigger `public.prevent_attendance_event_mutation()`, zero `UPDATE`/`DELETE` policies, `UNIQUE (institution_id, idempotency_key)`, and mandatory `reason` when `event_type = 'correction'`. `attendance_policies.biometric_enabled` defaults to `false` with zero raw biometric templates stored in cloud.
+- **Role/Monitor & Category Handbook Helpers (`app_auth`):**
+  - `app_auth.is_section_class_teacher_or_hod(uuid, uuid)`, `app_auth.is_section_monitor(uuid, uuid)`, and `app_auth.is_teaching_group_teacher(uuid, uuid)` restrict `student_daily_attendance` reads for `monitor`/`monitress` strictly to `verification_status IN ('class_teacher_verified', 'signed_off')` (never `draft`, never leave, never handbook).
+  - `app_auth.can_read_handbook_entry(uuid, uuid, text, text, uuid, uuid)` enforces `visibility_scope` partitioning (`leadership_only`, `class_teacher_and_leadership`, `staff_academic`, `student_and_guardian`) and restricts `subject_teacher` access strictly to `academic_observation` rows in their active `teaching_group_id`.
+- **41-Assertion Phase 3 pgTAP Suite (`04_phase3_attendance_leave_handbook_rls.test.sql`):** Verifies 129 total pgTAP assertions across 4 suites (pending CI run).

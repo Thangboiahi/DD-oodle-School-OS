@@ -1,9 +1,9 @@
 # DD-oodle Project Status
 
 - **Last Updated:** 2026-11-28
-- **Current Phase:** Phase 2 — Institutional Registry and Academic Structure (**Complete**; awaiting Product Owner kick-off for Phase 3)
-- **Current Milestone:** `P2-M05` — Phase 2 Exit Gate: Live CBSE XI–XII E2E, Relationship Privacy, Staged Import E2E, Responsive/WCAG AA Audit & Phase 2 Closure (**Complete**)
-- **Overall Repository State:** Phase 2 **Complete** (`P2-M01`–`P2-M05`) verified green in CI Run `46087393787` (`beab9d2` following `31494ad` and `4fbbc61`): 9 Supabase SQL migrations enforcing forced RLS across 28 public tables, `66/66` Vitest unit & SQL static checks, `88/88` live pgTAP assertions across 3 suites, and `15/15` live Playwright E2E/responsive/WCAG AA checks.
+- **Current Phase:** Phase 3 — Attendance, Leave & Digital Handbook (**In Progress**; Phase 1 & Phase 2 **Complete**)
+- **Current Milestone:** `P3-M01` — Phase 3 ADRs, Attendance, Leave & Digital Student Handbook Core Schema, Forced RLS & pgTAP Suite (**Local Verified — Pending Live pgTAP CI**)
+- **Overall Repository State:** Phase 2 **Complete** (`P2-M01`–`P2-M05`, CI Run `46087393787` on `beab9d2`); `P3-M01` adds `ADR-0005` & `ADR-0006`, Migrations `202611280001`–`202611280003` (8 new forced-RLS tables bringing total to **36** forced-RLS public tables across 12 SQL migrations), append-only `attendance_events`, category/scope-partitioned `handbook_entries`, expanded `supabase/seed.sql`, and 41-assertion pgTAP suite (`04_phase3_attendance_leave_handbook_rls.test.sql`).
 
 ---
 
@@ -36,11 +36,12 @@
 | `P2-M03` — Academic Structure, CBSE Electives, Cross-Section Teaching Groups & Allocations | **Complete** (`61e36d5`) | `lib/academics/{schemas,conflicts}.ts`, caller-RLS `server/academics/service.ts`, `/t/[slug]/academics/*` routes & Server Actions; CI Run `45993903529` passed all 3 jobs (`59/59` unit, `58/58` pgTAP, `10/10` Playwright) |
 | `P2-M04` — Bulk Import Staging, CSV/XLSX Validation, Dry-Run Preview & Idempotent Commit | **Complete** (`aa09764`) | Migration 7 (`import_batches`/`import_rows`), `read-excel-file@9.3.20` + RFC-4180 CSV & formula neutralization, `server/imports/service.ts`, `/t/[slug]/imports*`; CI Run `45997372362` passed all 3 jobs (`65/65` unit, `80/80` pgTAP, `10/10` Playwright) |
 | `P2-M05` — Phase 2 Exit Gate & Phase 2 Closure | **Complete** (`31494ad`, `4fbbc61`, `beab9d2`) | `tests/e2e/phase2-registry-and-cbse-academics.spec.ts`, Migrations `0008`/`0009` (`can_read_person_profile`), batch `fetchPersonNameMap()` fix, WCAG AA token alignment, `supabase/setup-cli@v3`; CI Run `46087393787` passed all 3 jobs (`66/66` unit, `88/88` pgTAP, `15/15` Playwright) |
+| `P3-M01` — Phase 3 ADRs, Attendance, Leave & Digital Handbook Schema, RLS & pgTAP | **In Progress (Local Verified)** | `ADR-0005` & `ADR-0006`, Migrations `202611280001`–`202611280003` (8 forced-RLS tables, 36 total), synthetic seed expansion, `04_phase3_attendance_leave_handbook_rls.test.sql` (41 assertions), and updated `sql-migration-invariants.test.ts` |
 
-## 3. Latest Verification (`P2-M05` CI Run `46087393787`)
+## 3. Latest Verification (`P3-M01` Local Verification + Baseline `P2-M05` CI Run `46087393787`)
 
-- **Local Verification (`P2-M05`):** `pnpm typecheck` (0 errors), `pnpm lint` (0 errors, 0 warnings), `pnpm test` (15 files, 66/66 passed), `pnpm build` (clean production bundle).
-- **Live GitHub Actions CI Run (`P2-M05`):** [`46087393787`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46087393787) on `beab9d2` (`App Quality & Hygiene` `140803311016` PASS `54s`: 66/66 unit + `Supabase RLS & pgTAP Verification` `140803309054` PASS `2m0s`: 88/88 pgTAP + `Live Multi-Tenant Auth & A11y E2E` `140803310183` PASS `3m12s`: 15/15 Playwright checks).
+- **Local Verification (`P3-M01`):** `pnpm typecheck` (0 errors), `pnpm lint` (0 errors, 0 warnings), `pnpm test` (15 files, 66/66 passed across 36 forced-RLS tables), `pnpm build` (clean production bundle), `DOC_HYGIENE_OK` (`0` empty dirs, `44` Markdown docs, `150` valid links).
+- **Live GitHub Actions CI Baseline (`P2-M05`):** [`46087393787`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46087393787) on `beab9d2` (`App Quality & Hygiene` `140803311016` PASS `54s`: 66/66 unit + `Supabase RLS & pgTAP Verification` `140803309054` PASS `2m0s`: 88/88 pgTAP + `Live Multi-Tenant Auth & A11y E2E` `140803310183` PASS `3m12s`: 15/15 Playwright checks).
 
 ## 4. Open Blockers / Dependencies
 
@@ -48,4 +49,4 @@
 
 ## 5. Next Bounded Milestone
 
-**Awaiting Product Owner kick-off for Phase 3 (`P3-M01`)** — Attendance, Leave & Digital Student Handbook Core Schema, Forced RLS & pgTAP Suite.
+**`P3-M02`** — Attendance, Leave & Parent Notices Server DAL + UI (`/t/[slug]/attendance` & offline queue foundation).

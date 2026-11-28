@@ -1314,4 +1314,385 @@ VALUES
   )
 ON CONFLICT (id) DO NOTHING;
 
+-- ============================================================
+-- Phase 4 Seed: Academic Terms, Syllabus, Lesson Plans, Resources,
+-- Hybrid Assignments/Submissions, Scoped Notices & Record Comments
+-- ============================================================
+
+INSERT INTO public.academic_terms (id, institution_id, session_id, code, name, sequence_no, starts_on, ends_on, status)
+VALUES
+  ('99999999-9999-4999-8999-999999991202', '11111111-1111-4111-8111-111111111102', '99999999-9999-4999-8999-999999990201', 'TERM-2', 'Term 2 (Oct-Mar)', 2, '2026-10-01', '2027-03-31', 'active')
+ON CONFLICT (id) DO NOTHING;
+
+UPDATE public.academic_terms
+SET status = 'completed'
+WHERE id IN (
+  '99999999-9999-4999-8999-999999991101',
+  '99999999-9999-4999-8999-999999991201'
+);
+
+UPDATE public.academic_terms
+SET status = 'active'
+WHERE id = '99999999-9999-4999-8999-999999991102';
+
+INSERT INTO public.syllabus_items (
+  id,
+  institution_id,
+  session_id,
+  term_id,
+  subject_offering_id,
+  parent_item_id,
+  item_kind,
+  code,
+  title,
+  description,
+  sequence_no,
+  target_date,
+  progress_status,
+  delay_reason,
+  updated_by_person_id
+)
+VALUES
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd1101',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999991102',
+    '99999999-9999-4999-8999-999999997104',
+    NULL,
+    'unit',
+    'UNIT-1',
+    'Numbers, Quantification and Financial Applications',
+    'CBSE Class XI Applied Mathematics Unit 1 foundation module.',
+    1,
+    '2026-12-10',
+    'in_progress',
+    NULL,
+    '33333333-3333-4333-8333-333333333302'
+  ),
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd1102',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999991102',
+    '99999999-9999-4999-8999-999999997104',
+    'dddddddd-dddd-4ddd-8ddd-dddddddd1101',
+    'chapter',
+    'CH-1.2',
+    'Modular Arithmetic & Congruence Properties',
+    'Worked problem set on clock arithmetic and remainders.',
+    2,
+    '2026-11-25',
+    'delayed',
+    'Extra remedial practice scheduled after CBSE Olympiad workshop',
+    '33333333-3333-4333-8333-333333333302'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.lesson_plans (
+  id,
+  institution_id,
+  session_id,
+  teaching_group_id,
+  syllabus_item_id,
+  planned_for_date,
+  week_label,
+  title,
+  learning_objectives,
+  teaching_notes,
+  status,
+  authored_by_person_id
+)
+VALUES
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd2101',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999999101',
+    'dddddddd-dddd-4ddd-8ddd-dddddddd1102',
+    '2026-11-28',
+    'Week 34',
+    'Congruence Modulo Worked Seminar',
+    'Solve modular addition and multiplication problems across cross-section batch.',
+    'Review two solved CBSE sample board items before assigning Practice Sheet 1.',
+    'planned',
+    '33333333-3333-4333-8333-333333333302'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.learning_resources (
+  id,
+  institution_id,
+  session_id,
+  subject_offering_id,
+  teaching_group_id,
+  syllabus_item_id,
+  title,
+  description,
+  resource_kind,
+  external_url,
+  visibility,
+  status,
+  authored_by_person_id
+)
+VALUES
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd3101',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999997104',
+    '99999999-9999-4999-8999-999999999101',
+    'dddddddd-dddd-4ddd-8ddd-dddddddd1102',
+    'Modular Arithmetic Worked Formula Sheet',
+    'Concise reference sheet for TG-XI-APPMATH-1.',
+    'notes',
+    'https://cbseacademic.nic.in/',
+    'teaching_group',
+    'published',
+    '33333333-3333-4333-8333-333333333302'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.assignments (
+  id,
+  institution_id,
+  session_id,
+  teaching_group_id,
+  syllabus_item_id,
+  title,
+  instructions,
+  assignment_type,
+  submission_mode,
+  evaluation_mode,
+  max_marks,
+  due_at,
+  objective_questions,
+  status,
+  authored_by_person_id
+)
+VALUES
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd4101',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999999101',
+    'dddddddd-dddd-4ddd-8ddd-dddddddd1102',
+    'Applied Math Modular Arithmetic Sheet 1',
+    'Solve Problems 1-5 in your notebook or submit answers online before Friday 5 PM.',
+    'homework',
+    'both',
+    'manual',
+    20.00,
+    '2026-12-04T11:30:00Z',
+    '[]'::jsonb,
+    'published',
+    '33333333-3333-4333-8333-333333333302'
+  ),
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd4102',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '99999999-9999-4999-8999-999999999101',
+    'dddddddd-dddd-4ddd-8ddd-dddddddd1101',
+    'Term 2 MCQ Checkpoint (Draft)',
+    'Draft 2-question objective quick check.',
+    'quiz',
+    'online',
+    'auto_mcq',
+    10.00,
+    '2026-12-12T11:30:00Z',
+    '[{"id":"q1","prompt":"17 mod 5 equals?","options":["1","2","3","4"],"correctIndex":1,"marks":5}]'::jsonb,
+    'draft',
+    '33333333-3333-4333-8333-333333333302'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.assignment_submissions (
+  id,
+  institution_id,
+  assignment_id,
+  student_enrolment_id,
+  student_profile_id,
+  submission_channel,
+  status,
+  submitted_at,
+  response_text,
+  submitted_by_person_id
+)
+VALUES
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd5101',
+    '11111111-1111-4111-8111-111111111101',
+    'dddddddd-dddd-4ddd-8ddd-dddddddd4101',
+    '99999999-9999-4999-8999-999999998101',
+    '88888888-8888-4888-8888-888888880101',
+    'online',
+    'submitted',
+    '2026-11-28T06:00:00Z',
+    'Submitted modular congruence proofs 1 to 5 online.',
+    '33333333-3333-4333-8333-333333333309'
+  ),
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd5102',
+    '11111111-1111-4111-8111-111111111101',
+    'dddddddd-dddd-4ddd-8ddd-dddddddd4101',
+    '99999999-9999-4999-8999-999999998103',
+    '88888888-8888-4888-8888-888888880103',
+    'offline_recorded',
+    'completed_offline',
+    '2026-11-28T07:15:00Z',
+    'Notebook checked in class by Subject Teacher.',
+    '33333333-3333-4333-8333-333333333302'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.official_notices (
+  id,
+  institution_id,
+  session_id,
+  scope_type,
+  department_id,
+  section_id,
+  teaching_group_id,
+  category,
+  title,
+  body,
+  requires_acknowledgement,
+  is_offline_cacheable,
+  status,
+  published_at,
+  authored_by_person_id
+)
+VALUES
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd6101',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    'institution',
+    NULL,
+    NULL,
+    NULL,
+    'exam',
+    'Winter Term Timetable Circular (Sunrise CBSE)',
+    'Class XI and XII unit test schedules are published for Term 2.',
+    true,
+    true,
+    'published',
+    '2026-11-28T04:00:00Z',
+    '33333333-3333-4333-8333-333333333301'
+  ),
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd6102',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    'teaching_group',
+    NULL,
+    NULL,
+    '99999999-9999-4999-8999-999999999101',
+    'academic',
+    'TG-XI-APPMATH-1 Remedial Seminar Timing',
+    'Friday remedial workshop meets in Math Seminar Room during Period 7.',
+    false,
+    false,
+    'published',
+    '2026-11-28T05:00:00Z',
+    '33333333-3333-4333-8333-333333333302'
+  ),
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd6201',
+    '11111111-1111-4111-8111-111111111102',
+    '99999999-9999-4999-8999-999999990201',
+    'institution',
+    NULL,
+    NULL,
+    NULL,
+    'general',
+    'Valley Winter PTM Schedule Circular',
+    'Parents of Class XI-A may confirm PTM slots through the portal.',
+    true,
+    true,
+    'published',
+    '2026-11-28T04:30:00Z',
+    '33333333-3333-4333-8333-333333333303'
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.parent_enquiries (
+  id,
+  institution_id,
+  session_id,
+  student_profile_id,
+  guardian_person_id,
+  category,
+  subject,
+  body,
+  status,
+  section_id,
+  teaching_group_id
+)
+VALUES
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd7201',
+    '11111111-1111-4111-8111-111111111102',
+    '99999999-9999-4999-8999-999999990201',
+    '88888888-8888-4888-8888-888888880201',
+    '33333333-3333-4333-8333-333333333302',
+    'transport',
+    'Valley Route 4 Stop Timing Clarification',
+    'Please confirm morning pickup window for Kabir Rao on Winter schedule.',
+    'open',
+    '99999999-9999-4999-8999-999999994201',
+    NULL
+  ),
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd7101',
+    '11111111-1111-4111-8111-111111111101',
+    '99999999-9999-4999-8999-999999990101',
+    '88888888-8888-4888-8888-888888880101',
+    '33333333-3333-4333-8333-333333333301',
+    'academic',
+    'Applied Math Olympiad Extra Worksheet Query',
+    'Synthetic Sunrise parent enquiry for Aarav Verma Olympiad prep.',
+    'in_review',
+    '99999999-9999-4999-8999-999999994101',
+    NULL
+  )
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.record_comments (
+  id,
+  institution_id,
+  parent_kind,
+  notice_id,
+  parent_enquiry_id,
+  assignment_id,
+  authored_by_person_id,
+  body,
+  is_internal_staff_note
+)
+VALUES
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd8101',
+    '11111111-1111-4111-8111-111111111101',
+    'assignment',
+    NULL,
+    NULL,
+    'dddddddd-dddd-4ddd-8ddd-dddddddd4101',
+    '33333333-3333-4333-8333-333333333302',
+    'Please show full divisibility steps for Question 4.',
+    false
+  ),
+  (
+    'dddddddd-dddd-4ddd-8ddd-dddddddd8102',
+    '11111111-1111-4111-8111-111111111101',
+    'parent_enquiry',
+    NULL,
+    'dddddddd-dddd-4ddd-8ddd-dddddddd7101',
+    NULL,
+    '33333333-3333-4333-8333-333333333306',
+    'Internal staff note: Class Teacher and Subject Teacher coordinating remedial sheet.',
+    true
+  )
+ON CONFLICT (id) DO NOTHING;
+
 COMMIT;

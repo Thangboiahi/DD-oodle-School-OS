@@ -8,9 +8,9 @@ This document strictly separates **Confirmed Facts** (verified in the current re
 
 ## 1. Confirmed Facts (Current Repository State)
 
-Audited on `2026-11-28` (`P3-M04`):
+Audited on `2026-11-28` (`P4-M01`):
 
-- **Codebase state:** Next.js 16 App Router application with governance, architecture (`ADR-0001`–`ADR-0006`), UI/UX & PWA spec, multi-tenant RLS/auth DAL baseline spec, glossary, testing and compliance records.
+- **Codebase state:** Next.js 16 App Router application with governance, architecture (`ADR-0001`–`ADR-0008`), UI/UX & PWA spec, multi-tenant RLS/auth DAL baseline spec, glossary, testing and compliance records.
 - **Installed Runtime & Toolchain (`package.json` + `pnpm-lock.yaml`):**
   - Package manager: `pnpm` (`12.23.0`); Node.js `>=22.0.0` (verified locally on `v26.13.0`)
   - Framework & UI: `next` (`16.4.6`), `react` (`19.3.1`), `react-dom` (`19.3.1`)
@@ -25,11 +25,11 @@ Audited on `2026-11-28` (`P3-M04`):
   - `components/` (`theme/`, `ui/`, `shell/` including `WorkspaceSwitcher.tsx`, `auth/SignOutButton.tsx`, `registry/{PeopleSubNav,RegistryActionForm}.tsx`, `academics/AcademicsSubNav.tsx`, `attendance/{AttendanceSubNav,offline-queue-panel}.tsx`, `leave/LeaveSubNav.tsx`, `pwa/`)
   - `lib/` (`tenancy/resolve-tenant-hint.ts`, `auth/{safe-redirect,permissions,navigation}.ts`, `registry/{schemas,masking}.ts`, `academics/{schemas,conflicts}.ts`, `attendance/{schemas,rules}.ts`, `leave/{schemas,rules}.ts`, `handbook/{schemas,rules}.ts`, `imports/{csv,spreadsheet,validators}.ts`, `ui/theme.ts`, `security/headers.ts`, `supabase/{env,browser,server,admin,proxy}.ts`)
   - `public/` (`offline.html`, `sw.js`, `icons/icon-192x192.png`, `icons/icon-512x512.png`, `icons/maskable-512x512.png`)
-  - `supabase/` (`config.toml`, `migrations/202611270001..202611280004` — 13 migrations, `seed.sql`, `tests/01_multi_tenant_rls.test.sql`, `tests/02_phase2_registry_and_academics_rls.test.sql`, `tests/03_import_staging_rls.test.sql`, `tests/04_phase3_attendance_leave_handbook_rls.test.sql`)
-  - `tests/unit/` (Unit & invariant tests covering routing hints, health, theme, PWA manifest/icons/SW, headers, Supabase env, SQL migration invariants across all 36 forced-RLS tables, permissions, safe-redirect/nav, tenant context resolution, registry schemas/masking, academic schemas/conflicts, attendance rules/schemas/offline-queue, leave/summary rules, handbook category/visibility privacy rules, and CSV/XLSX import parsing/validation) and `tests/e2e/` (`public-and-responsive.spec.ts`, `multi-tenant-auth.spec.ts`, `phase2-registry-and-cbse-academics.spec.ts`)
+  - `supabase/` (`config.toml`, `migrations/202611270001..202611280007` — 16 migrations, `seed.sql`, `tests/01_multi_tenant_rls.test.sql`, `tests/02_phase2_registry_and_academics_rls.test.sql`, `tests/03_import_staging_rls.test.sql`, `tests/04_phase3_attendance_leave_handbook_rls.test.sql`, `tests/05_phase4_communication_planning_assignments_rls.test.sql`)
+  - `tests/unit/` (Unit & invariant tests covering routing hints, health, theme, PWA manifest/icons/SW, headers, Supabase env, SQL migration invariants across all 45 forced-RLS tables, permissions, safe-redirect/nav, tenant context resolution, registry schemas/masking, academic schemas/conflicts, attendance rules/schemas/offline-queue, leave/summary rules, handbook category/visibility privacy rules, and CSV/XLSX import parsing/validation) and `tests/e2e/` (`public-and-responsive.spec.ts`, `multi-tenant-auth.spec.ts`, `phase2-registry-and-cbse-academics.spec.ts`, `phase3-school-day-and-handbook.spec.ts`)
   - `docs/` (`architecture/`, `compliance/`, `decisions/`, `phase-plans/`, `progress/`, `requirements/`, `security/`, `testing/`, `ui-ux/`)
 - **Design System & PWA Baseline (`P1-M02`):** Active (`Clarity`, `Calm`, `Focus` Light/Dark + density, 4-mode `AppShell`, native `app/manifest.ts`, auditable `public/sw.js`, global & `/sw.js` security headers).
-- **Database Migrations, RLS, CI & Modules (`P1-M03`–`P3-M04`):** Versioned SQL migrations across 36 forced-RLS public tables, private `app_auth` relationship/sensitivity/handbook RLS helpers, `institution-private` bucket, synthetic CBSE XI–XII two-institution seed, 4 pgTAP suites (131 total assertions), server-only auth/registry/academics/attendance/leave/handbook/imports DAL, global `/sign-in` + `POST /auth/sign-out`, persistent `WorkspaceSwitcher` with `clearPwaCaches()`, `/workspace`, `/t/[slug]`, `/t/[slug]/attendance*`, `/t/[slug]/leave*`, `/t/[slug]/handbook*`, and strictly isolated `/platform` shell.
+- **Database Migrations, RLS, CI & Modules (`P1-M03`–`P4-M01`):** Versioned SQL migrations across 45 forced-RLS public tables, private `app_auth` relationship/sensitivity/handbook/Phase-4 helpers, `institution-private` bucket, synthetic CBSE XI–XII two-institution seed, 5 pgTAP suites (175 total assertions), server-only auth/registry/academics/attendance/leave/handbook/imports DAL, global `/sign-in` + `POST /auth/sign-out`, persistent `WorkspaceSwitcher` with `clearPwaCaches()`, `/workspace`, `/t/[slug]`, `/t/[slug]/attendance*`, `/t/[slug]/leave*`, `/t/[slug]/handbook*`, and strictly isolated `/platform` shell.
 
 ---
 

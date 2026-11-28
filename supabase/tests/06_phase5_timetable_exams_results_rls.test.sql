@@ -223,12 +223,21 @@ SELECT throws_ok(
   'Subject Teacher cannot approve own marks entry (42501)'
 );
 SELECT throws_ok(
-  $$UPDATE public.exam_marks_entries
-       SET total_marks = 95.00
-     WHERE id = 'eeeeeeee-eeee-4eee-8eee-eeeeeeee9103'$$,
+  $$INSERT INTO public.exam_marks_entries (
+      institution_id, exam_cycle_id, exam_schedule_id, student_enrolment_id, student_profile_id, total_marks, status, entered_by_person_id
+    ) VALUES (
+      '11111111-1111-4111-8111-111111111101',
+      'eeeeeeee-eeee-4eee-8eee-eeeeeeee7101',
+      'eeeeeeee-eeee-4eee-8eee-eeeeeeee8102',
+      '99999999-9999-4999-8999-999999998104',
+      '88888888-8888-4888-8888-888888880104',
+      95.00,
+      'draft',
+      '33333333-3333-4333-8333-333333333302'
+    )$$,
   '42501',
   NULL,
-  'Subject Teacher cannot mutate unassigned TG-XI-CS-1 exam_marks_entries (42501)'
+  'Subject Teacher cannot write unassigned TG-XI-CS-1 exam_marks_entries (42501)'
 );
 SELECT throws_ok(
   $$INSERT INTO public.result_snapshots (

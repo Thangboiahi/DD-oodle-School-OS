@@ -1,14 +1,22 @@
 import Link from "next/link";
 import type { AttendanceCapabilitiesDto } from "@/server/attendance/service";
 
-export type AttendanceTabKey = "daily" | "periods" | "staff" | "ledger";
+export type AttendanceTabKey =
+  | "daily"
+  | "summary"
+  | "periods"
+  | "staff"
+  | "ledger";
 
 interface AttendanceSubNavProps {
   slug: string;
   activeTab: AttendanceTabKey;
   capabilities: Pick<
     AttendanceCapabilitiesDto,
-    "canAccessPeriodRoll" | "canAccessStaffAttendance" | "canViewLedger"
+    | "canAccessPeriodRoll"
+    | "canAccessStaffAttendance"
+    | "canViewLedger"
+    | "canAccessDailySummary"
   >;
   selectedDate?: string;
 }
@@ -31,6 +39,14 @@ export function AttendanceSubNav({
       href: `${basePath}${dateSuffix}`,
     },
   ];
+
+  if (capabilities.canAccessDailySummary) {
+    tabs.push({
+      key: "summary",
+      label: "Daily Summary",
+      href: `${basePath}/summary${dateSuffix}`,
+    });
+  }
 
   if (capabilities.canAccessPeriodRoll) {
     tabs.push({

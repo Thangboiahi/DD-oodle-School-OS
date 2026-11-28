@@ -6,6 +6,17 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.3.0-alpha.3] - 2026-11-28
+
+### Added
+- Added pure leave & daily summary schemas and rules (`lib/leave/{schemas,rules}.ts`): inclusive calendar day computation, one-way leave state transitions (`submitted` -> `approved`/`rejected` for reviewer, `submitted` -> `cancelled` for applicant, terminal locks), non-override self-approval block (`canReviewLeaveRecord`), mandatory >=3-char rejection `decisionNote`, parent notice acknowledgement rules, and `summarizeDailyClassAttendance({ verifiedOnly })`.
+- Added caller-RLS server-only Leave & Summary DAL (`server/leave/service.ts` with `import "server-only"`) implementing student & staff leave submission, review/cancellation with `audit_events`, guardian-scoped parent attendance notices (`/t/[slug]/leave/notices`) + one-click acknowledgement, and verified-only Daily Class / Monitor Summary (`/t/[slug]/attendance/summary`) with Class Teacher/HOD leave & notice panels.
+- Added `app/t/[slug]/leave/actions.ts`, `"Leave & Notices"` workspace navigation (omitted for Monitor-only roles), `components/leave/LeaveSubNav.tsx`, `"Daily Summary"` tab in `components/attendance/AttendanceSubNav.tsx`, and unit tests in `tests/unit/leave-and-summary-rules.test.ts` + `tests/unit/safe-redirect-and-nav.test.ts`.
+
+### Documentation
+- Recorded `P3-M02` green CI Run `46097947497` (`7efa07a`: `78/78` Vitest, `131/131` pgTAP, `15/15` Playwright) in `docs/progress/MILESTONE-REPORT-P3-M02.md` and `docs/PROJECT_STATUS.md`.
+- Created `docs/phase-plans/PHASE-03-MILESTONE-03-leave-notices-and-daily-summary.md` and `docs/progress/MILESTONE-REPORT-P3-M03.md`; updated `docs/PROJECT_STATUS.md`, `docs/README.md`, and `docs/architecture/ARCHITECTURE_OVERVIEW.md`.
+
 ## [0.3.0-alpha.2] - 2026-11-28
 
 ### Added

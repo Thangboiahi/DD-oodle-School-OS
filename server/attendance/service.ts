@@ -61,6 +61,7 @@ export interface AttendanceCapabilitiesDto {
   canManageStaffAttendance: boolean;
   canViewLedger: boolean;
   canManagePolicy: boolean;
+  canAccessDailySummary: boolean;
   isMonitorReadOnly: boolean;
 }
 
@@ -442,6 +443,7 @@ function buildCapabilities(
     !hasRead &&
     (scope.monitorSectionIds.size > 0 ||
       evaluatePermission(context, { permission: "classroom.summary.read" }).allowed);
+  const canAccessDailySummary = canMarkDaily || hasRead || isMonitorReadOnly;
 
   return {
     canMarkDaily,
@@ -454,6 +456,7 @@ function buildCapabilities(
     canManageStaffAttendance,
     canViewLedger,
     canManagePolicy,
+    canAccessDailySummary,
     isMonitorReadOnly,
   };
 }

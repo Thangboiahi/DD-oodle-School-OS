@@ -162,7 +162,7 @@ AS $$
               FROM public.teaching_groups tg
               WHERE tg.institution_id = es.institution_id
                 AND tg.subject_offering_id = es.subject_offering_id
-                AND tg.status = 'active'
+                AND tg.is_active
                 AND app_auth.is_teaching_group_teacher(p_institution_id, tg.id)
             )
           )

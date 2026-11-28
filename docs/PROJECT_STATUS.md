@@ -1,9 +1,9 @@
 # DD-oodle Project Status
 
-- **Last Updated:** 2026-11-27
-- **Current Phase:** Phase 2 — Institutional Registry and Academic Structure (**In Progress**; Phase 1 **Complete**)
-- **Current Milestone:** `P2-M04` — Bulk Import Staging, CSV/XLSX Validation, Dry-Run Preview & Idempotent Commit Engine (**Complete**)
-- **Overall Repository State:** Phase 1 complete (`45951599452`); `P2-M01`–`P2-M03` verified green (`61e36d5`, Run `45993903529`); `P2-M04` verified green in CI Run `45997372362` (`aa09764`), adding Migration 7 (`import_batches`, `import_rows` with forced RLS + 22-assertion pgTAP suite), `read-excel-file@9.3.20` + RFC-4180 CSV parser & formula neutralization (`lib/imports/*`), caller-RLS staged commit DAL (`server/imports/service.ts`), and `/t/[slug]/imports*` UI & CSV report download with 65/65 Vitest + 80/80 pgTAP checks.
+- **Last Updated:** 2026-11-28
+- **Current Phase:** Phase 2 — Institutional Registry and Academic Structure (**Complete**; awaiting Product Owner kick-off for Phase 3)
+- **Current Milestone:** `P2-M05` — Phase 2 Exit Gate: Live CBSE XI–XII E2E, Relationship Privacy, Staged Import E2E, Responsive/WCAG AA Audit & Phase 2 Closure (**Complete**)
+- **Overall Repository State:** Phase 2 **Complete** (`P2-M01`–`P2-M05`) verified green in CI Run `46087393787` (`beab9d2` following `31494ad` and `4fbbc61`): 9 Supabase SQL migrations enforcing forced RLS across 28 public tables, `66/66` Vitest unit & SQL static checks, `88/88` live pgTAP assertions across 3 suites, and `15/15` live Playwright E2E/responsive/WCAG AA checks.
 
 ---
 
@@ -35,11 +35,12 @@
 | `P2-M02` — People Registry, Guardian Links, Admissions & Custom Fields DAL/UI | **Complete** (`cf4916f`) | `lib/registry/{schemas,masking}.ts`, `server/{audit/log,registry/service}.ts`, `/t/[slug]/people/*` routes & Server Actions; CI Run `45991352879` passed all 3 jobs (`49/49` unit, `58/58` pgTAP, `10/10` Playwright) |
 | `P2-M03` — Academic Structure, CBSE Electives, Cross-Section Teaching Groups & Allocations | **Complete** (`61e36d5`) | `lib/academics/{schemas,conflicts}.ts`, caller-RLS `server/academics/service.ts`, `/t/[slug]/academics/*` routes & Server Actions; CI Run `45993903529` passed all 3 jobs (`59/59` unit, `58/58` pgTAP, `10/10` Playwright) |
 | `P2-M04` — Bulk Import Staging, CSV/XLSX Validation, Dry-Run Preview & Idempotent Commit | **Complete** (`aa09764`) | Migration 7 (`import_batches`/`import_rows`), `read-excel-file@9.3.20` + RFC-4180 CSV & formula neutralization, `server/imports/service.ts`, `/t/[slug]/imports*`; CI Run `45997372362` passed all 3 jobs (`65/65` unit, `80/80` pgTAP, `10/10` Playwright) |
+| `P2-M05` — Phase 2 Exit Gate & Phase 2 Closure | **Complete** (`31494ad`, `4fbbc61`, `beab9d2`) | `tests/e2e/phase2-registry-and-cbse-academics.spec.ts`, Migrations `0008`/`0009` (`can_read_person_profile`), batch `fetchPersonNameMap()` fix, WCAG AA token alignment, `supabase/setup-cli@v3`; CI Run `46087393787` passed all 3 jobs (`66/66` unit, `88/88` pgTAP, `15/15` Playwright) |
 
-## 3. Latest Verification (`P2-M04` CI Run `45997372362`)
+## 3. Latest Verification (`P2-M05` CI Run `46087393787`)
 
-- **Local Verification (`P2-M04`):** `pnpm typecheck` (0 errors), `pnpm lint` (0 errors, 0 warnings), `pnpm test` (15 files, 65/65 passed), `pnpm build` (clean production bundle).
-- **Live GitHub Actions CI Run (`P2-M04`):** [`45997372362`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/45997372362) on `aa09764` (`App Quality & Hygiene` PASS + `Supabase RLS & pgTAP Verification` PASS: 80/80 pgTAP + `Live Multi-Tenant Auth & A11y E2E` PASS: 10/10 Playwright checks).
+- **Local Verification (`P2-M05`):** `pnpm typecheck` (0 errors), `pnpm lint` (0 errors, 0 warnings), `pnpm test` (15 files, 66/66 passed), `pnpm build` (clean production bundle).
+- **Live GitHub Actions CI Run (`P2-M05`):** [`46087393787`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46087393787) on `beab9d2` (`App Quality & Hygiene` `140803311016` PASS `54s`: 66/66 unit + `Supabase RLS & pgTAP Verification` `140803309054` PASS `2m0s`: 88/88 pgTAP + `Live Multi-Tenant Auth & A11y E2E` `140803310183` PASS `3m12s`: 15/15 Playwright checks).
 
 ## 4. Open Blockers / Dependencies
 
@@ -47,4 +48,4 @@
 
 ## 5. Next Bounded Milestone
 
-**`P2-M05`** — Phase 2 E2E Exit Gate Verification & Phase 2 Closure.
+**Awaiting Product Owner kick-off for Phase 3 (`P3-M01`)** — Attendance, Leave & Digital Student Handbook Core Schema, Forced RLS & pgTAP Suite.

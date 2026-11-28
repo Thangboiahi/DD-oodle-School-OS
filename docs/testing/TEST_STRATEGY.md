@@ -22,8 +22,10 @@
 Every push and pull request targeting `main` runs three parallel GitHub Actions jobs:
 
 1. **`app-quality`:** Node.js 22 (`pnpm --frozen-lockfile`), `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and documentation link/empty-directory hygiene verification.
-2. **`supabase-rls-pgtap`:** Official Supabase CLI (`supabase/setup-cli@v1`), local Docker stack (`supabase start`), clean idempotent schema + synthetic seed replay (`supabase db reset`), live pgTAP cross-tenant RLS/Storage/audit verification (`supabase test db`), schema lint (`supabase db lint`), and teardown (`supabase stop --no-backup`).
-3. **`e2e-live-auth`:** Starts live local Supabase stack + synthetic seed (`supabase start`, `supabase db reset`), exports local runtime environment variables from `supabase status -o env` (with `E2E_REQUIRE_SUPABASE=true` so missing Supabase env fails loudly rather than silently skipping), runs production `pnpm build`, executes all 10 Playwright checks across `tests/e2e/public-and-responsive.spec.ts` and `tests/e2e/multi-tenant-auth.spec.ts` (including WCAG AA `axe-core` and 4-viewport audits), uploads artifacts on failure, and stops Supabase (`supabase stop --no-backup`).
+2. **`supabase-rls-pgtap`:** Official Supabase CLI (`supabase/setup-cli@v3` with npm-backed `version: ^2`), local Docker stack (`supabase start`), clean idempotent schema + synthetic seed replay (`supabase db reset`), live pgTAP cross-tenant/relationship/sensitivity/staging RLS verification (**88/88** assertions across 3 suites via `supabase test db`), schema lint (`supabase db lint`), and teardown (`supabase stop --no-backup`).
+3. **`e2e-live-auth`:** Starts live local Supabase stack + synthetic seed (`supabase start`, `supabase db reset`), exports local runtime environment variables from `supabase status -o env` (with `E2E_REQUIRE_SUPABASE=true` so missing Supabase env fails loudly rather than silently skipping), runs production `pnpm build`, executes all **15/15** Playwright checks across `tests/e2e/public-and-responsive.spec.ts`, `tests/e2e/multi-tenant-auth.spec.ts`, and `tests/e2e/phase2-registry-and-cbse-academics.spec.ts` (including WCAG AA `axe-core` and 4-viewport overflow audits across Phase 1 and Phase 2 routes), uploads artifacts on failure, and stops Supabase (`supabase stop --no-backup`).
+
+*(Verified Phase 2 Exit Gate Baseline on `beab9d2` / CI Run `46087393787`: **66/66** Vitest unit & SQL static checks across 28 forced-RLS public tables, **88/88** pgTAP assertions across 3 suites, and **15/15** Playwright E2E checks.)*
 
 ---
 

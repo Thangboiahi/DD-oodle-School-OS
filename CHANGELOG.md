@@ -6,6 +6,23 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-28
+
+### Added
+- Added live Phase 2 Exit-Gate E2E suite (`tests/e2e/phase2-registry-and-cbse-academics.spec.ts` with `E2E_REQUIRE_SUPABASE=true` fail-fast guard) covering CBSE XI–XII reference model & cross-section `TG-XI-APPMATH-1`, 3-row staged CSV bulk import/dry-run/valid-only commit/CSV report, Dual Member relationship scoping + confidential field redaction + Valley ward switch, Monitor XI-A read-only coordination view, and 4-viewport responsive + WCAG 2.0/2.1 AA `axe-core` audits.
+- Added forward-only Migrations 8 & 9 (`202611270008_persons_relationship_read_rls.sql`, `202611270009_restrict_person_read_staff_assignments.sql`) implementing `app_auth.can_read_person_profile(uuid)` and `persons_select_relationship_scoped` (with staff-only rule (c) restricted to `'hod'`, `'class_teacher'`, `'subject_teacher'`), expanding `supabase/tests/02_phase2_registry_and_academics_rls.test.sql` to 40 assertions (88 total pgTAP assertions).
+- Extracted pure `resolveSectionRoleAssignments()` in `lib/academics/conflicts.ts` with unit tests in `tests/unit/academics-conflicts.test.ts` (66/66 Vitest total).
+
+### Fixed
+- Eliminated PostgREST `PGRST201` ambiguous `academic_assignments -> persons` embeds in `server/academics/service.ts` (`getSectionDetail`, `listTeachingGroups`, `listAcademicAssignments`) using direct queries, explicit error throwing, and caller-RLS batch `fetchPersonNameMap()`.
+- Aligned `/t/[slug]/imports*` pages with canonical `app/globals.css` WCAG AA contrast tokens and `min-w-0` responsive grid containers; added optional `E2E_PORT` override in `playwright.config.ts`.
+
+### Changed
+- Hardened `.github/workflows/ci.yml` by upgrading `supabase/setup-cli@v1` (`version: latest`) to npm-backed `supabase/setup-cli@v3` (`version: ^2`) in both `supabase-rls-pgtap` and `e2e-live-auth`.
+
+### Documentation
+- Formally closed **Phase 2 — Institutional Registry & Academic Structure** as **Complete** following green CI Run `46087393787` (`beab9d2`); created `docs/phase-plans/PHASE-02-MILESTONE-05-exit-gate-e2e-verification.md` and `docs/progress/MILESTONE-REPORT-P2-M05.md`; updated `docs/ROADMAP.md`, `docs/PROJECT_STATUS.md`, `docs/security/MULTI_TENANT_RLS_BASELINE.md`, `docs/testing/TEST_STRATEGY.md`, `docs/compliance/COMPLIANCE_AND_RESEARCH_REGISTER.md` (`REF-06G`), `docs/README.md`, and `README.md`.
+
 ## [0.2.0-alpha.4] - 2026-11-27
 
 ### Added

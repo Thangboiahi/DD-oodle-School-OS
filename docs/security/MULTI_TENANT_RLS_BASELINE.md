@@ -2,7 +2,7 @@
 
 > **Canonical References:** [`../../DD-oodle_MASTER_PROJECT_BLUEPRINT.md`](../../DD-oodle_MASTER_PROJECT_BLUEPRINT.md) (Part A §2.2–§2.4, §3.4, §4, §7.1, §11.3–§11.5, §12.5), [`../decisions/ADR-0001-multi-tenant-database-strategy.md`](../decisions/ADR-0001-multi-tenant-database-strategy.md), [`../decisions/ADR-0002-person-identity-and-session-enrolment.md`](../decisions/ADR-0002-person-identity-and-session-enrolment.md), [`../decisions/ADR-0003-academic-structure-and-typed-assignments.md`](../decisions/ADR-0003-academic-structure-and-typed-assignments.md), [`../decisions/ADR-0004-normalized-custom-field-engine.md`](../decisions/ADR-0004-normalized-custom-field-engine.md)
 
-> **Milestones:** `P1-M03`, `P1-M04`, `P2-M01`, `P2-M04`
+> **Milestones:** `P1-M03`, `P1-M04`, `P2-M01`, `P2-M04`, `P2-M05`
 
 ---
 
@@ -77,3 +77,13 @@
 - **28 Forced-RLS Tables (`202611270007_bulk_import_staging.sql`):** `public.import_batches` (unique `(institution_id, idempotency_key)`) and `public.import_rows` (composite FK `(institution_id, batch_id) ON DELETE CASCADE`) enforce `ENABLE` + `FORCE ROW LEVEL SECURITY` with policies restricted to `imports.manage` or `people.manage` (`0` access for `anon`, Subject Teachers, Guardians, Monitors, and `platform_operators`).
 - **Parser Caps, Privacy & Formula Neutralization (`lib/imports/`):** Spreadsheets enforce 5 MB byte limit, 5,000 data row limit, 60-column limit, Aadhaar column/header rejection (`/aadha?r/i`), and `CWE-1236` formula neutralization (`neutralizeCsvFormula`) on all downloadable CSV reports.
 - **Idempotent Non-Overwriting Commit (`server/imports/service.ts`):** Requires `validated` batches with `valid_rows > 0`, skips errors and duplicates without overwriting existing DB records, guards `resolveOrCreateGlobalPerson()` strictly post-authorization, and records append-only audit events.
+
+---
+
+## 9. Relationship-Scoped `public.persons` Directory RLS (`P2-M05`)
+
+- **Migrations `0008` & `0009` (`app_auth.can_read_person_profile(p_person_id uuid)`):** `STABLE SECURITY DEFINER SET search_path = ''` helper (revoked from `PUBLIC, anon`; `EXECUTE` granted solely to `authenticated`) powering `persons_select_relationship_scoped` on `public.persons`. Returns `true` only when the caller holds an active institutional membership and the target `person_id` resolves within that same institution via:
+  - an accessible `student_profiles` row via `app_auth.can_access_student_profile(sp.institution_id, sp.id)` (covering Principal/admin, HOD, Class Teacher, Subject Teacher teaching groups, Guardians, and Section Monitors),
+  - an institutional `staff_profiles` or active `student_guardians` link when the caller holds `people.read` or `academics.manage`, or
+  - an active date-valid staff leadership/teaching row in `academic_assignments` strictly restricted (`Migration 0009`) to `assignment_type IN ('hod', 'class_teacher', 'subject_teacher')` (explicitly excluding student `'monitor'`/`'monitress'` rows so monitor visibility remains section-scoped).
+- **88-Assertion pgTAP Gate:** Verified live across `01_multi_tenant_rls.test.sql` (26), `02_phase2_registry_and_academics_rls.test.sql` (40), and `03_import_staging_rls.test.sql` (22) confirming cross-tenant denial and `platform_operators` seeing strictly their own single `persons` row.

@@ -2,7 +2,7 @@
 
 **DD-oodle** is a configurable, multi-institution School Operations and Learning Ecosystem designed initially for Indian schools (validated against a CBSE Senior Secondary reference school).
 
-> **Current Repository State:** **Phase 1 Complete** (`P1-M05`, CI Run `45951599452` green: Next.js 16 App Router, 3-family Light/Dark Design System, 4-mode Responsive Shell, Native PWA Skeleton, Supabase Multi-Tenant SQL Schema, Forced RLS & Private Storage Baseline, Global Sign-In, Workspace Switcher, Server-Only Tenant Resolver & Live Playwright Multi-Tenant Auth + WCAG AA E2E Gate).
+> **Current Repository State:** **Phase 2 Complete** (`P2-M05`, CI Run `46087393787` green on `beab9d2`: Next.js 16 App Router, 3-family Light/Dark Design System, 4-mode Responsive Shell, Native PWA Skeleton, 9 Supabase SQL migrations across 28 forced-RLS public tables, People Registry, Guardian Links, Custom Fields & Sensitivity Masking, CBSE XI–XII Academic Structure & Cross-Section Teaching Groups, Staged CSV/XLSX Bulk Import Engine, and **66/66** Vitest + **88/88** pgTAP + **15/15** Playwright E2E/Responsive/WCAG AA checks).
 
 ## Prerequisites
 
@@ -33,7 +33,7 @@ Workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs automatical
 
 - **`app-quality`:** `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and documentation link/directory checks.
 - **`supabase-rls-pgtap`:** Starts a real Supabase Docker stack (`supabase start`), replays migrations + synthetic seed (`supabase db reset`), runs all pgTAP cross-tenant RLS/Storage/audit tests (`supabase test db`), and lints PostgreSQL schemas (`supabase db lint`).
-- **`e2e-live-auth`:** Starts local Supabase + seed, exports runtime env via `supabase status -o env`, builds Next.js, and runs Playwright E2E checks across public/PWA/4-viewport responsive/WCAG AA `axe-core` and live multi-tenant auth, workspace switching, cross-tenant denial, and platform separation (`pnpm test:e2e`).
+- **`e2e-live-auth`:** Starts local Supabase + seed, exports runtime env via `supabase status -o env`, builds Next.js, and runs Playwright E2E checks across public/PWA/4-viewport responsive/WCAG AA `axe-core`, live multi-tenant auth/switching/platform separation, CBSE XI–XII academics, relationship & confidential redaction, and staged CSV bulk import (`pnpm test:e2e`, 15/15 checks).
 
 ## Environment Variables (Names Only)
 

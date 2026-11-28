@@ -3,8 +3,9 @@
 - **Milestone:** `P5-M02` — Weekly Timetables, Venue/Teacher Conflict Prevention, Daily Substitutions & Academic Calendar (Server DAL + UI)
 - **Date:** `2026-11-28`
 - **Phase:** Phase 5 — Timetable, Examinations & Results (**In Progress**)
-- **Status:** **Local Verified — Pending GitHub Actions Live CI Verification**
+- **Status:** **Complete — Live GitHub Actions CI Verified**
 - **Plan Reference:** [`PHASE-05-MILESTONE-02-weekly-timetables-substitutions-and-calendar-ui.md`](../phase-plans/PHASE-05-MILESTONE-02-weekly-timetables-substitutions-and-calendar-ui.md)
+- **Live CI Run:** [`46131036818`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46131036818) (`aacd72b`)
 
 ---
 
@@ -27,10 +28,14 @@
 
 ## 2. Verification Summary
 
-- Local `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and repository hygiene checks passed prior to `origin/main` push; live GitHub Actions CI verification pending.
+- **Local Verification:** `pnpm typecheck`, `pnpm lint`, `pnpm test` (`22` files / `124/124` Vitest), `pnpm build`, and repository hygiene checks passed.
+- **Live GitHub Actions CI Verification ([Run `46131036818`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46131036818), commit `aacd72b`):**
+  - `App Quality & Hygiene` (`140935999808`): **124/124** Vitest unit/invariant assertions across 22 files PASS, `typecheck` + `lint` + `build` + docs links PASS.
+  - `Supabase RLS & pgTAP Verification` (`140935999816`): `supabase db reset`, **228/228** pgTAP assertions across 6 suites PASS (`Files=6, Tests=228`), and `supabase db lint` (`No schema errors found`) PASS.
+  - `Live Multi-Tenant Auth & A11y E2E` (`140935999555`): **25/25** Playwright E2E tests across 5 specs (`1.2m`) PASS.
 
 ---
 
 ## 3. Recommended Next Action
 
-Proceed to **`P5-M03`** — Assessment Schemes, Exam Cycles/Schedules & Staged Marks Entry/Moderation Server DAL + UI once CI verifies `P5-M02` green.
+Proceed to **`P5-M03`** — Assessment Schemes, Exam Cycles/Schedules & Staged Marks Entry/Moderation Server DAL + UI.

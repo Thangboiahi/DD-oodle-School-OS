@@ -6,6 +6,18 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.3.0-alpha.2] - 2026-11-28
+
+### Added
+- Added pure attendance schemas and domain rules (`lib/attendance/{schemas,rules}.ts`): one-way student (`draft` -> `class_teacher_verified` -> `signed_off`) and staff (`draft` -> `verified` -> `signed_off`) verification transitions, mandatory post-sign-off `correctionReason` (>= 5 chars), configurable policy-based shortage percentages (`computeAttendanceShortage`), deterministic idempotency keys, and `offlineSyncBatchSchema`.
+- Added caller-RLS server-only Attendance DAL (`server/attendance/service.ts` with `import "server-only"`) supporting daily student rolls, teaching-group period rolls, staff daily check-in/out & verification/sign-off, audited post-sign-off corrections writing append-only `attendance_events` and `audit_events`, institutional threshold policy updates (keeping `biometric_enabled = false`), and idempotent `syncOfflineAttendanceQueue()`.
+- Added authenticated `POST /api/t/[slug]/attendance/sync` (`Cache-Control: no-store`), `app/t/[slug]/attendance/actions.ts`, workspace `"Attendance"` nav item, `components/attendance/{AttendanceSubNav,offline-queue-panel}.tsx`, and responsive routes `/t/[slug]/attendance`, `/t/[slug]/attendance/periods`, `/t/[slug]/attendance/staff`, and `/t/[slug]/attendance/ledger` (with strict verified-only read view for section Monitors).
+- Added unit tests in `tests/unit/attendance-rules.test.ts` and updated `tests/unit/safe-redirect-and-nav.test.ts` (`78/78` unit tests passing).
+
+### Documentation
+- Updated `docs/progress/MILESTONE-REPORT-P3-M01.md` with Migration `202611280004` (`95bbda0`) and green CI Run `46095870562` (`131/131` pgTAP, `66/66` unit, `15/15` Playwright).
+- Created `docs/phase-plans/PHASE-03-MILESTONE-02-attendance-verification-and-ledger-ui.md` and `docs/progress/MILESTONE-REPORT-P3-M02.md`; updated `docs/PROJECT_STATUS.md`, `docs/README.md`, and `docs/architecture/ARCHITECTURE_OVERVIEW.md`.
+
 ## [0.3.0-alpha.1] - 2026-11-28
 
 ### Added

@@ -48,6 +48,10 @@ export function buildInstitutionNav(
       .allowed ||
     evaluatePermission(context, { permission: "section.coordinate" }, now)
       .allowed ||
+    evaluatePermission(context, { permission: "attendance.read" }, now)
+      .allowed ||
+    evaluatePermission(context, { permission: "attendance.manage" }, now)
+      .allowed ||
     evaluatePermission(context, { permission: "ward.read" }, now).allowed ||
     evaluatePermission(context, { permission: "classroom.summary.read" }, now)
       .allowed ||
@@ -66,6 +70,12 @@ export function buildInstitutionNav(
         label: "Academics",
         href: `${basePath}/academics`,
         icon: "academics",
+      },
+      {
+        id: "attendance",
+        label: "Attendance",
+        href: `${basePath}/attendance`,
+        icon: "attendance",
       },
     );
   }

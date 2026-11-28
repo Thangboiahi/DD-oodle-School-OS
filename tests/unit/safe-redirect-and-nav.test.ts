@@ -83,6 +83,7 @@ describe("buildInstitutionNav", () => {
       "overview",
       "people",
       "academics",
+      "attendance",
       "imports",
       "governance",
       "audit",
@@ -93,6 +94,9 @@ describe("buildInstitutionNav", () => {
     );
     expect(nav.find((item) => item.id === "academics")?.href).toBe(
       "/t/sunrise-cbse/academics",
+    );
+    expect(nav.find((item) => item.id === "attendance")?.href).toBe(
+      "/t/sunrise-cbse/attendance",
     );
     expect(nav.find((item) => item.id === "imports")?.href).toBe(
       "/t/sunrise-cbse/imports",
@@ -111,10 +115,11 @@ describe("buildInstitutionNav", () => {
       "overview",
       "people",
       "academics",
+      "attendance",
     ]);
   });
 
-  it("renders overview and scoped people/academics links for Parent/Guardian and Monitor", () => {
+  it("renders overview and scoped people/academics/attendance links for Parent/Guardian and Monitor", () => {
     const parentNav = buildInstitutionNav(
       buildContextWithRole("parent_guardian", "Parent / Guardian", [
         "ward.read",
@@ -132,11 +137,13 @@ describe("buildInstitutionNav", () => {
       "overview",
       "people",
       "academics",
+      "attendance",
     ]);
     expect(monitorNav.map((item) => item.id)).toEqual([
       "overview",
       "people",
       "academics",
+      "attendance",
     ]);
   });
 });

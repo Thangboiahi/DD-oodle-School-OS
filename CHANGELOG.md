@@ -6,6 +6,18 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-28
+
+### Added
+- Added live Phase 4 Exit-Gate E2E suite (`tests/e2e/phase4-communication-planning-assignments.spec.ts` with `E2E_REQUIRE_SUPABASE=true` fail-fast guard) verifying Subject Teacher independent `teaching_group` official notices, controlled offline cache (`dd-oodle:offline-notices:sunrise-cbse`), contextual comments, CBSE syllabus & delayed watchlist, lesson plans, learning resources, hybrid `auto_mcq` quizzes & offline notebook completion, Class Teacher/HOD oversight & internal staff note / enquiry resolution, Valley guardian cross-tenant isolation & notice acknowledgement, learner MCQ answer-key stripping (`correctOptionIndex`), live Digital Student Handbook Phase 4 wiring, Monitor read-only classroom-board boundaries, and 4-viewport + WCAG 2.0/2.1 AA `axe-core` audits across all 11 Phase 4 routes (`25/25` Playwright total).
+
+### Fixed
+- Fixed active link contrast (`2.66:1` -> `> 6.7:1`) in `components/planning/PlanningSubNav.tsx` caught by Stage A `axe-core` audit by replacing undefined `text-fg-inverse` with `border border-accent bg-accent text-accent-fg`.
+
+### Documentation
+- Recorded `P4-M04` CI Run `46120075849` (`371d4ed`) and Stage A `P4-M05` green CI Run `46122793847` (`1e66f83`: **115/115** Vitest across 21 files, **178/178** pgTAP across 5 suites + clean `db lint`, **25/25** Playwright across 5 specs) and formally closed **Phase 4 — Structured Communication & Academic Planning** as **Complete**.
+- Created `docs/phase-plans/PHASE-04-MILESTONE-05-exit-gate-e2e-verification.md` and `docs/progress/MILESTONE-REPORT-P4-M05.md`; updated `docs/progress/MILESTONE-REPORT-P4-M04.md`, `docs/ROADMAP.md`, `docs/PROJECT_STATUS.md`, `docs/testing/TEST_STRATEGY.md`, `docs/README.md`, and `README.md`.
+
 ## [0.4.0-alpha.4] - 2026-11-28
 
 ### Added

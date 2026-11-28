@@ -52,6 +52,7 @@ This directory contains the living operational, architectural, governance, compl
 - [`phase-plans/PHASE-04-MILESTONE-02-communication-notices-and-enquiries-ui.md`](phase-plans/PHASE-04-MILESTONE-02-communication-notices-and-enquiries-ui.md) — Part E milestone plan for `P4-M02` (Scoped Official Notices, Acknowledgements, Formal Parent Enquiries & Record-Bound Comments).
 - [`phase-plans/PHASE-04-MILESTONE-03-academic-planning-syllabus-lessons-resources-ui.md`](phase-plans/PHASE-04-MILESTONE-03-academic-planning-syllabus-lessons-resources-ui.md) — Part E milestone plan for `P4-M03` (Academic Planning, Syllabus Hierarchy, Lesson Plans, Subject Learning Resources & Oversight).
 - [`phase-plans/PHASE-04-MILESTONE-04-hybrid-assignments-and-handbook-wiring.md`](phase-plans/PHASE-04-MILESTONE-04-hybrid-assignments-and-handbook-wiring.md) — Part E milestone plan for `P4-M04` (Unified Hybrid Assignments, MCQ Quizzes, Offline Completion, Monitor Board & Live Handbook Phase 4 Wiring).
+- [`phase-plans/PHASE-04-MILESTONE-05-exit-gate-e2e-verification.md`](phase-plans/PHASE-04-MILESTONE-05-exit-gate-e2e-verification.md) — Part E milestone plan for `P4-M05` (Phase 4 Exit Gate E2E Verification & Phase 4 Closure).
 - [`progress/MILESTONE-REPORT-P0-M01.md`](progress/MILESTONE-REPORT-P0-M01.md) — Audited completion report for Milestone `P0-M01`.
 - [`progress/MILESTONE-REPORT-P1-M01.md`](progress/MILESTONE-REPORT-P1-M01.md) — Audited completion report for Milestone `P1-M01`.
 - [`progress/MILESTONE-REPORT-P1-M02.md`](progress/MILESTONE-REPORT-P1-M02.md) — Audited completion report for Milestone `P1-M02`.
@@ -72,7 +73,8 @@ This directory contains the living operational, architectural, governance, compl
 - [`progress/MILESTONE-REPORT-P4-M01.md`](progress/MILESTONE-REPORT-P4-M01.md) — Audited completion report & CI Run `46114613893` evidence for Milestone `P4-M01`.
 - [`progress/MILESTONE-REPORT-P4-M02.md`](progress/MILESTONE-REPORT-P4-M02.md) — Audited completion report & CI Run `46116183736` evidence for Milestone `P4-M02`.
 - [`progress/MILESTONE-REPORT-P4-M03.md`](progress/MILESTONE-REPORT-P4-M03.md) — Audited completion report & CI Run `46118712061` evidence for Milestone `P4-M03`.
-- [`progress/MILESTONE-REPORT-P4-M04.md`](progress/MILESTONE-REPORT-P4-M04.md) — Completion report & verification record for Milestone `P4-M04`.
+- [`progress/MILESTONE-REPORT-P4-M04.md`](progress/MILESTONE-REPORT-P4-M04.md) — Audited completion report & CI Run `46120075849` evidence for Milestone `P4-M04`.
+- [`progress/MILESTONE-REPORT-P4-M05.md`](progress/MILESTONE-REPORT-P4-M05.md) — Audited completion report & CI Run `46122793847` evidence for Milestone `P4-M05` (Phase 4 Complete).
 
 ## Deferred `docs/` Folders (Per Blueprint Part D1)
 

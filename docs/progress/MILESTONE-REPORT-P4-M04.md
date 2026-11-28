@@ -2,8 +2,9 @@
 
 - **Milestone:** `P4-M04` — Unified Hybrid Assignments, MCQ Quizzes, Offline Completion Tracking, Student/Parent Workspace, Monitor Board & Live Digital Student Handbook Phase 4 Wiring (Server DAL + UI)
 - **Date:** `2026-11-28`
-- **Status:** **Local Verified — Pending GitHub Actions Live CI Verification**
+- **Status:** **Complete (CI Verified)**
 - **Plan Reference:** [`PHASE-04-MILESTONE-04-hybrid-assignments-and-handbook-wiring.md`](../phase-plans/PHASE-04-MILESTONE-04-hybrid-assignments-and-handbook-wiring.md)
+- **Commit:** `371d4ed` on `main` (`feat(assignments): add hybrid online/offline assignments, mcq scoring, monitor board and live handbook wiring`)
 
 ## 1. Delivered Changes
 
@@ -20,8 +21,12 @@
 
 ## 2. Verification Summary
 
-- Verified locally with `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and docs hygiene checks prior to pushing to `origin/main`; live GitHub Actions CI run pending.
+- **Local Verification:** `pnpm typecheck` PASS, `pnpm lint` PASS (0 errors/warnings), `pnpm test` PASS (`21` files / `115/115` tests), `pnpm build` PASS, and docs hygiene checks PASS.
+- **Live GitHub Actions CI Verification ([`46120075849`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46120075849) on `371d4ed`):**
+  - `App Quality & Hygiene` (`140902441003`): **PASS** (`21` files / `115/115` Vitest, `pnpm typecheck`, `pnpm lint`, `pnpm build`, docs hygiene).
+  - `Supabase RLS & pgTAP Verification` (`140902440950`): **PASS** (`Files=5, Tests=178, Result: PASS` + `No schema errors found`).
+  - `Live Multi-Tenant Auth & A11y E2E` (`140902440816`): **PASS** (`20 passed (45.5s)`).
 
 ## 3. Recommended Next Action
 
-Proceed to **`P4-M05`** — Phase 4 Exit Gate Live E2E, Cross-Role Privacy & A11y Verification, and Phase 4 Closure once CI verifies `P4-M04` green.
+Executed **`P4-M05`** — Phase 4 Exit Gate Live E2E, Cross-Role & Accessibility Verification, and Phase 4 Closure.

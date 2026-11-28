@@ -1,9 +1,9 @@
 # DD-oodle Project Status
 
 - **Last Updated:** 2026-11-28
-- **Current Phase:** Phase 4 — Structured Communication & Academic Planning (**In Progress**; Phases 0–3 **Complete**)
-- **Current Milestone:** `P4-M04` — Unified Hybrid Assignments, MCQ Quizzes, Offline Completion, Monitor Board & Live Handbook Phase 4 Wiring DAL + UI (**Local Verified — Pushing for Live CI**)
-- **Overall Repository State:** Phases 0–3 **Complete** (`P3-M05` CI Runs `46105679125` & `46109385779`); `P4-M01` **Complete** (`6314e80`, CI Run `46114613893`); `P4-M02` **Complete** (`4a46d8f`, CI Run `46116183736`); `P4-M03` **Complete** (`314875f`, CI Run `46118712061`: `108/108` Vitest, `178/178` pgTAP + `db lint`, `20/20` Playwright); `P4-M04` adds `lib/assignments/{schemas,rules}.ts`, caller-RLS `server/assignments/service.ts`, `/t/[slug]/assignments*`, `OfflineDraftBox`, and live Digital Student Handbook Phase 4 wiring.
+- **Current Phase:** Phase 4 — Structured Communication & Academic Planning (**Complete**; awaiting Product Owner kick-off for **Phase 5**)
+- **Current Milestone:** `P4-M05` — Phase 4 Exit Gate & Phase 4 Closure (**Complete — CI Verified**)
+- **Overall Repository State:** Phases 0–4 **Complete** (`P4-M05` CI Run `46122793847` green on `1e66f83`: **115/115** Vitest across 21 files covering **45** forced-RLS `public.*` tables across **16** migrations, **178/178** pgTAP assertions across 5 suites + clean `supabase db lint`, and **25/25** live Playwright E2E/responsive/WCAG 2.0/2.1 AA checks). All Phase 4 exit criteria verified; Phase 5 (`P5-M01`) awaits Product Owner kick-off.
 
 ---
 
@@ -44,12 +44,15 @@
 | `P4-M01` — Phase 4 ADRs, Communication, Academic Planning & Hybrid Assignments Core Schema, RLS & pgTAP | **Complete** (`6314e80`) | `ADR-0007` & `ADR-0008`, Migrations `202611280005`–`202611280007` (`academic_terms.status` + 9 forced-RLS tables = 45 total), synthetic seed, 47-assertion pgTAP suite (`05_phase4_communication_planning_assignments_rls.test.sql`), and `sql-migration-invariants.test.ts` (45 tables); CI Run `46114613893` passed all 3 jobs (`95/95` unit, `178/178` pgTAP + `db lint`, `20/20` Playwright) |
 | `P4-M02` — Scoped Official Notices, Acknowledgements, Formal Parent Enquiries & Record-Bound Comments | **Complete** (`4a46d8f`) | `lib/communication/{schemas,rules}.ts`, caller-RLS `server/communication/service.ts`, `/t/[slug]/communication*`, `OfflineNoticesCachePanel`, and `tests/unit/communication-rules.test.ts`; CI Run `46116183736` passed all 3 jobs (`101/101` unit, `178/178` pgTAP + `db lint`, `20/20` Playwright) |
 | `P4-M03` — Academic Planning, Syllabus Hierarchy, Lesson Plans, Resources & Oversight | **Complete** (`314875f`) | `lib/planning/{schemas,rules}.ts`, caller-RLS `server/planning/service.ts`, `/t/[slug]/planning*` (`Syllabus`, `Lessons`, `Resources`, `Oversight`) & actions, and `tests/unit/planning-rules.test.ts`; CI Run `46118712061` passed all 3 jobs (`108/108` unit, `178/178` pgTAP + `db lint`, `20/20` Playwright) |
-| `P4-M04` — Unified Hybrid Assignments, MCQ Quizzes, Offline Completion, Monitor Board & Live Handbook Wiring | **In Progress (Local Verified)** | `lib/assignments/{schemas,rules}.ts`, caller-RLS `server/assignments/service.ts`, `/t/[slug]/assignments*`, `OfflineDraftBox`, live Phase 4 wiring in `server/handbook/service.ts`, and `tests/unit/assignments-rules.test.ts` |
+| `P4-M04` — Unified Hybrid Assignments, MCQ Quizzes, Offline Completion, Monitor Board & Live Handbook Wiring | **Complete** (`371d4ed`) | `lib/assignments/{schemas,rules}.ts`, caller-RLS `server/assignments/service.ts`, `/t/[slug]/assignments*`, `OfflineDraftBox`, live Phase 4 wiring in `server/handbook/service.ts`, and `tests/unit/assignments-rules.test.ts`; CI Run `46120075849` passed all 3 jobs (`115/115` unit, `178/178` pgTAP + `db lint`, `20/20` Playwright) |
+| `P4-M05` — Phase 4 Exit Gate & Phase 4 Closure | **Complete** (`65c5adc`, `1e66f83`) | `tests/e2e/phase4-communication-planning-assignments.spec.ts`, `PlanningSubNav.tsx` WCAG AA contrast fix (`text-accent-fg`), and Phase 4 closure docs; CI Run `46122793847` passed all 3 jobs (`115/115` unit, `178/178` pgTAP + `db lint`, `25/25` Playwright) |
 
-## 3. Latest Verification (`P4-M04` Local Verification + Baseline `P4-M03` CI Run `46118712061`)
+## 3. Latest Verification (`P4-M05` Live CI Run `46122793847`)
 
-- **Local Verification (`P4-M04`):** `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and docs hygiene checks verified prior to `origin/main` push.
-- **Live GitHub Actions CI Baseline (`P4-M03`):** [`46118712061`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46118712061) on `314875f` (`App Quality & Hygiene` `140898217514` PASS `108/108` unit + `Supabase RLS & pgTAP Verification` `140898217515` PASS `178/178` pgTAP + `db lint` + `Live Multi-Tenant Auth & A11y E2E` `140898217394` PASS `20/20` Playwright).
+- **Live GitHub Actions CI ([`46122793847`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46122793847)) on `1e66f83`:**
+  - `App Quality & Hygiene` (`140910734786`): **PASS** (`1m3s` — `pnpm typecheck`, `pnpm lint`, **21 files / 115/115** Vitest unit & SQL static checks, `pnpm build`, docs hygiene).
+  - `Supabase RLS & pgTAP Verification` (`140910734949`): **PASS** (`2m32s` — `supabase db reset`, **178/178** pgTAP assertions across 5 suites, `supabase db lint` -> `No schema errors found`).
+  - `Live Multi-Tenant Auth & A11y E2E` (`140910734869`): **PASS** (`4m45s` — **25/25** Playwright live auth, tenancy, Phase 2–4 E2E, 4-viewport overflow & WCAG 2.0/2.1 AA axe-core checks).
 
 ## 4. Open Blockers / Dependencies
 
@@ -57,4 +60,4 @@
 
 ## 5. Next Bounded Milestone
 
-**`P4-M05`** — Phase 4 Exit Gate: Live Cross-Role Communication, Planning, Assignments & Handbook E2E Verification and Phase 4 Closure.
+**Awaiting Product Owner kick-off for Phase 5:** Candidate **`P5-M01`** — Timetable, Examinations & Results Core Schema, Forced RLS & pgTAP Suite.

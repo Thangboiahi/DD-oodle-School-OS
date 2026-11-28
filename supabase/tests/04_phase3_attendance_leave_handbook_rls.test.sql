@@ -8,7 +8,7 @@ BEGIN;
 
 SET LOCAL search_path = public, extensions;
 
-SELECT plan(41);
+SELECT plan(43);
 
 -- 1. All 8 Phase 3 tables have ENABLE and FORCE ROW LEVEL SECURITY
 SELECT is(
@@ -298,6 +298,21 @@ SELECT throws_ok(
   '42501',
   NULL,
   'Dual member is denied submitting parent_attendance_notices for Sunrise student'
+);
+
+-- 8. Verify append-only attendance_events statement trigger under privileged role (RESET ROLE)
+RESET ROLE;
+SELECT throws_ok(
+  $$UPDATE public.attendance_events SET reason = 'privileged tamper' WHERE id = 'cccccccc-cccc-4ccc-8ccc-cccccccc1101'$$,
+  '42501',
+  NULL,
+  'attendance_events rejects privileged UPDATE via statement-level append-only trigger'
+);
+SELECT throws_ok(
+  $$DELETE FROM public.attendance_events WHERE id = 'cccccccc-cccc-4ccc-8ccc-cccccccc1101'$$,
+  '42501',
+  NULL,
+  'attendance_events rejects privileged DELETE via statement-level append-only trigger'
 );
 
 SELECT * FROM finish();

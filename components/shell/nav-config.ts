@@ -7,6 +7,7 @@ export type ShellNavIcon =
   | "academics"
   | "attendance"
   | "leave"
+  | "handbook"
   | "imports"
   | "governance"
   | "audit"

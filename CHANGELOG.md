@@ -6,6 +6,17 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.3.0-alpha.4] - 2026-11-28
+
+### Added
+- Added pure Digital Student Handbook schemas and privacy policy helpers (`lib/handbook/{schemas,rules}.ts`): category/visibility metadata (`disciplinary` and `student_support` marked sensitive), `resolveHandbookAuthoringPolicy()`, `validateEntryAuthoringAgainstPolicy()`, `canGuardianAcknowledgeEntry()`, and typed Phase 4 (`Assignments & Subject Work`) / Phase 6 (`Fee Receipts & Ledger`) extension seams.
+- Added caller-RLS server-only Handbook DAL (`server/handbook/service.ts` with `import "server-only"`) assembling live Phase 3 attendance summaries, leave applications, parent notices, and category/visibility-partitioned `handbook_entries`, enforcing Monitor classmate handbook isolation (self-only), staff-only edit/archive checks, guardian-only acknowledgements, and metadata-only `audit_events` (zero body text logged).
+- Added `app/t/[slug]/handbook/actions.ts`, `"Handbook"` workspace navigation link, compact WCAG AA routes at `/t/[slug]/handbook` and `/t/[slug]/handbook/[studentProfileId]`, and unit tests in `tests/unit/handbook-rules.test.ts` + `tests/unit/safe-redirect-and-nav.test.ts`.
+
+### Documentation
+- Recorded `P3-M03` live CI Run `46099916419` (`9b69e75`: `88/88` Vitest, `131/131` pgTAP, `15/15` Playwright) in `docs/progress/MILESTONE-REPORT-P3-M03.md` and `docs/PROJECT_STATUS.md`.
+- Created `docs/phase-plans/PHASE-03-MILESTONE-04-digital-student-handbook-ui.md` and `docs/progress/MILESTONE-REPORT-P3-M04.md`; updated `docs/PROJECT_STATUS.md`, `docs/README.md`, and `docs/architecture/ARCHITECTURE_OVERVIEW.md`.
+
 ## [0.3.0-alpha.3] - 2026-11-28
 
 ### Added

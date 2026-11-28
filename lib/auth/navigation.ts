@@ -105,6 +105,15 @@ export function buildInstitutionNav(
     });
   }
 
+  if (canAccessPeopleOrTeaching) {
+    items.push({
+      id: "handbook",
+      label: "Handbook",
+      href: `${basePath}/handbook`,
+      icon: "handbook",
+    });
+  }
+
   const canManageImports =
     evaluatePermission(context, { permission: "imports.manage" }, now).allowed ||
     evaluatePermission(context, { permission: "people.manage" }, now).allowed;

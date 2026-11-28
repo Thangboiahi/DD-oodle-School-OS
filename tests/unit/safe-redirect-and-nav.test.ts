@@ -85,6 +85,7 @@ describe("buildInstitutionNav", () => {
       "academics",
       "attendance",
       "leave",
+      "handbook",
       "imports",
       "governance",
       "audit",
@@ -101,6 +102,9 @@ describe("buildInstitutionNav", () => {
     );
     expect(nav.find((item) => item.id === "leave")?.href).toBe(
       "/t/sunrise-cbse/leave",
+    );
+    expect(nav.find((item) => item.id === "handbook")?.href).toBe(
+      "/t/sunrise-cbse/handbook",
     );
     expect(nav.find((item) => item.id === "imports")?.href).toBe(
       "/t/sunrise-cbse/imports",
@@ -121,10 +125,11 @@ describe("buildInstitutionNav", () => {
       "academics",
       "attendance",
       "leave",
+      "handbook",
     ]);
   });
 
-  it("renders Leave & Notices for Parent/Guardian and omits it for Monitor-only roles", () => {
+  it("renders Leave & Notices and Handbook for Parent/Guardian and self Handbook (without Leave & Notices) for Monitor-only roles", () => {
     const parentNav = buildInstitutionNav(
       buildContextWithRole("parent_guardian", "Parent / Guardian", [
         "ward.read",
@@ -144,12 +149,14 @@ describe("buildInstitutionNav", () => {
       "academics",
       "attendance",
       "leave",
+      "handbook",
     ]);
     expect(monitorNav.map((item) => item.id)).toEqual([
       "overview",
       "people",
       "academics",
       "attendance",
+      "handbook",
     ]);
   });
 });

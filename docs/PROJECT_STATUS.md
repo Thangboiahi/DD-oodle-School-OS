@@ -2,8 +2,8 @@
 
 - **Last Updated:** 2026-11-28
 - **Current Phase:** Phase 3 — Attendance, Leave & Digital Handbook (**In Progress**; Phase 1 & Phase 2 **Complete**)
-- **Current Milestone:** `P3-M03` — Student & Staff Leave Workflows, Parent Attendance Notices & Verified Daily Class / Monitor Summary (**Local Verified — Pushing for Live CI**)
-- **Overall Repository State:** Phase 2 **Complete** (`P2-M01`–`P2-M05`, CI Run `46087393787` on `beab9d2`); `P3-M01` **Complete** (`95bbda0`, CI Run `46095870562`) and `P3-M02` **Complete** (`7efa07a`, CI Run `46097947497`); `P3-M03` adds `lib/leave/{schemas,rules}.ts`, caller-RLS `server/leave/service.ts`, Server Actions & routes under `/t/[slug]/leave*` and `/t/[slug]/attendance/summary`.
+- **Current Milestone:** `P3-M04` — Digital Student Handbook with Strict Category & Visibility Privacy Controls (**Local Verified — Pushing for Live CI**)
+- **Overall Repository State:** Phase 2 **Complete** (`P2-M01`–`P2-M05`, CI Run `46087393787` on `beab9d2`); `P3-M01` **Complete** (`95bbda0`, Run `46095870562`), `P3-M02` **Complete** (`7efa07a`, Run `46097947497`), `P3-M03` **Complete** (`9b69e75`, Run `46099916419`); `P3-M04` adds `lib/handbook/{schemas,rules}.ts`, caller-RLS `server/handbook/service.ts`, Server Actions & routes under `/t/[slug]/handbook*`.
 
 ---
 
@@ -38,12 +38,13 @@
 | `P2-M05` — Phase 2 Exit Gate & Phase 2 Closure | **Complete** (`31494ad`, `4fbbc61`, `beab9d2`) | `tests/e2e/phase2-registry-and-cbse-academics.spec.ts`, Migrations `0008`/`0009` (`can_read_person_profile`), batch `fetchPersonNameMap()` fix, WCAG AA token alignment, `supabase/setup-cli@v3`; CI Run `46087393787` passed all 3 jobs (`66/66` unit, `88/88` pgTAP, `15/15` Playwright) |
 | `P3-M01` — Phase 3 ADRs, Attendance, Leave & Digital Handbook Schema, RLS & pgTAP | **Complete** (`95bbda0`) | `ADR-0005` & `ADR-0006`, Migrations `202611280001`–`202611280004` (8 forced-RLS tables, 36 total + statement-level immutable `attendance_events`), synthetic seed, 43-assertion pgTAP (`04_phase3_attendance_leave_handbook_rls.test.sql`); CI Run `46095870562` passed all 3 jobs (`66/66` unit, `131/131` pgTAP + `db lint`, `15/15` Playwright) |
 | `P3-M02` — Attendance, Verification, Sign-Off, Audited Correction Ledger & Offline Sync | **Complete** (`7efa07a`) | `lib/attendance/{schemas,rules}.ts`, caller-RLS `server/attendance/service.ts`, `POST /api/t/[slug]/attendance/sync`, `/t/[slug]/attendance/*` Server Actions & UI, `tests/unit/attendance-rules.test.ts`; CI Run `46097947497` passed all 3 jobs (`78/78` unit, `131/131` pgTAP + `db lint`, `15/15` Playwright) |
-| `P3-M03` — Student & Staff Leave Workflows, Parent Notices & Verified Class Summary | **In Progress (Local Verified)** | `lib/leave/{schemas,rules}.ts`, caller-RLS `server/leave/service.ts`, `/t/[slug]/leave*` & `/t/[slug]/attendance/summary` Server Actions & UI, self-approval lock, verified-only Monitor board summary, and `tests/unit/leave-and-summary-rules.test.ts` |
+| `P3-M03` — Student & Staff Leave Workflows, Parent Notices & Verified Class Summary | **Complete** (`9b69e75`) | `lib/leave/{schemas,rules}.ts`, caller-RLS `server/leave/service.ts`, `/t/[slug]/leave*` & `/t/[slug]/attendance/summary` Server Actions & UI, `tests/unit/leave-and-summary-rules.test.ts`; CI Run `46099916419` passed all 3 jobs (`88/88` unit, `131/131` pgTAP + `db lint`, `15/15` Playwright) |
+| `P3-M04` — Digital Student Handbook with Strict Category & Visibility Privacy Controls | **In Progress (Local Verified)** | `lib/handbook/{schemas,rules}.ts`, caller-RLS `server/handbook/service.ts`, `/t/[slug]/handbook*` Server Actions & UI (live attendance/leave/notices, category/visibility partitioning, Monitor classmate block, guardian ack, Phase 4/6 seams), and `tests/unit/handbook-rules.test.ts` |
 
-## 3. Latest Verification (`P3-M03` Local Verification + Baseline `P3-M02` CI Run `46097947497`)
+## 3. Latest Verification (`P3-M04` Local Verification + Baseline `P3-M03` CI Run `46099916419`)
 
-- **Local Verification (`P3-M03`):** `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and docs hygiene checks verified prior to `origin/main` push.
-- **Live GitHub Actions CI Baseline (`P3-M02`):** [`46097947497`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46097947497) on `7efa07a` (`App Quality & Hygiene` `140833565093` PASS `1m1s`: 78/78 unit + `Supabase RLS & pgTAP Verification` `140833565372` PASS `2m16s`: 131/131 pgTAP + `Live Multi-Tenant Auth & A11y E2E` `140833565329` PASS `3m29s`: 15/15 Playwright).
+- **Local Verification (`P3-M04`):** `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and docs hygiene checks verified prior to `origin/main` push.
+- **Live GitHub Actions CI Baseline (`P3-M03`):** [`46099916419`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46099916419) on `9b69e75` (`App Quality & Hygiene` `140839790395` PASS `57s`: 88/88 unit + `Supabase RLS & pgTAP Verification` `140839790233` PASS `2m17s`: 131/131 pgTAP + `Live Multi-Tenant Auth & A11y E2E` `140839790494` PASS `3m43s`: 15/15 Playwright).
 
 ## 4. Open Blockers / Dependencies
 
@@ -51,4 +52,4 @@
 
 ## 5. Next Bounded Milestone
 
-**`P3-M04`** — Digital Student Handbook Assembly, Category/Visibility-Scoped Notes & Guardianship Timeline (`/t/[slug]/handbook`).
+**`P3-M05`** — Phase 3 Exit Gate (Live E2E Verification across Attendance/Leave/Handbook Privacy, Responsive/WCAG AA Audit & Phase 3 Closure).

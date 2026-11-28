@@ -119,6 +119,12 @@ export function buildInstitutionNav(
         href: `${basePath}/communication`,
         icon: "communication",
       },
+      {
+        id: "planning",
+        label: "Planning",
+        href: `${basePath}/planning`,
+        icon: "planning",
+      },
     );
   }
 

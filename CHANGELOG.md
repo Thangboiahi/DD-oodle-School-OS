@@ -6,6 +6,18 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.4.0-alpha.3] - 2026-11-28
+
+### Added
+- Added pure academic planning schemas and domain rules (`lib/planning/{schemas,rules}.ts`): academic term lifecycle schema (`planned`/`active`/`completed`), syllabus hierarchy parent-kind validation (`validateSyllabusParentKind` for `Unit -> Chapter -> Topic`), deterministic tree builder (`buildSyllabusTree`), progress rollup calculator (`computeSyllabusProgressRollup`), mandatory `>= 5`-char `delayReason` when marking items `delayed`, role capability resolution (`resolvePlanningRoleAccess`), safe HTTP(S) URL validator (`isSafeHttpUrl`), and resource archival transition helper (`canTransitionResourceStatus`).
+- Added caller-RLS server-only Academic Planning DAL (`server/planning/service.ts` with `import "server-only"`, zero admin client imports, batched `fetchPersonNameMap()`, signed private storage URLs) and Server Actions (`app/t/[slug]/planning/actions.ts`).
+- Added `"Planning"` workspace nav link (`components/shell/{nav-config,AppShell}.tsx`, `lib/auth/navigation.ts`), `PlanningSubNav.tsx`, and 4 compact WCAG AA responsive routes at `/t/[slug]/planning`, `/lessons`, `/resources`, and `/oversight` (with explicit `permission-denied` notices outside authorized roles).
+- Added unit tests in `tests/unit/planning-rules.test.ts` and updated `tests/unit/safe-redirect-and-nav.test.ts`.
+
+### Documentation
+- Recorded `P4-M02` live CI Run `46116183736` (`4a46d8f`: `101/101` Vitest, `178/178` pgTAP + `db lint`, `20/20` Playwright) in `docs/progress/MILESTONE-REPORT-P4-M02.md` and `docs/PROJECT_STATUS.md`.
+- Created `docs/phase-plans/PHASE-04-MILESTONE-03-academic-planning-syllabus-lessons-resources-ui.md` and `docs/progress/MILESTONE-REPORT-P4-M03.md`; updated `docs/README.md` and `docs/architecture/ARCHITECTURE_OVERVIEW.md`.
+
 ## [0.4.0-alpha.2] - 2026-11-28
 
 ### Added

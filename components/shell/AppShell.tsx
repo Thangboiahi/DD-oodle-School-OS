@@ -188,6 +188,23 @@ function NavIconSvg({ icon }: { icon: ShellNavIcon }) {
           />
         </svg>
       );
+    case "planning":
+      return (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          className="h-4 w-4 shrink-0"
+        >
+          <path
+            d="M4.5 4.5h11v11h-11zM7.5 8h5M7.5 11.5h3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
     case "imports":
       return (
         <svg

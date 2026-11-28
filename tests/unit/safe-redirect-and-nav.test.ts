@@ -87,6 +87,7 @@ describe("buildInstitutionNav", () => {
       "leave",
       "handbook",
       "communication",
+      "planning",
       "imports",
       "governance",
       "audit",
@@ -110,6 +111,9 @@ describe("buildInstitutionNav", () => {
     expect(nav.find((item) => item.id === "communication")?.href).toBe(
       "/t/sunrise-cbse/communication",
     );
+    expect(nav.find((item) => item.id === "planning")?.href).toBe(
+      "/t/sunrise-cbse/planning",
+    );
     expect(nav.find((item) => item.id === "imports")?.href).toBe(
       "/t/sunrise-cbse/imports",
     );
@@ -131,6 +135,7 @@ describe("buildInstitutionNav", () => {
       "leave",
       "handbook",
       "communication",
+      "planning",
     ]);
   });
 
@@ -156,6 +161,7 @@ describe("buildInstitutionNav", () => {
       "leave",
       "handbook",
       "communication",
+      "planning",
     ]);
     expect(monitorNav.map((item) => item.id)).toEqual([
       "overview",
@@ -164,6 +170,7 @@ describe("buildInstitutionNav", () => {
       "attendance",
       "handbook",
       "communication",
+      "planning",
     ]);
   });
 });

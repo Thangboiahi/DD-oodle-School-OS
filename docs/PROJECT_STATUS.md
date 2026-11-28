@@ -2,8 +2,8 @@
 
 - **Last Updated:** 2026-11-28
 - **Current Phase:** Phase 4 — Structured Communication & Academic Planning (**In Progress**; Phases 0–3 **Complete**)
-- **Current Milestone:** `P4-M02` — Scoped Official Notices, Acknowledgements, Formal Parent Enquiries & Record-Bound Comments DAL + UI (**Local Verified — Pushing for Live CI**)
-- **Overall Repository State:** Phases 0–3 **Complete** (`P3-M05` CI Runs `46105679125` & `46109385779`); `P4-M01` **Complete** (`6314e80`, CI Run `46114613893`: `95/95` Vitest, `178/178` pgTAP, `20/20` Playwright across 45 forced-RLS tables); `P4-M02` adds `lib/communication/{schemas,rules}.ts`, caller-RLS `server/communication/service.ts`, Server Actions, `OfflineNoticesCachePanel`, and 4 routes under `/t/[slug]/communication*`.
+- **Current Milestone:** `P4-M03` — Academic Planning, Syllabus Hierarchy, Lesson Plans, Learning Resources & Oversight DAL + UI (**Local Verified — Pushing for Live CI**)
+- **Overall Repository State:** Phases 0–3 **Complete** (`P3-M05` CI Runs `46105679125` & `46109385779`); `P4-M01` **Complete** (`6314e80`, CI Run `46114613893`); `P4-M02` **Complete** (`4a46d8f`, CI Run `46116183736`: `101/101` Vitest, `178/178` pgTAP + `db lint`, `20/20` Playwright); `P4-M03` adds `lib/planning/{schemas,rules}.ts`, caller-RLS `server/planning/service.ts`, Server Actions, and 4 routes under `/t/[slug]/planning*`.
 
 ---
 
@@ -42,12 +42,13 @@
 | `P3-M04` — Digital Student Handbook with Strict Category & Visibility Privacy Controls | **Complete** (`bff9076`) | `lib/handbook/{schemas,rules}.ts`, caller-RLS `server/handbook/service.ts`, `/t/[slug]/handbook*` Server Actions & UI, and `tests/unit/handbook-rules.test.ts`; CI Run `46101572764` passed all 3 jobs (`95/95` unit, `131/131` pgTAP + `db lint`, `15/15` Playwright) |
 | `P3-M05` — Phase 3 Exit Gate & Phase 3 Closure | **Complete** (`efccad9`, `0aedd64`) | `tests/e2e/phase3-school-day-and-handbook.spec.ts`, `server/leave/service.ts` Monitor guard fix, and Phase 3 closure docs; CI Runs `46105679125` & `46109385779` passed all 3 jobs (`95/95` unit, `131/131` pgTAP + `db lint`, `20/20` Playwright) |
 | `P4-M01` — Phase 4 ADRs, Communication, Academic Planning & Hybrid Assignments Core Schema, RLS & pgTAP | **Complete** (`6314e80`) | `ADR-0007` & `ADR-0008`, Migrations `202611280005`–`202611280007` (`academic_terms.status` + 9 forced-RLS tables = 45 total), synthetic seed, 47-assertion pgTAP suite (`05_phase4_communication_planning_assignments_rls.test.sql`), and `sql-migration-invariants.test.ts` (45 tables); CI Run `46114613893` passed all 3 jobs (`95/95` unit, `178/178` pgTAP + `db lint`, `20/20` Playwright) |
-| `P4-M02` — Scoped Official Notices, Acknowledgements, Formal Parent Enquiries & Record-Bound Comments | **In Progress (Local Verified)** | `lib/communication/{schemas,rules}.ts`, caller-RLS `server/communication/service.ts`, `/t/[slug]/communication*` routes & actions, `OfflineNoticesCachePanel` (§12.5), WhatsApp click-to-chat helper, and `tests/unit/communication-rules.test.ts` |
+| `P4-M02` — Scoped Official Notices, Acknowledgements, Formal Parent Enquiries & Record-Bound Comments | **Complete** (`4a46d8f`) | `lib/communication/{schemas,rules}.ts`, caller-RLS `server/communication/service.ts`, `/t/[slug]/communication*`, `OfflineNoticesCachePanel`, and `tests/unit/communication-rules.test.ts`; CI Run `46116183736` passed all 3 jobs (`101/101` unit, `178/178` pgTAP + `db lint`, `20/20` Playwright) |
+| `P4-M03` — Academic Planning, Syllabus Hierarchy, Lesson Plans, Resources & Oversight | **In Progress (Local Verified)** | `lib/planning/{schemas,rules}.ts`, caller-RLS `server/planning/service.ts`, `/t/[slug]/planning*` (`Syllabus`, `Lessons`, `Resources`, `Oversight`) & actions, and `tests/unit/planning-rules.test.ts` |
 
-## 3. Latest Verification (`P4-M02` Local Verification + Baseline `P4-M01` CI Run `46114613893`)
+## 3. Latest Verification (`P4-M03` Local Verification + Baseline `P4-M02` CI Run `46116183736`)
 
-- **Local Verification (`P4-M02`):** `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and docs hygiene checks verified prior to `origin/main` push.
-- **Live GitHub Actions CI Baseline (`P4-M01`):** [`46114613893`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46114613893) on `6314e80` (`App Quality & Hygiene` `140885521356` PASS `95/95` unit + `Supabase RLS & pgTAP Verification` `140885521347` PASS `178/178` pgTAP + `Live Multi-Tenant Auth & A11y E2E` `140885521201` PASS `20/20` Playwright).
+- **Local Verification (`P4-M03`):** `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and docs hygiene checks verified prior to `origin/main` push.
+- **Live GitHub Actions CI Baseline (`P4-M02`):** [`46116183736`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46116183736) on `4a46d8f` (`App Quality & Hygiene` `140890438672` PASS `101/101` unit + `Supabase RLS & pgTAP Verification` `140890438785` PASS `178/178` pgTAP + `db lint` + `Live Multi-Tenant Auth & A11y E2E` `140890438877` PASS `20/20` Playwright).
 
 ## 4. Open Blockers / Dependencies
 
@@ -55,4 +56,4 @@
 
 ## 5. Next Bounded Milestone
 
-**`P4-M03`** — Academic Planning, Syllabus Progress, Lesson Plans, Learning Resources & Unified Hybrid Assignments Server DAL + UI (`/t/[slug]/planning` & `/t/[slug]/assignments`).
+**`P4-M04`** — Unified Hybrid Assignments (Online/Offline/MCQ), Submissions, Grading & Digital Student Handbook Phase 4 Seam Wiring (`/t/[slug]/assignments`).

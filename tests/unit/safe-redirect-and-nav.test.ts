@@ -89,6 +89,8 @@ describe("buildInstitutionNav", () => {
       "communication",
       "planning",
       "assignments",
+      "timetable",
+      "calendar",
       "imports",
       "governance",
       "audit",
@@ -118,6 +120,12 @@ describe("buildInstitutionNav", () => {
     expect(nav.find((item) => item.id === "assignments")?.href).toBe(
       "/t/sunrise-cbse/assignments",
     );
+    expect(nav.find((item) => item.id === "timetable")?.href).toBe(
+      "/t/sunrise-cbse/timetable",
+    );
+    expect(nav.find((item) => item.id === "calendar")?.href).toBe(
+      "/t/sunrise-cbse/calendar",
+    );
     expect(nav.find((item) => item.id === "imports")?.href).toBe(
       "/t/sunrise-cbse/imports",
     );
@@ -141,6 +149,8 @@ describe("buildInstitutionNav", () => {
       "communication",
       "planning",
       "assignments",
+      "timetable",
+      "calendar",
     ]);
   });
 
@@ -168,6 +178,8 @@ describe("buildInstitutionNav", () => {
       "communication",
       "planning",
       "assignments",
+      "timetable",
+      "calendar",
     ]);
     expect(monitorNav.map((item) => item.id)).toEqual([
       "overview",
@@ -178,6 +190,8 @@ describe("buildInstitutionNav", () => {
       "communication",
       "planning",
       "assignments",
+      "timetable",
+      "calendar",
     ]);
   });
 });

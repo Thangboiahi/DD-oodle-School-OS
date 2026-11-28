@@ -2,8 +2,8 @@
 
 - **Last Updated:** 2026-11-28
 - **Current Phase:** Phase 5 — Timetable, Examinations & Results (**In Progress**; Phases 0–4 **Complete**)
-- **Current Milestone:** `P5-M01` — Phase 5 ADRs, Timetable, Academic Calendar, Examinations & Immutable Result Snapshots Core Schema, Forced RLS & pgTAP Suite (**Local Verified — Pending Live CI**)
-- **Overall Repository State:** Phases 0–4 **Complete** (`P4-M05` CI Run `46122793847` & closure Run `46123440912` green: **115/115** Vitest across 21 files, **178/178** pgTAP, **25/25** Playwright); `P5-M01` adds `ADR-0009`/`ADR-0010`, Migrations `202611280008`–`202611280010` (**11** new tables = **56** total forced-RLS `public.*` tables across **19** migrations), expanded synthetic seed, updated SQL invariants (`56` tables), and `06_phase5_timetable_exams_results_rls.test.sql` (50 pgTAP assertions).
+- **Current Milestone:** `P5-M02` — Weekly Timetables, Venue/Teacher Conflict Prevention, Daily Substitutions & Academic Calendar — Server DAL + UI (**Local Verified — Pending Live CI**)
+- **Overall Repository State:** Phases 0–4 **Complete** (`P4-M05` CI Run `46123440912` green); `P5-M01` live CI verified (`cb7e778` / Run `46127727595`: `115/115` Vitest, `228/228` pgTAP + `db lint`, `25/25` Playwright); `P5-M02` adds `lib/timetable/{schemas,rules}.ts`, caller-RLS `server/timetable/service.ts`, Server Actions, `OfflineTimetableCachePanel`, workspace nav links (`Timetable`, `Calendar`), `/t/[slug]/timetable`, `/t/[slug]/calendar`, and `tests/unit/timetable-rules.test.ts`.
 
 ---
 
@@ -46,12 +46,13 @@
 | `P4-M03` — Academic Planning, Syllabus Hierarchy, Lesson Plans, Resources & Oversight | **Complete** (`314875f`) | `lib/planning/{schemas,rules}.ts`, caller-RLS `server/planning/service.ts`, `/t/[slug]/planning*` (`Syllabus`, `Lessons`, `Resources`, `Oversight`) & actions, and `tests/unit/planning-rules.test.ts`; CI Run `46118712061` passed all 3 jobs (`108/108` unit, `178/178` pgTAP + `db lint`, `20/20` Playwright) |
 | `P4-M04` — Unified Hybrid Assignments, MCQ Quizzes, Offline Completion, Monitor Board & Live Handbook Wiring | **Complete** (`371d4ed`) | `lib/assignments/{schemas,rules}.ts`, caller-RLS `server/assignments/service.ts`, `/t/[slug]/assignments*`, `OfflineDraftBox`, live Phase 4 wiring in `server/handbook/service.ts`, and `tests/unit/assignments-rules.test.ts`; CI Run `46120075849` passed all 3 jobs (`115/115` unit, `178/178` pgTAP + `db lint`, `20/20` Playwright) |
 | `P4-M05` — Phase 4 Exit Gate & Phase 4 Closure | **Complete** (`65c5adc`, `1e66f83`, `6d25a2d`) | `tests/e2e/phase4-communication-planning-assignments.spec.ts`, `PlanningSubNav.tsx` WCAG AA contrast fix (`text-accent-fg`), and Phase 4 closure docs; CI Runs `46122793847` & `46123440912` passed all 3 jobs (`115/115` unit, `178/178` pgTAP + `db lint`, `25/25` Playwright) |
-| `P5-M01` — Phase 5 ADRs, Timetable, Academic Calendar, Exams & Immutable Result Snapshots Schema, RLS & pgTAP | **In Progress (Local Verified)** | `ADR-0009` & `ADR-0010`, Migrations `202611280008`–`202611280010` (11 forced-RLS tables = **56** total), timetable conflict indexes, `result_snapshots` statement-level `42501` immutability, expanded seed, updated SQL invariants (`56` tables), and `06_phase5_timetable_exams_results_rls.test.sql` (50 assertions) |
+| `P5-M01` — Phase 5 ADRs, Timetable, Academic Calendar, Exams & Immutable Result Snapshots Schema, RLS & pgTAP | **Complete** (`cb7e778`) | `ADR-0009` & `ADR-0010`, Migrations `202611280008`–`202611280010` (11 forced-RLS tables = **56** total), timetable conflict indexes, `result_snapshots` statement-level `42501` immutability, expanded seed, updated SQL invariants (`56` tables), and `06_phase5_timetable_exams_results_rls.test.sql` (50 assertions); CI Run `46127727595` passed all 3 jobs (`115/115` unit, `228/228` pgTAP + `db lint`, `25/25` Playwright) |
+| `P5-M02` — Weekly Timetables, Conflict Prevention, Daily Substitutions & Academic Calendar DAL/UI | **In Progress (Local Verified)** | `lib/timetable/{schemas,rules}.ts`, caller-RLS `server/timetable/service.ts`, Server Actions, `OfflineTimetableCachePanel`, nav links (`Timetable`, `Calendar`), `/t/[slug]/timetable`, `/t/[slug]/calendar`, and `tests/unit/timetable-rules.test.ts` |
 
-## 3. Latest Verification (`P5-M01` Local Verification + Baseline `P4-M05` CI Run `46123440912`)
+## 3. Latest Verification (`P5-M02` Local Verification + Baseline `P5-M01` CI Run `46127727595`)
 
-- **Local Verification (`P5-M01`):** `pnpm typecheck`, `pnpm lint`, `pnpm test` (`56` forced-RLS tables invariant), `pnpm build`, and docs hygiene checks verified prior to `origin/main` push.
-- **Live GitHub Actions CI Baseline (`P4-M05`):** [`46122793847`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46122793847) & [`46123440912`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46123440912) (`1e66f83` / `6d25a2d`: `115/115` Vitest, `178/178` pgTAP + `db lint`, `25/25` Playwright).
+- **Local Verification (`P5-M02`):** `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and docs hygiene checks verified prior to `origin/main` push.
+- **Live GitHub Actions CI Baseline (`P5-M01`):** [`46127727595`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46127727595) (`cb7e778`: `115/115` Vitest across 21 files, `228/228` pgTAP across 6 suites + `db lint`, `25/25` Playwright).
 
 ## 4. Open Blockers / Dependencies
 
@@ -59,4 +60,4 @@
 
 ## 5. Next Bounded Milestone
 
-**`P5-M02`** — Weekly Timetables, Conflict Prevention, Daily Substitutions & Academic Calendar Server DAL + UI.
+**`P5-M03`** — Assessment Schemes, Exam Cycles/Schedules & Staged Marks Entry/Moderation Server DAL + UI.

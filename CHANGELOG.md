@@ -6,6 +6,18 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.5.0-alpha.2] - 2026-11-28
+
+### Added
+- Added pure timetable and academic calendar Zod schemas and domain rules (`lib/timetable/{schemas,rules}.ts`): venue/period/timetable/slot/substitution/calendar event validation, `detectTimetableSlotConflicts` (teacher, venue, teaching group, and instructional section overlaps), `computeTeacherWorkloadSummary`, `filterAvailableSubstituteStaff`, `canTransitionTimetableStatus`, `canTransitionCalendarEventStatus`, and bounded `buildOfflineTimetableSnapshot` (§12.5).
+- Added caller-RLS server-only Timetable & Calendar DAL (`server/timetable/service.ts` with `import "server-only"`, zero admin client usage, batched `fetchPersonNameMap()`, zero ambiguous PostgREST `persons(...)` embeds, weekday + teacher availability verification for non-mutating substitutions, and metadata-only `audit_events`) plus Server Actions (`app/t/[slug]/timetable/actions.ts`).
+- Added controlled client offline timetable cache (`components/timetable/OfflineTimetableCachePanel.tsx` under `dd-oodle:offline-timetable:${slug}`), workspace nav items (`Timetable`, `Calendar`) in `components/shell/{nav-config,AppShell}.tsx` and `lib/auth/navigation.ts`, and compact WCAG AA routes at `/t/[slug]/timetable` and `/t/[slug]/calendar` with strict Monitor/Student/Guardian read-only isolation.
+- Added unit tests in `tests/unit/timetable-rules.test.ts` and updated `tests/unit/safe-redirect-and-nav.test.ts`.
+
+### Documentation
+- Recorded `P5-M01` live CI Run `46127727595` (`cb7e778`: `115/115` Vitest, `228/228` pgTAP + `db lint`, `25/25` Playwright) in `docs/progress/MILESTONE-REPORT-P5-M01.md` and `docs/PROJECT_STATUS.md`.
+- Created `docs/phase-plans/PHASE-05-MILESTONE-02-weekly-timetables-substitutions-and-calendar-ui.md` and `docs/progress/MILESTONE-REPORT-P5-M02.md`; updated `docs/README.md` and `docs/architecture/ARCHITECTURE_OVERVIEW.md`.
+
 ## [0.5.0-alpha.1] - 2026-11-28
 
 ### Added

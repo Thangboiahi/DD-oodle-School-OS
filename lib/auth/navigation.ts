@@ -131,6 +131,18 @@ export function buildInstitutionNav(
         href: `${basePath}/assignments`,
         icon: "assignments",
       },
+      {
+        id: "timetable",
+        label: "Timetable",
+        href: `${basePath}/timetable`,
+        icon: "timetable",
+      },
+      {
+        id: "calendar",
+        label: "Calendar",
+        href: `${basePath}/calendar`,
+        icon: "calendar",
+      },
     );
   }
 

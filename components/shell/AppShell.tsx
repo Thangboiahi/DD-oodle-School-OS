@@ -226,6 +226,42 @@ function NavIconSvg({ icon }: { icon: ShellNavIcon }) {
           />
         </svg>
       );
+    case "timetable":
+      return (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          className="h-4 w-4 shrink-0"
+        >
+          <rect x="3.5" y="4" width="13" height="12" rx="1.5" />
+          <path
+            d="M3.5 8h13M8 8v8M12.5 10.5v2l1.25.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "calendar":
+      return (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          className="h-4 w-4 shrink-0"
+        >
+          <rect x="3.5" y="4.5" width="13" height="12" rx="1.5" />
+          <path
+            d="M6.5 3v3M13.5 3v3M3.5 8.5h13"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
     case "imports":
       return (
         <svg

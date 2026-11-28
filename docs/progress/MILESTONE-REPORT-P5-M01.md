@@ -3,8 +3,9 @@
 - **Milestone:** `P5-M01` — Phase 5 ADRs, Timetable, Academic Calendar, Examinations & Immutable Result Snapshots Core Schema, Forced RLS & pgTAP Suite
 - **Date:** `2026-11-28`
 - **Phase:** Phase 5 — Timetable, Examinations & Results (**In Progress**)
-- **Status:** **Local Verified — Pending GitHub Actions Live CI Verification**
+- **Status:** **Complete — Live GitHub Actions CI Verified**
 - **Plan Reference:** [`PHASE-05-MILESTONE-01-timetable-exams-results-schema.md`](../phase-plans/PHASE-05-MILESTONE-01-timetable-exams-results-schema.md)
+- **Live CI Run:** [`46127727595`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46127727595) (`cb7e778`)
 
 ---
 
@@ -25,10 +26,14 @@
 
 ## 2. Verification Summary
 
-- Local `pnpm typecheck`, `pnpm lint`, `pnpm test` (`sql-migration-invariants.test.ts` updated to 56 forced-RLS public tables), `pnpm build`, and docs link/empty-directory hygiene checks verified prior to `origin/main` push; live GitHub Actions CI run (`supabase db reset`, `supabase test db`, `supabase db lint`, and `e2e-live-auth`) pending.
+- **Local Verification:** `pnpm typecheck`, `pnpm lint`, `pnpm test` (`sql-migration-invariants.test.ts` updated to 56 forced-RLS public tables), `pnpm build`, and docs hygiene checks passed.
+- **Live GitHub Actions CI Verification ([Run `46127727595`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46127727595), commit `cb7e778`):**
+  - `App Quality & Hygiene` (`140925932082`): **115/115** Vitest unit/invariant assertions across 21 files PASS, `typecheck` + `lint` + `build` PASS.
+  - `Supabase RLS & pgTAP Verification` (`140925932272`): `supabase db reset`, **228/228** pgTAP assertions across 6 suites PASS (`Files=6, Tests=228, Result: PASS`), and `supabase db lint` (`No schema errors found`) PASS.
+  - `Live Multi-Tenant Auth & A11y E2E` (`140925932324`): **25/25** Playwright E2E tests across 5 specs (`1.2m`) PASS.
 
 ---
 
 ## 3. Recommended Next Action
 
-Proceed to **`P5-M02`** — Weekly Timetables, Conflict Prevention, Substitutions & Academic Calendar Server DAL + UI once CI verifies `P5-M01` green.
+Proceed to **`P5-M02`** — Weekly Timetables, Conflict Prevention, Substitutions & Academic Calendar Server DAL + UI.

@@ -11,6 +11,8 @@ export type ShellNavIcon =
   | "communication"
   | "planning"
   | "assignments"
+  | "timetable"
+  | "calendar"
   | "imports"
   | "governance"
   | "audit"

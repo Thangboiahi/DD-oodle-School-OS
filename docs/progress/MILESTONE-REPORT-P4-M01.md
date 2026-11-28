@@ -3,7 +3,7 @@
 - **Date:** 2026-11-28
 - **Phase:** Phase 4 — Structured Communication & Academic Planning (**In Progress**)
 - **Milestone:** `P4-M01`
-- **Status:** **Local Verified — Pending GitHub Actions Live CI Verification**
+- **Status:** **Complete (Live CI Run `46114613893` Passed — `6314e80`)**
 
 ---
 
@@ -18,16 +18,19 @@
    - `202611280007_phase4_rls_and_helpers.sql`: Enables + forces RLS on all 9 new tables (**45** total forced-RLS `public.*` tables across 16 migrations, including existing `academic_terms`), defines 11 `STABLE SECURITY DEFINER SET search_path = ''` `app_auth` helpers (`is_active_staff_or_leadership`, `is_department_hod`, `is_teaching_group_oversight`, `is_student_or_guardian_in_teaching_group`, `is_monitor_for_teaching_group`, `can_manage_subject_offering_planning`, `can_read_subject_offering_planning`, `can_read_official_notice`, `can_read_parent_enquiry`, `can_read_assignment`, `can_read_record_comment`), and configures explicit `TO authenticated` RLS policies.
 3. **Synthetic Seed, pgTAP Suite & Static SQL Invariants:**
    - Expanded [`seed.sql`](../../supabase/seed.sql) (preserving all Phase 1–3 rows) with Sunrise & Valley `TERM-2` rows, Sunrise `APP-MATH` `syllabus_items` (`in_progress` + `delayed`), `lesson_plans`, `learning_resources`, published & draft hybrid `assignments`, `online` + `completed_offline` submissions, scoped `official_notices`, Sunrise & Valley `parent_enquiries`, and public + internal-staff `record_comments`.
-   - Added 47-assertion pgTAP suite [`05_phase4_communication_planning_assignments_rls.test.sql`](../../supabase/tests/05_phase4_communication_planning_assignments_rls.test.sql) and updated [`sql-migration-invariants.test.ts`](../../tests/unit/sql-migration-invariants.test.ts) to enforce all **45** forced-RLS `public.*` tables.
+   - Added 47-assertion pgTAP suite [`05_phase4_communication_planning_assignments_rls.test.sql`](../../supabase/tests/05_phase4_communication_planning_assignments_rls.test.sql) (covering both RLS `42501` denial and privileged `RESET ROLE` `23514` table CHECK constraint on unlinked `record_comments`) and updated [`sql-migration-invariants.test.ts`](../../tests/unit/sql-migration-invariants.test.ts) to enforce all **45** forced-RLS `public.*` tables.
 
 ---
 
 ## 2. Verification Summary
 
-- Local TypeScript, ESLint, Vitest (asserting 45 forced-RLS public tables), Next.js production build, and docs hygiene checks verified cleanly prior to `origin/main` push; live PostgreSQL `supabase db reset`, `supabase test db` (178 total pgTAP assertions across 5 suites), `supabase db lint`, and Playwright CI results pending GitHub Actions verification.
+- **Live GitHub Actions CI (`fceb761` + `6314e80`):** Run [`46114613893`](https://github.com/Thangboiahi/DD-oodle-School-OS/actions/runs/46114613893) **PASSED all 3 jobs**:
+  - `App Quality & Hygiene` (Job ID `140885521356`, `1m5s`): **PASS** (`pnpm typecheck`, `pnpm lint`, `18` files / `95/95` Vitest including 45-table SQL invariants, `pnpm build`, docs hygiene)
+  - `Supabase RLS & pgTAP Verification` (Job ID `140885521347`, `2m26s`): **PASS** (`Files=5, Tests=178, Result: PASS` + `supabase db lint` -> `No schema errors found`)
+  - `Live Multi-Tenant Auth & A11y E2E` (Job ID `140885521201`, `4m12s`): **PASS** (`20 passed (44.3s)`)
 
 ---
 
 ## 3. Next Recommended Action
 
-Proceed to **`P4-M02`** — Scoped Official Notices, Acknowledgements, Formal Parent Enquiries & Record-Bound Comments Server DAL + UI once CI verifies `P4-M01` green.
+Proceed to **`P4-M02`** — Scoped Official Notices, Acknowledgements, Formal Parent Enquiries & Record-Bound Contextual Comments Server DAL + UI (`/t/[slug]/communication`).

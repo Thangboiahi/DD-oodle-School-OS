@@ -106,12 +106,20 @@ export function buildInstitutionNav(
   }
 
   if (canAccessPeopleOrTeaching) {
-    items.push({
-      id: "handbook",
-      label: "Handbook",
-      href: `${basePath}/handbook`,
-      icon: "handbook",
-    });
+    items.push(
+      {
+        id: "handbook",
+        label: "Handbook",
+        href: `${basePath}/handbook`,
+        icon: "handbook",
+      },
+      {
+        id: "communication",
+        label: "Communication",
+        href: `${basePath}/communication`,
+        icon: "communication",
+      },
+    );
   }
 
   const canManageImports =

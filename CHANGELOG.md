@@ -6,6 +6,18 @@ The format follows dated, grouped entries (`Added`, `Changed`, `Fixed`, `Securit
 
 ## [Unreleased]
 
+## [0.4.0-alpha.2] - 2026-11-28
+
+### Added
+- Added pure structured communication schemas and domain rules (`lib/communication/{schemas,rules}.ts`): scope-locked `createOfficialNoticeSchema`, `resolveNoticeAuthoringPolicy()` & `validateNoticeAuthoringAgainstPolicy()`, one-way notice & enquiry state machines (`canTransitionNoticeStatus`, `canTransitionEnquiryStatus`), mandatory >= 5-char `resolutionSummary` when resolving enquiries, `canPostInternalStaffNote()`, sanitized non-authoritative `buildWhatsAppClickToChatUrl()`, and `filterCacheablePublishedNotices()` (§12.5).
+- Added caller-RLS server-only Communication DAL (`server/communication/service.ts` with `import "server-only"`, zero admin client imports, batched `fetchPersonNameMap()` lookups) powering Official Notices, Notice Acknowledgements, Formal Parent Enquiries (with explicit `isMonitorRestricted` denial), shared `createRecordComment()` (with metadata-only `audit_events`), and optional staff-only non-authoritative WhatsApp coordination links.
+- Added `app/t/[slug]/communication/actions.ts`, `"Communication"` workspace nav (`components/shell/{nav-config,AppShell}.tsx`, `lib/auth/navigation.ts`), `CommunicationSubNav.tsx`, `OfflineNoticesCachePanel.tsx` (`dd-oodle:offline-notices:<slug>` caching strictly published `is_offline_cacheable` notices), and 4 compact WCAG AA responsive routes at `/t/[slug]/communication`, `/notices/[noticeId]`, `/enquiries`, and `/enquiries/[enquiryId]`.
+- Added unit tests in `tests/unit/communication-rules.test.ts` and updated `tests/unit/safe-redirect-and-nav.test.ts`.
+
+### Documentation
+- Recorded `P4-M01` live CI Run `46114613893` (`6314e80`: `95/95` Vitest, `178/178` pgTAP + `db lint`, `20/20` Playwright) in `docs/progress/MILESTONE-REPORT-P4-M01.md` and `docs/PROJECT_STATUS.md`.
+- Created `docs/phase-plans/PHASE-04-MILESTONE-02-communication-notices-and-enquiries-ui.md` and `docs/progress/MILESTONE-REPORT-P4-M02.md`; updated `docs/README.md` and `docs/architecture/ARCHITECTURE_OVERVIEW.md`.
+
 ## [0.4.0-alpha.1] - 2026-11-28
 
 ### Added

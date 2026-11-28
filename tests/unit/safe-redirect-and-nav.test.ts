@@ -86,6 +86,7 @@ describe("buildInstitutionNav", () => {
       "attendance",
       "leave",
       "handbook",
+      "communication",
       "imports",
       "governance",
       "audit",
@@ -105,6 +106,9 @@ describe("buildInstitutionNav", () => {
     );
     expect(nav.find((item) => item.id === "handbook")?.href).toBe(
       "/t/sunrise-cbse/handbook",
+    );
+    expect(nav.find((item) => item.id === "communication")?.href).toBe(
+      "/t/sunrise-cbse/communication",
     );
     expect(nav.find((item) => item.id === "imports")?.href).toBe(
       "/t/sunrise-cbse/imports",
@@ -126,6 +130,7 @@ describe("buildInstitutionNav", () => {
       "attendance",
       "leave",
       "handbook",
+      "communication",
     ]);
   });
 
@@ -150,6 +155,7 @@ describe("buildInstitutionNav", () => {
       "attendance",
       "leave",
       "handbook",
+      "communication",
     ]);
     expect(monitorNav.map((item) => item.id)).toEqual([
       "overview",
@@ -157,6 +163,7 @@ describe("buildInstitutionNav", () => {
       "academics",
       "attendance",
       "handbook",
+      "communication",
     ]);
   });
 });

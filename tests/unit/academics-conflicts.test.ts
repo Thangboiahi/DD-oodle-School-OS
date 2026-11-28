@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   detectAcademicAssignmentConflicts,
+  resolveSectionRoleAssignments,
   validateCrossSectionGroupMembership,
   type ExistingAcademicAssignmentLike,
 } from "@/lib/academics/conflicts";
@@ -258,5 +259,43 @@ describe("validateCrossSectionGroupMembership", () => {
         ],
       ).ok,
     ).toBe(false);
+  });
+});
+
+describe("resolveSectionRoleAssignments", () => {
+  it("resolves active classTeacher, monitors, and monitor read-only flag for currentPersonId", () => {
+    const assignments = [
+      {
+        id: "1",
+        personId: TEACHER_1,
+        personName: "Synthetic Class Teacher 11A",
+        assignmentType: "class_teacher" as const,
+        status: "active" as const,
+      },
+      {
+        id: "2",
+        personId: STUDENT_1,
+        personName: "Diya Nair",
+        assignmentType: "monitor" as const,
+        status: "active" as const,
+      },
+      {
+        id: "3",
+        personId: STUDENT_2,
+        personName: "Former Monitress",
+        assignmentType: "monitress" as const,
+        status: "revoked" as const,
+      },
+    ];
+
+    const forMonitor = resolveSectionRoleAssignments(assignments, STUDENT_1);
+    expect(forMonitor.classTeacher?.personName).toBe(
+      "Synthetic Class Teacher 11A",
+    );
+    expect(forMonitor.monitors.map((m) => m.personName)).toEqual(["Diya Nair"]);
+    expect(forMonitor.isCurrentUserMonitorReadOnly).toBe(true);
+
+    const forTeacher = resolveSectionRoleAssignments(assignments, TEACHER_1);
+    expect(forTeacher.isCurrentUserMonitorReadOnly).toBe(false);
   });
 });

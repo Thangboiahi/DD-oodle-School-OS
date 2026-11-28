@@ -3,6 +3,7 @@ import "server-only";
 import type { VerifiedTenantContext } from "@/lib/auth/permissions";
 import {
   detectAcademicAssignmentConflicts,
+  resolveSectionRoleAssignments,
   validateCrossSectionGroupMembership,
   type ExistingAcademicAssignmentLike,
 } from "@/lib/academics/conflicts";
@@ -197,6 +198,32 @@ type MutationResult<T = undefined> =
 function unwrapJoin<T>(value: T | T[] | null | undefined): T | null {
   if (!value) return null;
   return Array.isArray(value) ? (value[0] ?? null) : value;
+}
+
+async function fetchPersonNameMap(
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+  personIds: readonly string[],
+): Promise<Map<string, string>> {
+  const uniqueIds = [...new Set(personIds.filter((id) => id.length > 0))];
+  const map = new Map<string, string>();
+  if (uniqueIds.length === 0) {
+    return map;
+  }
+
+  const { data, error } = await supabase
+    .from("persons")
+    .select("id, full_name, display_name")
+    .in("id", uniqueIds)
+    .returns<{ id: string; full_name: string; display_name: string | null }[]>();
+
+  if (error) {
+    throw new Error(`Failed to resolve person names: ${error.message}`);
+  }
+
+  for (const row of data ?? []) {
+    map.set(row.id, row.full_name || row.display_name || row.id.slice(0, 8));
+  }
+  return map;
 }
 
 function selectSessionFromList(
@@ -554,7 +581,7 @@ export async function getSectionDetail(
     supabase
       .from("academic_assignments")
       .select(
-        "id, session_id, person_id, assignment_type, department_id, section_id, teaching_group_id, starts_on, ends_on, status, person:persons(id, full_name)",
+        "id, session_id, person_id, assignment_type, department_id, section_id, teaching_group_id, starts_on, ends_on, status",
       )
       .eq("institution_id", context.institutionId)
       .eq("section_id", secRow.id)
@@ -571,10 +598,6 @@ export async function getSectionDetail(
           starts_on: string;
           ends_on: string | null;
           status: AcademicAssignmentStatus;
-          person:
-            | { id: string; full_name: string }
-            | { id: string; full_name: string }[]
-            | null;
         }[]
       >(),
     supabase
@@ -718,36 +741,37 @@ export async function getSectionDetail(
     },
   );
 
+  if (assignmentsRes.error) {
+    throw new Error(
+      `Failed to load section academic assignments: ${assignmentsRes.error.message}`,
+    );
+  }
+
+  const assignmentPersonNames = await fetchPersonNameMap(
+    supabase,
+    (assignmentsRes.data ?? []).map((a) => a.person_id),
+  );
+
   const assignmentSummaries: AssignmentSummaryDto[] = (
     assignmentsRes.data ?? []
-  ).map((a) => {
-    const p = unwrapJoin(a.person);
-    return {
-      id: a.id,
-      sessionId: a.session_id,
-      personId: a.person_id,
-      personName: p?.full_name ?? "Assigned Member",
-      assignmentType: a.assignment_type,
-      departmentId: a.department_id,
-      sectionId: a.section_id,
-      teachingGroupId: a.teaching_group_id,
-      targetLabel: secRow.name,
-      startsOn: a.starts_on,
-      endsOn: a.ends_on,
-      status: a.status,
-    };
-  });
+  ).map((a) => ({
+    id: a.id,
+    sessionId: a.session_id,
+    personId: a.person_id,
+    personName:
+      assignmentPersonNames.get(a.person_id) ?? "Assigned Member",
+    assignmentType: a.assignment_type,
+    departmentId: a.department_id,
+    sectionId: a.section_id,
+    teachingGroupId: a.teaching_group_id,
+    targetLabel: secRow.name,
+    startsOn: a.starts_on,
+    endsOn: a.ends_on,
+    status: a.status,
+  }));
 
-  const classTeacher =
-    assignmentSummaries.find((a) => a.assignmentType === "class_teacher") ??
-    null;
-  const monitors = assignmentSummaries.filter(
-    (a) =>
-      a.assignmentType === "monitor" || a.assignmentType === "monitress",
-  );
-  const isCurrentUserMonitorReadOnly = monitors.some(
-    (m) => m.personId === context.personId,
-  );
+  const { classTeacher, monitors, isCurrentUserMonitorReadOnly } =
+    resolveSectionRoleAssignments(assignmentSummaries, context.personId);
 
   const gradeOfferings: SubjectOfferingDto[] = (offeringsRes.data ?? []).flatMap(
     (off) => {
@@ -941,7 +965,7 @@ export async function listTeachingGroups(
         >(),
       supabase
         .from("academic_assignments")
-        .select("teaching_group_id, person:persons(full_name)")
+        .select("teaching_group_id, person_id")
         .eq("institution_id", context.institutionId)
         .eq("session_id", overview.selectedSession.id)
         .eq("assignment_type", "subject_teacher")
@@ -949,7 +973,7 @@ export async function listTeachingGroups(
         .returns<
           {
             teaching_group_id: string | null;
-            person: { full_name: string } | { full_name: string }[] | null;
+            person_id: string;
           }[]
         >(),
       supabase
@@ -1008,12 +1032,22 @@ export async function listTeachingGroups(
     membersByGroup.set(m.teaching_group_id, list);
   }
 
+  if (assignmentsRes.error) {
+    throw new Error(
+      `Failed to load teaching group subject teachers: ${assignmentsRes.error.message}`,
+    );
+  }
+
+  const teacherNameMap = await fetchPersonNameMap(
+    supabase,
+    (assignmentsRes.data ?? []).map((a) => a.person_id),
+  );
+
   const teachersByGroup = new Map<string, string[]>();
   for (const a of assignmentsRes.data ?? []) {
     if (!a.teaching_group_id) continue;
-    const person = unwrapJoin(a.person);
     const list = teachersByGroup.get(a.teaching_group_id) ?? [];
-    list.push(person?.full_name ?? "Subject Teacher");
+    list.push(teacherNameMap.get(a.person_id) ?? "Subject Teacher");
     teachersByGroup.set(a.teaching_group_id, list);
   }
 
@@ -1090,7 +1124,7 @@ export async function listAcademicAssignments(
     supabase
       .from("academic_assignments")
       .select(
-        "id, session_id, person_id, assignment_type, department_id, section_id, teaching_group_id, starts_on, ends_on, status, person:persons(id, full_name)",
+        "id, session_id, person_id, assignment_type, department_id, section_id, teaching_group_id, starts_on, ends_on, status",
       )
       .eq("institution_id", context.institutionId)
       .eq("session_id", overview.selectedSession.id)
@@ -1107,10 +1141,6 @@ export async function listAcademicAssignments(
           starts_on: string;
           ends_on: string | null;
           status: AcademicAssignmentStatus;
-          person:
-            | { id: string; full_name: string }
-            | { id: string; full_name: string }[]
-            | null;
         }[]
       >(),
     supabase
@@ -1143,9 +1173,19 @@ export async function listAcademicAssignments(
     (groupsRes.data ?? []).map((g) => [g.id, `${g.code} (${g.name})`]),
   );
 
+  if (assignmentsRes.error) {
+    throw new Error(
+      `Failed to load academic assignments ledger: ${assignmentsRes.error.message}`,
+    );
+  }
+
+  const assignmentPersonNames = await fetchPersonNameMap(
+    supabase,
+    (assignmentsRes.data ?? []).map((a) => a.person_id),
+  );
+
   const assignments: AssignmentSummaryDto[] = (assignmentsRes.data ?? []).map(
     (a) => {
-      const person = unwrapJoin(a.person);
       const targetLabel = a.department_id
         ? (deptById.get(a.department_id) ?? "Department")
         : a.section_id
@@ -1158,7 +1198,8 @@ export async function listAcademicAssignments(
         id: a.id,
         sessionId: a.session_id,
         personId: a.person_id,
-        personName: person?.full_name ?? "Assigned Member",
+        personName:
+          assignmentPersonNames.get(a.person_id) ?? "Assigned Member",
         assignmentType: a.assignment_type,
         departmentId: a.department_id,
         sectionId: a.section_id,

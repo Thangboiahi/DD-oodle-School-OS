@@ -192,3 +192,35 @@ export function validateCrossSectionGroupMembership(
 
   return { ok: true };
 }
+
+/**
+ * Pure resolution of active/delegated section leadership roles and read-only
+ * monitor banner state for the current authenticated person.
+ */
+export function resolveSectionRoleAssignments<
+  T extends {
+    personId: string;
+    assignmentType: AcademicAssignmentType;
+    status: AcademicAssignmentStatus;
+  },
+>(
+  assignments: readonly T[],
+  currentPersonId: string,
+): {
+  classTeacher: T | null;
+  monitors: T[];
+  isCurrentUserMonitorReadOnly: boolean;
+} {
+  const active = assignments.filter(
+    (a) => a.status === "active" || a.status === "delegated",
+  );
+  const classTeacher =
+    active.find((a) => a.assignmentType === "class_teacher") ?? null;
+  const monitors = active.filter(
+    (a) => a.assignmentType === "monitor" || a.assignmentType === "monitress",
+  );
+  const isCurrentUserMonitorReadOnly = monitors.some(
+    (m) => m.personId === currentPersonId,
+  );
+  return { classTeacher, monitors, isCurrentUserMonitorReadOnly };
+}

@@ -61,7 +61,7 @@ export function PlanningSubNav({
               "inline-flex min-h-9 items-center rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
               "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
               isCurrent
-                ? "bg-accent text-fg-inverse"
+                ? "border border-accent bg-accent text-accent-fg"
                 : "border border-border-subtle bg-surface text-fg hover:bg-elevated",
             ].join(" ")}
           >

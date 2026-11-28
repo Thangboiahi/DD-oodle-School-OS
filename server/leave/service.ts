@@ -489,7 +489,6 @@ export async function getLeaveWorkspace(
     !canReviewStudentLeave &&
     !canReviewStaffLeave &&
     !hasPeopleRead &&
-    !scope.ownStudentProfileId &&
     (scope.monitorSectionIds.size > 0 ||
       evaluatePermission(context, { permission: "classroom.summary.read" })
         .allowed);
@@ -1239,7 +1238,6 @@ export async function getParentNoticesWorkspace(
     !canSubmitParentNotice &&
     !canAcknowledgeAnyNotice &&
     !hasPeopleRead &&
-    !scope.ownStudentProfileId &&
     (scope.monitorSectionIds.size > 0 ||
       evaluatePermission(context, { permission: "classroom.summary.read" })
         .allowed);
